@@ -19,6 +19,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Empty path gets to '/login', which checks if user is already logged in
+Route::get('/', [UserController::class, 'login']);
+
 // Register new user
 Route::get('/register', [UserController::class, 'create']);
 
