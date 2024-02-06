@@ -1,0 +1,56 @@
+version: "3"
+
+services:
+    app:
+        build:
+            args:
+                user: skipperv
+                uid: 1000
+            context: ./
+            dockerfile: Dockerfile
+        networks:
+            - citycard_network
+        image: citycard_app
+        restart: unless-stopped
+        depends_on:
+            - database
+        environment:
+            DB_HOST: database
+            DB_PORT: 3306
+        volumes:
+            - ./:/var/www
+
+    webserver:
+        networks:
+            - citycard_network
+        image: nginx:alpine
+        restart: unless-stopped
+        ports:
+            - "8080:80"
+        volumes:
+            - ./:/var/www
+            - ./config/nginx/:/etc/nginx/conf.d/
+        depends_on:
+            - app
+
+    database:
+        image: mysql:8.0.36
+        networks:
+            - citycard_network
+        restart: unless-stopped
+        environment:
+            MYSQL_DATABASE: '${DB_DATABASE}'
+            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
+        ports:
+            - "3306:3306"
+        volumes:
+            - dbdata:/var/lib/mysql
+            - ./config/mysql/:/docker-entrypoint-initdb.d/
+
+volumes:
+    dbdata:
+        driver: local
+
+networks:
+    citycard_network:
+        driver: bridge

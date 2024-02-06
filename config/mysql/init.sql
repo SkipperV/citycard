@@ -1,0 +1,2 @@
+DROP DATABASE IF EXISTS citycard;
+CREATE DATABASE citycard;
