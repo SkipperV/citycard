@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CardController;
 use App\Http\Controllers\CardTransactionController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\TicketController;
