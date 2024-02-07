@@ -35,5 +35,5 @@
         @endforeach
     </table>
     @endif
-    <a href="/admin/cities/{{$city->id}}/transport/create">Додати тип квитка</a>
+    <a href="/admin/cities/{{$city->id}}/transport/create">Додати маршрут</a>
 </x-layout>

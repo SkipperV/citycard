@@ -18,7 +18,10 @@ return new class extends Migration {
             $table->string("route_endpoint_1");
             $table->string("route_endpoint_2");
 
-            $table->foreign("city_id")->references("id")->on("cities");
+            $table->foreign("city_id")
+                ->references("id")
+                ->on("cities")
+                ->onDelete('cascade');
         });
     }
 

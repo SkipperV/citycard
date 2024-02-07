@@ -17,13 +17,10 @@ class CardFactory extends Factory
     public function definition(): array
     {
         return [
-            'user_id' => $this->faker->randomElement(range(1, 10)),
-            'city_id' => 1,
-            'number' =>
-                $this->faker->randomDigitNotNull() .
-                $this->faker->randomDigit() .
-                $this->faker->unique()->randomNumber(9, true),
-            'type' => $this->faker->randomElement(['Стандартний', 'Дитячий', 'Студентський', 'Пільговий', 'Спеціальний']),
+            'user_id' => 2,
+            'number' => $this->faker->unique()->numerify('###########'),
+            'type' => $this->faker
+                ->randomElement(['Стандартний', 'Дитячий', 'Студентський', 'Пільговий', 'Спеціальний']),
             'current_balance' => $this->faker->randomFloat(2, 0, 100)
         ];
     }

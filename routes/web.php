@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\CardController;
 use App\Http\Controllers\CardTransactionController;
 use App\Http\Controllers\CityController;
 use App\Http\Controllers\TicketController;
@@ -19,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// Empty path gets to '/login', which checks if user is already logged in
+Route::get('/', [UserController::class, 'login']);
+
 // Register new user
 Route::get('/register', [UserController::class, 'create']);
 
@@ -32,14 +34,18 @@ Route::post('/users/auth', [UserController::class, 'authenticate']);
 // Accessible routes to authorised users
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::get('/profile', [UserController::class, 'index']);
-
     Route::post('/logout', [UserController::class, 'logout']);
 
-    Route::get('/cards/{card_id}/history', [CardTransactionController::class, 'index']);
+    // Default users routes
+    Route::group(['middleware' => ['user.default']], function () {
 
-// Admin prefix
-    Route::prefix('admin')->group(function () {
+        Route::get('/profile', [UserController::class, 'index']);
+
+        Route::get('/cards/{card_id}/history', [CardTransactionController::class, 'index']);
+    });
+
+    // Admin prefix routes
+    Route::group(['prefix' => 'admin', 'middleware' => ['user.admin']], function () {
 
         //Redirect to working Route (cities)
         Route::get('/', function () {
@@ -87,6 +93,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 });
 
+// Not supported requests
 Route::fallback(function () {
     abort(404);
 });

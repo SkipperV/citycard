@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\CardTransaction>
  */
 class CardTransactionFactory extends Factory
 {
@@ -17,7 +17,7 @@ class CardTransactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'card_id'=>$this->faker->randomElement(range(1,10)),
+            'card_id'=>$this->faker->randomElement(range(1,3)),
             'transaction_type'=>0,
             'balance_change'=>$this->faker->randomElement([8, 14])
         ];
