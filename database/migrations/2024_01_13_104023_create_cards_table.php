@@ -14,13 +14,11 @@ return new class extends Migration
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("user_id")->nullable();
-            $table->unsignedBigInteger("city_id");
             $table->unsignedBigInteger("number")->unique();
             $table->string("type");
             $table->float("current_balance");
 
             $table->foreign("user_id")->references("id")->on("users");
-            $table->foreign("city_id")->references("id")->on("cities");
         });
     }
 

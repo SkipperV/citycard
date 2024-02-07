@@ -18,7 +18,6 @@ class CardFactory extends Factory
     {
         return [
             'user_id' => 2,
-            'city_id' => 1,
             'number' => $this->faker->unique()->numerify('###########'),
             'type' => $this->faker
                 ->randomElement(['Стандартний', 'Дитячий', 'Студентський', 'Пільговий', 'Спеціальний']),

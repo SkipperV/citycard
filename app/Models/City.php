@@ -13,11 +13,6 @@ class City extends Model
     public $timestamps = false;
     protected $fillable = ['name', 'region'];
 
-    public function cards(): HasMany
-    {
-        return $this->hasMany(Card::class);
-    }
-
     public function tickets(): HasMany
     {
         return $this->hasMany(Ticket::class);

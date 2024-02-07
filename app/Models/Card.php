@@ -13,11 +13,6 @@ class Card extends Model
 
     public $timestamps = false;
 
-    public function city(): BelongsTo
-    {
-        return $this->belongsTo(City::class);
-    }
-
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

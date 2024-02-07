@@ -59,7 +59,6 @@ class DatabaseSeeder extends Seeder
 
         \App\Models\Card::factory(2)->create();
         DB::table('cards')->insert([
-            'city_id' => 1,
             'number' => 11111111111,
             'type' => "Спеціальний",
             'current_balance' => 250
