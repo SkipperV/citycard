@@ -9,12 +9,9 @@
 </head>
 <body>
 <header>
-    @php
-        $home = Auth::check() ? (Auth::user()->is_admin ? '/admin/cities' : "/profile") : "/login"
-    @endphp
     <nav>
         <h2 class="site-title">
-            <a href={{$home}}>
+            <a href='/'>
                 Citycard
             </a>
         </h2>
