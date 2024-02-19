@@ -5,6 +5,7 @@ use App\Http\Controllers\CityController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TransportRouteController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,18 +19,30 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Empty path gets to '/login', which checks if user is already logged in
-Route::get('/', [UserController::class, 'login']);
+Route::get('/', function () {
+    if (Auth::check()) {
+        if (Auth::user()->is_admin) {
+            return redirect()->route('dashboard');
+        } else {
+            return redirect()->route('user_profile');
+        }
+    } else {
+        return redirect()->route('login');
+    }
+})->name('home.path.redirect');
+
+Route::group(['middleware' => ['guest']], function () {
 
 // Register new user
-Route::get('/register', [UserController::class, 'create']);
+    Route::get('/register', [UserController::class, 'create']);
 
-Route::post('/users', [UserController::class, 'store']);
+    Route::post('/users', [UserController::class, 'store']);
 
 // Log into existing user
-Route::get('/login', [UserController::class, 'login'])->name('login');
+    Route::get('/login', [UserController::class, 'login'])->name('login');
 
-Route::post('/users/auth', [UserController::class, 'authenticate']);
+    Route::post('/users/auth', [UserController::class, 'authenticate']);
+});
 
 // Accessible routes to authorised users
 Route::group(['middleware' => ['auth']], function () {
@@ -39,7 +52,7 @@ Route::group(['middleware' => ['auth']], function () {
     // Default users routes
     Route::group(['middleware' => ['user.default']], function () {
 
-        Route::get('/profile', [UserController::class, 'index']);
+        Route::get('/profile', [UserController::class, 'index'])->name('user_profile');
 
         Route::get('/cards/{card_id}/history', [CardTransactionController::class, 'index']);
     });
@@ -49,12 +62,13 @@ Route::group(['middleware' => ['auth']], function () {
 
         //Redirect to working Route (cities)
         Route::get('/', function () {
-            return redirect('/admin/cities');
+            return redirect()->route('dashboard');
         });
 
-        // Admin Cities editing routes
-        Route::get('/cities', [CityController::class, 'index']);
+        // Admin Dashboard (cities list)
+        Route::get('/cities', [CityController::class, 'index'])->name('dashboard');
 
+        // Admin Cities editing routes
         Route::get('/cities/create', [CityController::class, 'create']);
 
         Route::post('/cities', [CityController::class, 'store']);

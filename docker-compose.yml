@@ -11,12 +11,12 @@ services:
         networks:
             - citycard_network
         image: citycard_app
-        container_name: citycard-app
+        container_name: ${APP_NAME}-app
         restart: unless-stopped
         depends_on:
             - database
         environment:
-            DB_HOST: citycard-database
+            DB_HOST: ${APP_NAME}-database
             DB_PORT: 3306
         volumes:
             - ./:/var/www
@@ -25,7 +25,7 @@ services:
         networks:
             - citycard_network
         image: nginx:alpine
-        container_name: citycard-webserver
+        container_name: ${APP_NAME}-webserver
         restart: unless-stopped
         ports:
             - "8080:80"
@@ -37,7 +37,7 @@ services:
 
     database:
         image: mysql:8.0.36
-        container_name: citycard-database
+        container_name: ${APP_NAME}-database
         networks:
             - citycard_network
         restart: unless-stopped

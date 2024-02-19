@@ -6,7 +6,7 @@ Website to track user`s citycard expenses, managing citycard system (managing ci
 
 ### Dependencies
 
-* Windows/MacOS/Linux with preinstalled Git (to use git clone) and Docker Engine
+* Windows/macOS/Linux with preinstalled Git (to use git clone) and Docker Engine
 
 ### Installing
 
@@ -30,6 +30,10 @@ docker exec citycard-app composer install
 docker exec citycard-app php artisan migrate --seed
 ```
 
-## Authors
+## Link to access running application
+
+[localhost:8080](http://localhost:8080/)
+
+## Author
 
 * [SkipperV](https://github.com/SkipperV)

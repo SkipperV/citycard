@@ -62,11 +62,6 @@ class UserController extends Controller
 
     public function login(Request $request)
     {
-        if (Auth::check()) {
-            if (Auth::user()->is_admin)
-                return redirect('/admin/cities');
-            return redirect('/profile');
-        }
         return view('users.login');
     }
 
@@ -81,9 +76,7 @@ class UserController extends Controller
         ]);
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
-            if (Auth::user()->is_admin)
-                return redirect('/admin/cities');
-            return redirect('/profile');
+            return redirect('/');
         }
 
         return back()->withErrors(['login' => 'Дані не співпадають'])->onlyInput('login');
