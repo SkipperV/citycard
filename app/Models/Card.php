@@ -18,7 +18,7 @@ class Card extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function card_operations(): HasMany
+    public function card_transactions(): HasMany
     {
         return $this->hasMany(CardTransaction::class);
     }
