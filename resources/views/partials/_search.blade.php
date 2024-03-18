@@ -1,3 +1,3 @@
 <form>
-    <input type="text" name="search" placeholder="Search...">
+    <input class="text-black" type="text" name="search" placeholder="Search...">
 </form>

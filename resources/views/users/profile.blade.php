@@ -2,9 +2,13 @@
     @if(count($cards)==0)
         <p>Немає карток, зв'язаних із вашим номером телефону</p>
     @else
-        <h1>Ваші картки</h1>
+        <header class="text-center">
+            <h2 class="text-2xl font-bold mb-1">Ваші картки</h2>
+        </header>
     @endif
     @foreach($cards as $card)
-        @include('cards.show')
+        <x-elements-card>
+            @include('cards.show')
+        </x-elements-card>
     @endforeach
 </x-layout>
