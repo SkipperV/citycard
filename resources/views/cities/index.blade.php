@@ -13,7 +13,7 @@
             @endif
         </div>
         @if(count($cities) == 0)
-            Список пустий
+            <p>Список пустий</p>
         @else
             <table class="w-full text-sm text-left rtl:text-right">
                 <thead class="uppercase bg-gray-700">
@@ -32,22 +32,25 @@
                             {{$city->name}}, {{$city->region}} область
                         </td>
                         <td class="px-6 py-3 border-r">
-                            <a class="text-accent hover:text-neutral" href="/admin/cities/{{$city->id}}/transport">
+                            <a class="text-accent hover:text-neutral"
+                               href="{{ route('transport.index', ['city' => $city]) }}">
                                 Переглянути транспорт
                             </a>
                         </td>
                         <td class="px-6 py-3 border-r">
-                            <a class="text-accent hover:text-neutral" href="/admin/cities/{{$city->id}}/tickets">
+                            <a class="text-accent hover:text-neutral"
+                               href="{{ route('tickets.index', ['city' => $city]) }}">
                                 Переглянути типи квитків
                             </a>
                         </td>
                         <td class="px-6 py-3 border-r">
-                            <a class="text-accent hover:text-neutral" href="/admin/cities/{{$city->id}}/edit">
+                            <a class="text-accent hover:text-neutral"
+                               href="{{ route('cities.edit', ['city' => $city]) }}">
                                 Редагувати
                             </a>
                         </td>
                         <td class="px-6 py-3">
-                            <form method="POST" action="/admin/cities/{{$city->id}}">
+                            <form method="POST" action="{{ route('cities.destroy', ['city' => $city]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-accent hover:text-neutral">Видалити</button>
@@ -58,6 +61,6 @@
                 </tbody>
             </table>
         @endif
-        <a class="text-accent hover:text-neutral" href="/admin/cities/create">Додати місто</a>
+        <a class="text-accent hover:text-neutral" href="{{ route('cities.create') }}">Додати місто</a>
     </div>
 </x-layout>

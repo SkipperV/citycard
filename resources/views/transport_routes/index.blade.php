@@ -1,14 +1,14 @@
 <x-layout>
     <div class="m-auto max-w-screen-xl">
         <p class="mb-6">
-            <a class="text-accent hover:text-neutral" href='/admin/cities'>
+            <a class="text-accent hover:text-neutral" href='{{ route('cities.index') }}'>
                 Список міст
             </a>
         </p>
 
         <h1>Маршрути, {{$city->name}}</h1>
 
-        @if(count($transport_routes)==0)
+        @if(count($transportRoutes)==0)
             Список пустий
         @else
             <table class="w-full text-sm text-left rtl:text-right">
@@ -22,7 +22,7 @@
                     <th class="px-6 py-3">Видалити</th>
                 </tr>
                 </thead>
-                @foreach($transport_routes as $transportRoute)
+                @foreach($transportRoutes as $transportRoute)
                     <tbody>
                     <tr class="border">
                         <td class="px-6 py-3 border-r">{{$transportRoute->route_number}}</td>
@@ -31,12 +31,13 @@
                         <td class="px-6 py-3 border-r">{{$transportRoute->route_endpoint_2}}</td>
                         <td class="px-6 py-3 border-r">
                             <a class="text-accent hover:text-neutral"
-                               href="/admin/cities/{{$city->id}}/transport/{{$transportRoute->id}}/edit">
+                               href="{{ route('transport.edit', ['city' => $city, 'transport' => $transportRoute]) }}">
                                 Редагувати
                             </a>
                         </td>
                         <td class="px-6 py-3">
-                            <form method="POST" action="/admin/cities/{{$city->id}}/transport/{{$transportRoute->id}}">
+                            <form method="POST"
+                                  action="{{ route('transport.destroy', ['city' => $city, 'transport' => $transportRoute]) }}">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="text-accent hover:text-neutral">Видалити</button>
@@ -47,6 +48,8 @@
                 @endforeach
             </table>
         @endif
-        <a class="text-accent hover:text-neutral" href="/admin/cities/{{$city->id}}/transport/create">Додати маршрут</a>
+        <a class="text-accent hover:text-neutral" href="{{ route('transport.create', ['city' => $city]) }}">
+            Додати маршрут
+        </a>
     </div>
 </x-layout>

@@ -11,7 +11,11 @@ class Ticket extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['transport_type', 'ticket_type', 'price'];
+    protected $fillable = [
+        'transport_type',
+        'ticket_type',
+        'price'
+    ];
 
     public function city(): BelongsTo
     {

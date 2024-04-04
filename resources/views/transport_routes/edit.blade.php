@@ -4,7 +4,7 @@
             <h2 class="text-2xl font-bold mb-1">Редагування квитка</h2>
         </header>
 
-        <form method="POST" action="/admin/cities/{{$city_id}}/transport/{{$transport_route->id}}">
+        <form method="POST" action="{{ route('transport.update', ['city' => $city, 'transport' => $transportRoute]) }}">
             @csrf
             @method('PUT')
 
@@ -13,7 +13,7 @@
                     Номер маршруту
                 </label>
                 <input type="text" name="route_number" class="border border-gray-200 rounded p-2 w-full text-black"
-                       value="{{$transport_route->route_number}}">
+                       value="{{$transportRoute->route_number}}">
 
                 @error('route_number')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -25,7 +25,7 @@
                     Тип транспорту
                 </label>
                 <select name="transport_type" class="border border-gray-200 rounded p-2 w-full text-black">
-                    @if($transport_route->transport_type=="Автобус")
+                    @if($transportRoute->transport_type=="Автобус")
                         <option value="Автобус" selected>Автобус</option>
                         <option value="Тролейбус">Тролейбус</option>
                     @else
@@ -44,7 +44,7 @@
                     Кінцева зупинка 1
                 </label>
                 <input type="text" name="route_endpoint_1" class="border border-gray-200 rounded p-2 w-full text-black"
-                       value="{{$transport_route->route_endpoint_1}}">
+                       value="{{$transportRoute->route_endpoint_1}}">
 
                 @error('route_endpoint_1')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -56,7 +56,7 @@
                     Кінцева зупинка 2
                 </label>
                 <input type="text" name="route_endpoint_2" class="border border-gray-200 rounded p-2 w-full text-black"
-                       value="{{$transport_route->route_endpoint_2}}">
+                       value="{{$transportRoute->route_endpoint_2}}">
 
                 @error('route_endpoint_2')
                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -67,7 +67,9 @@
                 <button type="submit" class="bg-accent hover:bg-neutral px-3 py-1">
                     Змінити
                 </button>
-                <a class="text-accent hover:text-neutral" href="/admin/cities/{{$city_id}}/transport">Назад</a>
+                <a class="text-accent hover:text-neutral" href="{{ route('transport.index', ['city' => $city]) }}">
+                    Назад
+                </a>
             </div>
         </form>
     </x-elements-card>

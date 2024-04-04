@@ -11,7 +11,12 @@ class TransportRoute extends Model
     use HasFactory;
 
     public $timestamps = false;
-    protected $fillable = ['route_number', 'transport_type', 'route_endpoint_1', 'route_endpoint_2'];
+    protected $fillable = [
+        'route_number',
+        'transport_type',
+        'route_endpoint_1',
+        'route_endpoint_2'
+    ];
 
     public function city(): BelongsTo
     {

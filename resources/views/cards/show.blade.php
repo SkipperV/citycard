@@ -5,14 +5,17 @@
 
     <p>{{$card->number}}</p>
     <p>
-        <balance>{{$card->current_balance}}</balance>
-        <sup> UAH</sup></p>
+        {{$card->current_balance}}
+        <sup> UAH</sup>
+    </p>
 
     <div>
-        <a class="text-accent hover:text-neutral mr-4" href="/cards/{{$card->id}}/history?type=outcome">
+        <a class="text-accent hover:text-neutral mr-4"
+           href="{{ route('cards.transactions.index', ['card' => $card]).'?type=outcome' }}">
             Історія поїздок
         </a>
-        <a class="text-accent hover:text-neutral" href="/cards/{{$card->id}}/history?type=income">
+        <a class="text-accent hover:text-neutral"
+           href="{{ route('cards.transactions.index', ['card' => $card]).'?type=income' }}">
             Історія поповнень
         </a>
     </div>

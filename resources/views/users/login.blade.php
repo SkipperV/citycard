@@ -7,7 +7,7 @@
                 </h2>
             </header>
 
-            <form method='POST' action="/users/auth">
+            <form method='POST' action="{{ route('user.authenticate') }}">
                 @csrf
                 <div class="mb-6">
                     <label for="login" class="inline-block text-lg mb-2">
@@ -42,7 +42,7 @@
                 <div class="mt-8">
                     <p>
                         Не маєте облікового запису?
-                        <a href="/register" class="text-accent">
+                        <a href="{{ route('user.create') }}" class="text-accent">
                             Зареєструватися
                         </a>
                     </p>

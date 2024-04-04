@@ -4,7 +4,7 @@
             <h2 class="text-2xl font-bold uppercase mb-1">Реєстрація</h2>
         </header>
 
-        <form method="POST" action="/users">
+        <form method="POST" action="{{ route('user.store') }}">
             @csrf
             <div class="mb-6">
                 <label for="login" class="inline-block text-lg mb-2"> Номер телефону </label>
@@ -62,7 +62,7 @@
             <div class="mt-8">
                 <p>
                     Вже маєте обліковий запис?
-                    <a href="/login" class="text-accent">Увійти</a>
+                    <a href="{{ route('user.login') }}" class="text-accent">Увійти</a>
                 </p>
             </div>
         </form>

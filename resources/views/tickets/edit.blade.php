@@ -4,7 +4,7 @@
             <h2 class="text-2xl font-bold mb-1">Редагування квитка</h2>
         </header>
 
-        <form method="POST" action="/admin/cities/{{$city_id}}/tickets/{{$ticket->id}}">
+        <form method="POST" action="{{ route('tickets.update', ['city' => $city, 'ticket' => $ticket]) }}">
             @csrf
             @method('PUT')
 
@@ -31,12 +31,10 @@
                     Тип квитка
                 </label>
                 <select name="ticket_type" class="border border-gray-200 rounded p-2 w-full text-black">
-                    @foreach(['Стандартний', 'Дитячий', 'Студентський', 'Пільговий', 'Спеціальний'] as $ticket_type)
-                        @if($ticket_type == $ticket->ticket_type)
-                            <option value={{$ticket_type}} selected>{{$ticket_type}}</option>
-                        @else
-                            <option value={{$ticket_type}}>{{$ticket_type}}</option>
-                        @endif
+                    @foreach(['Стандартний', 'Дитячий', 'Студентський', 'Пільговий', 'Спеціальний'] as $ticketType)
+                        <option value={{$ticketType}} {{$ticketType == $ticket->ticket_type ? 'selected' : ''}}>
+                            {{$ticketType}}
+                        </option>
                     @endforeach
                 </select>
 
@@ -59,7 +57,9 @@
                 <button type="submit" class="bg-accent hover:bg-neutral px-3 py-1">
                     Змінити
                 </button>
-                <a class="text-accent hover:text-neutral" href="/admin/cities/{{$city_id}}/tickets">Назад</a>
+                <a class="text-accent hover:text-neutral" href="{{ route('tickets.index', ['city' => $city]) }}">
+                    Назад
+                </a>
             </div>
         </form>
     </x-elements-card>
