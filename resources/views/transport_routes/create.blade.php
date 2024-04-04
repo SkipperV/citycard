@@ -4,7 +4,7 @@
             <h2 class="text-2xl font-bold mb-1">Додати тип квитка</h2>
         </header>
 
-        <form method="POST" action="/admin/cities/{{$city_id}}/transport">
+        <form method="POST" action="{{ route('transport.store', ['city' => $city]) }}">
             @csrf
 
             <div class="mb-6">
@@ -63,7 +63,9 @@
                 <button type="submit" class="bg-accent hover:bg-neutral px-3 py-1">
                     Додати
                 </button>
-                <a class="text-accent hover:text-neutral" href="/admin/cities/{{$city_id}}/transport">Назад</a>
+                <a class="text-accent hover:text-neutral" href="{{ route('transport.index', ['city' => $city]) }}">
+                    Назад
+                </a>
             </div>
         </form>
     </x-elements-card>

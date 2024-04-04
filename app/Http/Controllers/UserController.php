@@ -5,24 +5,25 @@ namespace App\Http\Controllers;
 use App\Models\Card;
 use App\Models\User;
 use App\Rules\CardToUserConnectionValidationRule;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
 class UserController extends Controller
 {
-    public function index()
+    public function index(Request $request): View
     {
         return view('users.profile', [
-            'cards' => Card::where('user_id', Auth::user()->getAuthIdentifier())->get()
+            'cards' => Card::where('user_id', $request->user()->id)->get()
         ]);
     }
 
-    public function create()
+    public function create(): View
     {
         return view('users.register');
     }
 
-    public function store(Request $request)
+    public function store(Request $request): RedirectResponse
     {
         $formFields = $request->validate([
             'login' => ['required', 'regex:/^\+380\d{9}$/', 'unique:users,login'],
@@ -38,7 +39,6 @@ class UserController extends Controller
             'password.confirmed' => 'Паролі не співпадають.',
             'password.min' => 'Пароль повинен містити від 6 символів.',
         ]);
-
         $formFields['password'] = bcrypt($formFields['password']);
 
         $user = User::create($formFields);
@@ -47,25 +47,25 @@ class UserController extends Controller
 
         auth()->login($user);
 
-        return redirect('/profile');
+        return redirect()->route('user.profile.index');
     }
 
-    public function logout(Request $request)
+    public function logout(Request $request): RedirectResponse
     {
         auth()->logout();
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect()->route('user.login');
     }
 
-    public function login(Request $request)
+    public function login(): View
     {
         return view('users.login');
     }
 
-    public function authenticate(Request $request)
+    public function authenticate(Request $request): RedirectResponse
     {
         $formFields = $request->validate([
             'login' => ['required'],
@@ -74,6 +74,7 @@ class UserController extends Controller
             'login.required' => 'Обов\'язкове поле.',
             'password.required' => 'Обов\'язкове поле.',
         ]);
+
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
             return redirect('/');

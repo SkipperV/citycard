@@ -1,15 +1,17 @@
 <x-layout>
     <div class="m-auto max-w-screen-xl border">
         <div class="grid grid-flow-col justify-stretch">
-            @if(!$transaction_type)
+            @if(!$transactionsType)
                 <p class="m-auto">
                     Історія використання картки (історія поїздок)
                 </p>
-                <a class="bg-accent text-center w-full" href="{{'/'.Request::path().'?type=income'}}">
+                <a class="bg-accent text-center w-full"
+                   href="{{ route('cards.transactions.index', ['card' => $card]).'?type=income' }}">
                     Історія поповнення картки
                 </a>
             @else
-                <a class="bg-accent text-center w-full" href="{{'/'.Request::path().'?type=outcome'}}">
+                <a class="bg-accent text-center w-full"
+                   href="{{ route('cards.transactions.index', ['card' => $card]).'?type=outcome' }}">
                     Історія використання картки (історія поїздок)
                 </a>
                 <p class="m-auto">
@@ -32,8 +34,8 @@
                     <tbody>
                     @foreach($transactions as $transaction)
                         <tr class="border">
-                            <td class="px-6 py-3 border-r">{{$transaction->created_at}}</td>
-                            <td class="px-6 py-3">{{($transaction_type ? "+" : "-") . $transaction->balance_change}}</td>
+                            <td class="px-6 py-3 border-r">{{ $transaction->created_at }}</td>
+                            <td class="px-6 py-3">{{ ($transactionsType ? "+" : "-") . $transaction->balance_change }}</td>
                         </tr>
                     @endforeach
                     </tbody>

@@ -1,12 +1,13 @@
 <?php
 
-use App\Http\Controllers\CardTransactionController;
-use App\Http\Controllers\CityController;
-use App\Http\Controllers\TicketController;
-use App\Http\Controllers\TransportRouteController;
-use App\Http\Controllers\UserController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{
+    CardTransactionController,
+    CityController,
+    TicketController,
+    TransportRouteController,
+    UserController
+};
+use Illuminate\Support\Facades\{Auth, Route};
 
 /*
 |--------------------------------------------------------------------------
@@ -22,88 +23,83 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     if (Auth::check()) {
         if (Auth::user()->is_admin) {
-            return redirect()->route('dashboard');
+            return redirect()->route('cities.index');
         } else {
-            return redirect()->route('user_profile');
+            return redirect()->route('user.profile.index');
         }
     } else {
-        return redirect()->route('login');
+        return redirect()->route('user.login');
     }
 })->name('home.path.redirect');
 
 Route::group(['middleware' => ['guest']], function () {
 
-// Register new user
-    Route::get('/register', [UserController::class, 'create']);
+    // Register new user
+    Route::get('/register', [UserController::class, 'create'])->name('user.create');
+    Route::post('/users', [UserController::class, 'store'])->name('user.store');
 
-    Route::post('/users', [UserController::class, 'store']);
-
-// Log into existing user
-    Route::get('/login', [UserController::class, 'login'])->name('login');
-
-    Route::post('/users/auth', [UserController::class, 'authenticate']);
+    // Log into existing user
+    Route::get('/login', [UserController::class, 'login'])->name('user.login');
+    Route::post('/users/auth', [UserController::class, 'authenticate'])->name('user.authenticate');
 });
 
 // Accessible routes to authorised users
 Route::group(['middleware' => ['auth']], function () {
 
-    Route::post('/logout', [UserController::class, 'logout']);
+    Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
 
     // Default users routes
     Route::group(['middleware' => ['user.default']], function () {
-
-        Route::get('/profile', [UserController::class, 'index'])->name('user_profile');
-
-        Route::get('/cards/{card_id}/history', [CardTransactionController::class, 'index']);
+        Route::get('/profile', [UserController::class, 'index'])->name('user.profile.index');
+        Route::get('/cards/{card}/history', [CardTransactionController::class, 'index'])
+            ->name('cards.transactions.index');
     });
 
     // Admin prefix routes
-    Route::group(['prefix' => 'admin', 'middleware' => ['user.admin']], function () {
+    Route::group(['prefix' => 'dashboard', 'middleware' => ['user.admin']], function () {
 
-        //Redirect to working Route (cities)
+        //Redirect admin users to Dashboard
         Route::get('/', function () {
-            return redirect()->route('dashboard');
+            return redirect()->route('cities.index');
         });
 
-        // Admin Dashboard (cities list)
-        Route::get('/cities', [CityController::class, 'index'])->name('dashboard');
+        // Dashboard (cities list)
+        Route::get('/cities', [CityController::class, 'index'])->name('cities.index');
 
-        // Admin Cities editing routes
-        Route::get('/cities/create', [CityController::class, 'create']);
+        // Dashboard Cities editing
+        Route::get('/cities/create', [CityController::class, 'create'])->name('cities.create');
+        Route::post('/cities', [CityController::class, 'store'])->name('cities.store');
+        Route::get('/cities/{city}/edit', [CityController::class, 'edit'])->name('cities.edit');
+        Route::put('/cities/{city}', [CityController::class, 'update'])->name('cities.update');
+        Route::delete('/cities/{city}', [CityController::class, 'destroy'])->name('cities.destroy');
 
-        Route::post('/cities', [CityController::class, 'store']);
+        // Dashboard transport_routes editing
+        Route::get('/cities/{city}/transport', [TransportRouteController::class, 'index'])
+            ->name('transport.index');
+        Route::get('/cities/{city}/transport/create', [TransportRouteController::class, 'create'])
+            ->name('transport.create');
+        Route::post('/cities/{city}/transport', [TransportRouteController::class, 'store'])
+            ->name('transport.store');
+        Route::get('/cities/{city}/transport/{transport}/edit', [TransportRouteController::class, 'edit'])
+            ->name('transport.edit');
+        Route::put('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'update'])
+            ->name('transport.update');
+        Route::delete('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'destroy'])
+            ->name('transport.destroy');
 
-        Route::get('/cities/{city_id}/edit', [CityController::class, 'edit']);
-
-        Route::put('/cities/{city_id}', [CityController::class, 'update']);
-
-        Route::delete('/cities/{city_id}', [CityController::class, 'destroy']);
-
-        // Admin transport_routes editing routes
-        Route::get('/cities/{city_id}/transport', [TransportRouteController::class, 'index']);
-
-        Route::get('/cities/{city_id}/transport/create', [TransportRouteController::class, 'create']);
-
-        Route::post('/cities/{city_id}/transport', [TransportRouteController::class, 'store']);
-
-        Route::get('/cities/{city_id}/transport/{transport_id}/edit', [TransportRouteController::class, 'edit']);
-
-        Route::put('/cities/{city_id}/transport/{transport_id}', [TransportRouteController::class, 'update']);
-
-        Route::delete('/cities/{city_id}/transport/{transport_id}', [TransportRouteController::class, 'destroy']);
-
-        // Admin Tickets Editing routes
-        Route::get('/cities/{city_id}/tickets', [TicketController::class, 'index']);
-
-        Route::get('/cities/{city_id}/tickets/create', [TicketController::class, 'create']);
-
-        Route::post('/cities/{city_id}/tickets', [TicketController::class, 'store']);
-
-        Route::get('/cities/{city_id}/tickets/{ticket_id}/edit', [TicketController::class, 'edit']);
-
-        Route::put('/cities/{city_id}/tickets/{ticket_id}', [TicketController::class, 'update']);
-
-        Route::delete('/cities/{city_id}/tickets/{ticket_id}', [TicketController::class, 'destroy']);
+        // Dashboard Tickets Editing routes
+        Route::get('/cities/{city}/tickets', [TicketController::class, 'index'])
+            ->name('tickets.index');
+        Route::get('/cities/{city}/tickets/create', [TicketController::class, 'create'])
+            ->name('tickets.create');
+        Route::post('/cities/{city}/tickets', [TicketController::class, 'store'])
+            ->name('tickets.store');
+        Route::get('/cities/{city}/tickets/{ticket}/edit', [TicketController::class, 'edit'])
+            ->name('tickets.edit');
+        Route::put('/cities/{city}/tickets/{ticket}', [TicketController::class, 'update'])
+            ->name('tickets.update');
+        Route::delete('/cities/{city}/tickets/{ticket}', [TicketController::class, 'destroy'])
+            ->name('tickets.destroy');
     });
 });
 

@@ -30,14 +30,14 @@
 </head>
 <body class="flex flex-col min-h-screen bg-primary text-white">
 <nav class="flex justify-between items-center bg-secondary h-12 mb-4">
-    <a class="ml-4 text-xl" href="/">
+    <a class="ml-4 text-xl" href="{{ route('home.path.redirect') }}">
         Citycard
     </a>
     <ul class="flex space-x-6 mr-6 text-lg">
         @auth
-            <li><p>{{auth()->user()->login}}</p></li>
+            <li><p>{{ auth()->user()->login }}</p></li>
             <li>
-                <form method="POST" action="/logout">
+                <form method="POST" action="{{ route('user.logout') }}">
                     @csrf
                     <button class="hover:text-accent">
                         <i class="fa-solid fa-arrow-right-from-bracket"></i> Вийти
@@ -46,12 +46,12 @@
             </li>
         @else
             <li>
-                <a href="/register" class="hover:text-accent">
+                <a href="{{ route('user.create') }}" class="hover:text-accent">
                     <i class="fa-solid fa-user-plus"></i> Зареєструватися
                 </a>
             </li>
             <li>
-                <a href="/login" class="hover:text-accent">
+                <a href="{{ route('user.login') }}" class="hover:text-accent">
                     <i class="fa-solid fa-arrow-right-to-bracket"></i> Увійти
                 </a>
             </li>

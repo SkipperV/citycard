@@ -4,7 +4,7 @@
             <h2 class="text-2xl font-bold mb-1">Додати місто</h2>
         </header>
 
-        <form method="POST" action="/admin/cities">
+        <form method="POST" action="{{ route('cities.store') }}">
             @csrf
 
             <div class="mb-6">
@@ -35,7 +35,7 @@
                 <button type="submit" class="bg-accent hover:bg-neutral px-3 py-1">
                     Додати
                 </button>
-                <a class="text-accent hover:text-neutral" href="/admin/cities">Назад</a>
+                <a class="text-accent hover:text-neutral" href="{{ route('cities.index') }}">Назад</a>
             </div>
         </form>
     </x-elements-card>

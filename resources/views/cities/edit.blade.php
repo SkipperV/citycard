@@ -4,7 +4,7 @@
             <h2 class="text-2xl font-bold mb-1">Редагування <u>{{$city->name}}</u></h2>
         </header>
 
-        <form method="POST" action="/admin/cities/{{$city->id}}">
+        <form method="POST" action="{{ route('cities.update', ['city' => $city]) }}">
             @csrf
             @method('PUT')
 
@@ -36,7 +36,7 @@
                 <button type="submit" class="bg-accent hover:bg-neutral px-3 py-1">
                     Змінити
                 </button>
-                <a class="text-accent hover:text-neutral" href="/admin/cities">Назад</a>
+                <a class="text-accent hover:text-neutral" href="{{ route('cities.index') }}">Назад</a>
             </div>
         </form>
     </x-elements-card>

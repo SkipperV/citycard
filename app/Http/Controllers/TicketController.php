@@ -4,25 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\Ticket;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TicketController extends Controller
 {
-    public function index($city_id)
+    public function index(City $city): View
     {
-        $city = City::find($city_id);
         return view('tickets.index', [
             'city' => $city,
             'tickets' => $city->tickets()->orderBy('transport_type')->orderBy('ticket_type')->get()
         ]);
     }
 
-    public function create($city_id)
+    public function create(City $city): View
     {
-        return view('tickets.create', ['city_id' => $city_id]);
+        return view('tickets.create', ['city' => $city]);
     }
 
-    public function store(Request $request, $city_id)
+    public function store(Request $request, City $city): RedirectResponse
     {
         $request->validate([
             'transport_type' => 'required',
@@ -31,22 +32,25 @@ class TicketController extends Controller
         ]);
 
         $ticket = new Ticket();
-        $ticket->city_id = $city_id;
+        $ticket->city_id = $city->id;
         $ticket->transport_type = $request->transport_type;
         $ticket->ticket_type = $request->ticket_type;
         $ticket->price = $request->price;
 
         $ticket->save();
 
-        return redirect('/admin/cities/' . $city_id . '/tickets');
+        return redirect()->route('tickets.index', ['city' => $city]);
     }
 
-    public function edit($city_id, $ticket_id)
+    public function edit(City $city, Ticket $ticket): View
     {
-        return view('tickets.edit', ['city_id' => $city_id, 'ticket' => Ticket::find($ticket_id)]);
+        return view('tickets.edit', [
+            'city' => $city,
+            'ticket' => $ticket
+        ]);
     }
 
-    public function update(Request $request, $city_id, $ticket_id)
+    public function update(Request $request, City $city, Ticket $ticket): RedirectResponse
     {
         $formData = $request->validate([
             'transport_type' => 'required',
@@ -54,14 +58,15 @@ class TicketController extends Controller
             'price' => ['required', 'numeric']
         ]);
 
-        Ticket::find($ticket_id)->update($formData);
+        $ticket->update($formData);
 
-        return redirect('/admin/cities/' . $city_id . '/tickets');
+        return redirect()->route('tickets.index', ['city' => $city]);
     }
 
-    public function destroy($city_id, $ticket_id)
+    public function destroy(City $city, Ticket $ticket): RedirectResponse
     {
-        Ticket::find($ticket_id)->delete();
-        return redirect('/admin/cities/' . $city_id . '/tickets');
+        $ticket->delete();
+
+        return redirect()->route('tickets.index', ['city' => $city]);
     }
 }

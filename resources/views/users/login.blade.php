@@ -7,13 +7,14 @@
                 </h2>
             </header>
 
-            <form method='POST' action="/users/auth">
+            <form method='POST' action="{{ route('user.authenticate') }}">
                 @csrf
                 <div class="mb-6">
                     <label for="login" class="inline-block text-lg mb-2">
                         Номер телефону
                     </label>
-                    <input type="text" class="border border-gray-200 rounded p-2 w-full text-black" name="login"/>
+                    <input type="text" class="border border-gray-200 rounded p-2 w-full text-black" name="login"
+                           value="{{old('login')}}"/>
 
                     @error('login')
                     <p class="text-red-500 text-xs mt-1">{{$message}}</p>
@@ -41,7 +42,7 @@
                 <div class="mt-8">
                     <p>
                         Не маєте облікового запису?
-                        <a href="/register" class="text-accent">
+                        <a href="{{ route('user.create') }}" class="text-accent">
                             Зареєструватися
                         </a>
                     </p>

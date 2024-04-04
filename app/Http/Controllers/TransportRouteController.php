@@ -4,25 +4,26 @@ namespace App\Http\Controllers;
 
 use App\Models\City;
 use App\Models\TransportRoute;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\View\View;
 
 class TransportRouteController extends Controller
 {
-    public function index($city_id)
+    public function index(City $city): View
     {
-        $city = City::find($city_id);
-        return view('transport-routes.index', [
+        return view('transport_routes.index', [
             'city' => $city,
-            'transport_routes' => $city->transportRoutes()->orderBy('transport_type')->orderBy('route_number')->get()
+            'transportRoutes' => $city->transportRoutes()->orderBy('transport_type')->orderBy('route_number')->get()
         ]);
     }
 
-    public function create($city_id)
+    public function create(City $city): View
     {
-        return view('transport-routes.create', ['city_id' => $city_id]);
+        return view('transport_routes.create', ['city' => $city]);
     }
 
-    public function store(Request $request, $city_id)
+    public function store(Request $request, City $city): RedirectResponse
     {
         $request->validate([
             'route_number' => ['required', 'numeric'],
@@ -32,7 +33,7 @@ class TransportRouteController extends Controller
         ]);
 
         $transport = new TransportRoute();
-        $transport->city_id = $city_id;
+        $transport->city_id = $city->id;
         $transport->route_number = $request->route_number;
         $transport->transport_type = $request->transport_type;
         $transport->route_endpoint_1 = $request->route_endpoint_1;
@@ -40,15 +41,18 @@ class TransportRouteController extends Controller
 
         $transport->save();
 
-        return redirect('/admin/cities/' . $city_id . '/transport');
+        return redirect()->route('transport.index', ['city' => $city]);
     }
 
-    public function edit($city_id, $transport_id)
+    public function edit(City $city, TransportRoute $transport): View
     {
-        return view('transport-routes.edit', ['city_id' => $city_id, 'transport_route' => TransportRoute::find($transport_id)]);
+        return view('transport_routes.edit', [
+            'city' => $city,
+            'transportRoute' => $transport
+        ]);
     }
 
-    public function update(Request $request, $city_id, $transport_id)
+    public function update(Request $request, City $city, TransportRoute $transport): RedirectResponse
     {
         $formData = $request->validate([
             'route_number' => ['required', 'numeric'],
@@ -57,14 +61,15 @@ class TransportRouteController extends Controller
             'route_endpoint_2' => 'required',
         ]);
 
-        TransportRoute::find($transport_id)->update($formData);
+        $transport->update($formData);
 
-        return redirect('/admin/cities/' . $city_id . '/transport');
+        return redirect()->route('transport.index', ['city' => $city]);
     }
 
-    public function destroy($city_id, $transport_id)
+    public function destroy(City $city, TransportRoute $transport): RedirectResponse
     {
-        TransportRoute::find($transport_id)->delete();
-        return redirect('/admin/cities/' . $city_id . '/transport');
+        $transport->delete();
+
+        return redirect()->route('transport.index', ['city' => $city]);
     }
 }
