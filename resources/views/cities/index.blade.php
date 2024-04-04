@@ -3,6 +3,14 @@
         <h1>Міста</h1>
         <div class="mb-4">
             @include('partials._search')
+            @if(Request::get('search')!='')
+                <p>
+                    Результат пошуку "<b>{{Request::get('search')}}"</b>
+                    <a class="text-accent hover:text-neutral" href="{{ route('cities.index') }}">
+                        Скинути
+                    </a>
+                </p>
+            @endif
         </div>
         @if(count($cities) == 0)
             Список пустий
