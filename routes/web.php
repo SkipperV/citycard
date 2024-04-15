@@ -1,13 +1,12 @@
 <?php
 
-use App\Http\Controllers\{
-    CardTransactionController,
-    CityController,
-    TicketController,
-    TransportRouteController,
-    UserController
-};
-use Illuminate\Support\Facades\{Auth, Route};
+use App\Http\Controllers\CardTransactionController;
+use App\Http\Controllers\CityController;
+use App\Http\Controllers\TicketController;
+use App\Http\Controllers\TransportRouteController;
+use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,7 +55,7 @@ Route::group(['middleware' => ['auth']], function () {
     });
 
     // Admin prefix routes
-    Route::group(['prefix' => 'dashboard', 'middleware' => ['user.admin']], function () {
+    Route::group(['prefix' => 'admin', 'middleware' => ['user.admin']], function () {
 
         //Redirect admin users to Dashboard
         Route::get('/', function () {
