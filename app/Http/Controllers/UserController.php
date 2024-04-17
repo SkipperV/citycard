@@ -42,8 +42,9 @@ class UserController extends Controller
         $formFields['password'] = bcrypt($formFields['password']);
 
         $user = User::create($formFields);
-        if ($request->card_number)
+        if ($request->card_number) {
             Card::where('number', $request->card_number)->update(['user_id' => $user->id]);
+        }
 
         auth()->login($user);
 

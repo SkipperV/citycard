@@ -12,7 +12,7 @@ class CardTransactionController extends Controller
     public function index(Request $request, Card $card): View|RedirectResponse
     {
         if ($card->user_id == $request->user()->id) {
-            if (!($request->query('type')) or $request->query('type') == 'outcome') {
+            if (!($request->query('type')) || $request->query('type') == 'outcome') {
                 return view('cards.transactions.index', [
                     'card' => $card,
                     'transactions' => $card->cardTransactions->where('transaction_type', false),
