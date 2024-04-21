@@ -13,9 +13,10 @@ class CityController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(): Collection
+    public function index(): Collection|Response
     {
-        return City::all();
+        $cities = City::all();
+        return $cities->isNotEmpty() ? $cities : response([], 204);
     }
 
     /**
@@ -31,58 +32,54 @@ class CityController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request): City
+    public function store(Request $request): Response
     {
         $fields = $request->validate([
-            'region' => 'required|string',
-            'name' => 'required|string'
+            'region' => 'alpha|max:30',
+            'name' => 'alpha|max:30'
         ]);
 
         $city = City::create($fields);
 
-        return $city;
+        return response($city, 201);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $cityId): City|Response
+    public function show(int $cityId): City|Response
     {
         $city = City::find($cityId);
-        return $city ? $city : response(['error' => 'City not found'], 404);
+        return $city ?: response(['error' => 'City not found'], 404);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $cityId): Response
+    public function update(Request $request, int $cityId): Response|City
     {
-        if (!is_numeric($cityId)) {
-            return response(['message' => 'Invalid ID supplied'], 400);
-        }
-
         $fields = $request->validate([
-            'region' => 'required|string',
-            'name' => 'required|string'
+            'region' => 'alpha|max:30',
+            'name' => 'alpha|max:30'
         ]);
 
         $city = City::find($cityId);
         if (!$city) {
-            return response(['message' => 'City not found'], 404);
+            return response(['error' => 'City not found'], 404);
         }
 
         $city->update($fields);
 
-        return response($city, 200);
+        return $city;
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $cityId)
+    public function destroy(int $cityId): Response
     {
         City::destroy($cityId);
 
-        return response(['message' => 'Operation successful']);
+        return response(['error' => 'Successful operation']);
     }
 }
