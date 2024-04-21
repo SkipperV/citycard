@@ -78,7 +78,7 @@ class UserController extends Controller
 
         if (auth()->attempt($formFields)) {
             $request->session()->regenerate();
-            return redirect('/');
+            return redirect()->intended();
         }
 
         return back()->withErrors(['login' => 'Дані не співпадають'])->onlyInput('login');
