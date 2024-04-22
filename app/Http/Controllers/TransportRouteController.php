@@ -26,8 +26,8 @@ class TransportRouteController extends Controller
     public function store(Request $request, City $city): RedirectResponse
     {
         $request->validate([
-            'route_number' => ['required', 'numeric'],
-            'transport_type' => 'required',
+            'route_number' => 'required|numeric',
+            'transport_type' => 'required|in:Автобус,Тролейбус',
             'route_endpoint_1' => 'required',
             'route_endpoint_2' => 'required',
         ]);
@@ -58,8 +58,8 @@ class TransportRouteController extends Controller
     public function update(Request $request, City $city, TransportRoute $transport): RedirectResponse
     {
         $formData = $request->validate([
-            'route_number' => ['required', 'numeric'],
-            'transport_type' => 'required',
+            'route_number' => 'required|numeric',
+            'transport_type' => 'required|in:Автобус,Тролейбус',
             'route_endpoint_1' => 'required',
             'route_endpoint_2' => 'required',
         ]);
