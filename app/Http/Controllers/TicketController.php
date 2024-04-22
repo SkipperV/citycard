@@ -44,6 +44,9 @@ class TicketController extends Controller
 
     public function edit(City $city, Ticket $ticket): View
     {
+        if ($ticket->city != $city) {
+            return view('tickets.missed-id-error', ['city' => $city]);
+        }
         return view('tickets.edit', [
             'city' => $city,
             'ticket' => $ticket

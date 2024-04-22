@@ -72,7 +72,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::put('/cities/{city}', [CityController::class, 'update'])->name('cities.update');
         Route::delete('/cities/{city}', [CityController::class, 'destroy'])->name('cities.destroy');
 
-        // Dashboard transport_routes editing
+        // Dashboard transport routes editing
         Route::get('/cities/{city}/transport', [TransportRouteController::class, 'index'])
             ->name('transport.index');
         Route::get('/cities/{city}/transport/create', [TransportRouteController::class, 'create'])
