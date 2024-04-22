@@ -12,7 +12,7 @@ class TransportRouteController extends Controller
 {
     public function index(City $city): View
     {
-        return view('transport_routes.index', [
+        return view('transport-routes.index', [
             'city' => $city,
             'transportRoutes' => $city->transportRoutes()->orderBy('transport_type')->orderBy('route_number')->get()
         ]);
@@ -20,7 +20,7 @@ class TransportRouteController extends Controller
 
     public function create(City $city): View
     {
-        return view('transport_routes.create', ['city' => $city]);
+        return view('transport-routes.create', ['city' => $city]);
     }
 
     public function store(Request $request, City $city): RedirectResponse
@@ -46,7 +46,10 @@ class TransportRouteController extends Controller
 
     public function edit(City $city, TransportRoute $transport): View
     {
-        return view('transport_routes.edit', [
+        if ($transport->city != $city) {
+            return view('transport-routes.missed-id-error', ['city' => $city]);
+        }
+        return view('transport-routes.edit', [
             'city' => $city,
             'transportRoute' => $transport
         ]);
