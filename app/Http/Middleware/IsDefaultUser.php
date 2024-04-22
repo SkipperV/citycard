@@ -19,6 +19,6 @@ class IsDefaultUser
         if (!(Auth::user()->is_admin)) {
             return $next($request);
         }
-        return redirect()->route('admin');
+        return redirect()->route('cities.index');
     }
 }
