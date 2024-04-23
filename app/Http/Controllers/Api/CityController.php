@@ -50,7 +50,7 @@ class CityController extends Controller
     public function show(int $cityId): City|Response
     {
         $city = City::find($cityId);
-        return $city ?: response(['error' => 'City not found'], 404);
+        return $city ?: response(['message' => 'City not found'], 404);
     }
 
     /**
@@ -65,7 +65,7 @@ class CityController extends Controller
 
         $city = City::find($cityId);
         if (!$city) {
-            return response(['error' => 'City not found'], 404);
+            return response(['message' => 'City not found'], 404);
         }
 
         $city->update($fields);
@@ -80,6 +80,6 @@ class CityController extends Controller
     {
         City::destroy($cityId);
 
-        return response(['error' => 'Successful operation']);
+        return response(['message' => 'Successful operation']);
     }
 }
