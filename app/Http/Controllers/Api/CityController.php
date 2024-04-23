@@ -35,8 +35,8 @@ class CityController extends Controller
     public function store(Request $request): Response
     {
         $fields = $request->validate([
-            'region' => 'alpha|max:30',
-            'name' => 'alpha|max:30'
+            'region' => 'required|alpha|max:30',
+            'name' => 'required|alpha|max:30'
         ]);
 
         $city = City::create($fields);
