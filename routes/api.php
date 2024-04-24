@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CityController;
+use App\Http\Controllers\Api\TransportRouteController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,17 @@ Route::name('api.')->group(function () {
         Route::get('/cities/{city}', [CityController::class, 'show'])->name('cities.show');
         Route::put('/cities/{city}', [CityController::class, 'update'])->name('cities.update');
         Route::delete('/cities/{city}', [CityController::class, 'destroy'])->name('cities.destroy');
+
+        Route::get('/cities/{city}/transport', [TransportRouteController::class, 'index'])
+            ->name('transport.index');
+        Route::post('/cities/{city}/transport', [TransportRouteController::class, 'store'])
+            ->name('transport.store');
+        Route::get('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'show'])
+            ->name('transport.edit');
+        Route::put('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'update'])
+            ->name('transport.update');
+        Route::delete('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'destroy'])
+            ->name('transport.destroy');
     });
 
 // Not supported requests
