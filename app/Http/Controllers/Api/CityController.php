@@ -47,27 +47,20 @@ class CityController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $cityId): City|Response
+    public function show(City $city): City|Response
     {
-        $city = City::find($cityId);
-        return $city ?: response(['message' => 'City not found'], 404);
+        return $city;
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $cityId): Response|City
+    public function update(Request $request, City $city): Response|City
     {
         $fields = $request->validate([
             'region' => 'alpha|max:30',
             'name' => 'alpha|max:30'
         ]);
-
-        $city = City::find($cityId);
-        if (!$city) {
-            return response(['message' => 'City not found'], 404);
-        }
-
         $city->update($fields);
 
         return $city;
@@ -76,10 +69,9 @@ class CityController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $cityId): Response
+    public function destroy(City $city): Response
     {
-        City::destroy($cityId);
-
+        $city->delete();
         return response(['message' => 'Successful operation']);
     }
 }
