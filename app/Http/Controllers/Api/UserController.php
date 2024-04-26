@@ -51,6 +51,9 @@ class UserController extends Controller
             'user' => $user,
             'token' => $token
         ];
+        if ($user->is_admin) {
+            $response['role'] = 'admin';
+        }
 
         return response($response, 201);
     }
