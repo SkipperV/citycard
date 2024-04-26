@@ -29,16 +29,22 @@ class TransactionRepository
 
     public function getAllCardTransactions(Request $request, Card $card): Collection|Paginator
     {
-        return $this->formatCardTransactionsList($request, $card->cardTransactions());
+        return $this->formatCardTransactionsList($request, $card->cardTransactions()->latest());
     }
 
     public function getIncomeCardTransactions(Request $request, Card $card): Collection|Paginator
     {
-        return $this->formatCardTransactionsList($request, $card->cardTransactions()->where('transaction_type', true));
+        return $this->formatCardTransactionsList(
+            $request,
+            $card->cardTransactions()->where('transaction_type', true)->latest()
+        );
     }
 
     public function getOutcomeCardTransactions(Request $request, Card $card): Collection|Paginator
     {
-        return $this->formatCardTransactionsList($request, $card->cardTransactions()->where('transaction_type', false));
+        return $this->formatCardTransactionsList(
+            $request,
+            $card->cardTransactions()->where('transaction_type', false)->latest()
+        );
     }
 }
