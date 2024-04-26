@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\CardController;
 use App\Http\Controllers\Api\CityController;
 use App\Http\Controllers\Api\TicketController;
+use App\Http\Controllers\Api\TransactionController;
 use App\Http\Controllers\Api\TransportRouteController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
@@ -23,12 +25,17 @@ Route::name('api.')->group(function () {
     Route::group(['middleware' => ['auth:sanctum']], function () {
         Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
 
-        Route::get('/cities', [CityController::class, 'index'])->name('cities.index');
-        Route::get('/cities/search/{searchString}', [CityController::class, 'search'])->name('cities.search');
-        Route::post('/cities', [CityController::class, 'store'])->name('cities.store');
-        Route::get('/cities/{city}', [CityController::class, 'show'])->name('cities.show');
-        Route::put('/cities/{city}', [CityController::class, 'update'])->name('cities.update');
-        Route::delete('/cities/{city}', [CityController::class, 'destroy'])->name('cities.destroy');
+        Route::group(['middleware' => ['user.default.api']], function () {
+            Route::get('/user/cards', [CardController::class, 'index'])->name('user.cards.index');
+            Route::get('/user/cards/{card}', [CardController::class, 'show'])->name('user.cards.show');
+            Route::get('/user/cards/{card}/transactions', [TransactionController::class, 'index'])
+                ->name('user.cards.transactions');
+            Route::get('/user/cards/{card}/transactions/incomes', [TransactionController::class, 'incomes'])
+                ->name('user.cards.transactions.incomes');
+            Route::get('/user/cards/{card}/transactions/outcomes', [TransactionController::class, 'outcomes'])
+                ->name('user.cards.transactions.outcomes');
+        });
+
         Route::group(['middleware' => ['user.admin.api'], 'prefix' => '/admin'], function () {
             Route::get('/cities', [CityController::class, 'index'])->name('cities.index');
             Route::get('/cities/search/{searchString}', [CityController::class, 'search'])->name('cities.search');
