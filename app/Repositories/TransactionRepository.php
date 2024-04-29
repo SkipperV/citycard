@@ -12,11 +12,11 @@ class TransactionRepository
 {
     public function formatCardTransactionsList(Request $request, HasMany $transactions): Collection|Paginator
     {
-        if ($request->query('from', null)) {
-            $transactions = $transactions->where('created_at', '>', $request->query('from', null));
+        if ($request->query('dateFrom', null)) {
+            $transactions = $transactions->where('created_at', '>', $request->query('dateFrom', null));
         }
-        if ($request->query('to', null)) {
-            $transactions = $transactions->where('created_at', '<', $request->query('to', null));
+        if ($request->query('dateTo', null)) {
+            $transactions = $transactions->where('created_at', '<', $request->query('dateTo', null));
         }
         if ($request->query('perPage') || $request->query('page')) {
             $perPage = $request->query('perPage', 20);
