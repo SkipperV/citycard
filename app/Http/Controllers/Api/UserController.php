@@ -53,9 +53,11 @@ class UserController extends Controller
         ];
         if ($user->is_admin) {
             $response['role'] = 'admin';
+        } else {
+            $response['role'] = 'user';
         }
 
-        return response($response, 201);
+        return response($response, 200);
     }
 
     public function logout(): Response
