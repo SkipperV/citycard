@@ -26,17 +26,17 @@ Route::name('api.')->group(function () {
         Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
 
         Route::group(['middleware' => ['user.default.api']], function () {
-            Route::get('/user/cards', [CardController::class, 'index'])->name('user.cards.index');
-            Route::get('/user/cards/{card}', [CardController::class, 'show'])->name('user.cards.show');
-            Route::get('/user/cards/{card}/transactions', [TransactionController::class, 'index'])
+            Route::get('/cards', [CardController::class, 'index'])->name('user.cards.index');
+            Route::get('/cards/{card}', [CardController::class, 'show'])->name('user.cards.show');
+            Route::get('/cards/{card}/transactions', [TransactionController::class, 'index'])
                 ->name('user.cards.transactions');
-            Route::get('/user/cards/{card}/transactions/incomes', [TransactionController::class, 'incomes'])
+            Route::get('/cards/{card}/transactions/incomes', [TransactionController::class, 'incomes'])
                 ->name('user.cards.transactions.incomes');
-            Route::get('/user/cards/{card}/transactions/outcomes', [TransactionController::class, 'outcomes'])
+            Route::get('/cards/{card}/transactions/outcomes', [TransactionController::class, 'outcomes'])
                 ->name('user.cards.transactions.outcomes');
         });
 
-        Route::group(['middleware' => ['user.admin.api'], 'prefix' => '/admin'], function () {
+        Route::group(['middleware' => ['user.admin.api']], function () {
             Route::get('/cities', [CityController::class, 'index'])->name('cities.index');
             Route::get('/cities/search/{searchString}', [CityController::class, 'search'])->name('cities.search');
             Route::post('/cities', [CityController::class, 'store'])->name('cities.store');
