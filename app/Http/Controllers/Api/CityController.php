@@ -11,7 +11,27 @@ use Illuminate\Http\Response;
 class CityController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get all city instances
+     *
+     * @OA\Get (
+     *     path="/api/cities",
+     *     tags={"City"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(type="object",
+     *                 @OA\Property(property="id", type="number", example="1"),
+     *                 @OA\Property(property="name", type="string", example="Луцьк"),
+     *                 @OA\Property(property="region", type="string", example="Волинська")
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(response=204, description="No Content"),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     *     @OA\Response(response=403, description="Forbidden")
+     * )
      */
     public function index(): Collection|Response
     {
@@ -30,7 +50,55 @@ class CityController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Create a new city instance
+     *
+     * @OA\Post (
+     *     path="/api/cities",
+     *     tags={"City"},
+     *     security={{"sanctum":{}}},
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                      type="object",
+     *                      @OA\Property(property="name", type="string"),
+     *                      @OA\Property(property="region", type="string")
+     *                 ),
+     *                 example={
+     *                     "name": "Луцьк",
+     *                     "region": "Волинська"
+     *                 }
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=201,
+     *         description="Created",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="region", type="string", example="Волинська"),
+     *             @OA\Property(property="name", type="string", example="Луцьк"),
+     *             @OA\Property(property="id", type="number", example="1")
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     *     @OA\Response(response=403, description="Forbidden"),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The name field format is invalid."),
+     *             @OA\Property(property="error", type="object",
+     *                 @OA\Property(property="name", type="array", collectionFormat="multi",
+     *                     @OA\Items(
+     *                         type="string",
+     *                         example="The name field format is invalid."
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function store(Request $request): Response
     {
@@ -45,7 +113,32 @@ class CityController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Find city by ID
+     *
+     * @OA\Get (
+     *     path="/api/cities/{cityId}",
+     *     tags={"City"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Parameter (
+     *         required=true,
+     *         name="cityId",
+     *         in="path",
+     *         description="ID of city",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="number", example="1"),
+     *             @OA\Property(property="name", type="string", example="Луцьк"),
+     *             @OA\Property(property="region", type="string", example="Волинська")
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     *     @OA\Response(response=403, description="Forbidden"),
+     *     @OA\Response(response=404, description="Resource not found")
+     * )
      */
     public function show(City $city): City|Response
     {
@@ -53,7 +146,63 @@ class CityController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update an existing city by ID
+     *
+     * @OA\Put (
+     *     path="/api/cities/{cityId}",
+     *     tags={"City"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Parameter (
+     *         required=true,
+     *         name="cityId",
+     *         in="path",
+     *         description="ID of city",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\RequestBody(
+     *         @OA\MediaType(
+     *             mediaType="application/json",
+     *             @OA\Schema(
+     *                 @OA\Property(
+     *                     type="object",
+     *                     @OA\Property(property="name", type="string"),
+     *                     @OA\Property(property="region", type="string")
+     *                 ),
+     *                 example={
+     *                     "name": "Луцьк",
+     *                     "region": "Волинська"
+     *                 }
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Successful operation",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="id", type="number", example="1"),
+     *             @OA\Property(property="name", type="string", example="Луцьк"),
+     *             @OA\Property(property="region", type="string", example="Волинська")
+     *         )
+     *     ),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     *     @OA\Response(response=403, description="Forbidden"),
+     *     @OA\Response(response=404, description="Resource not found"),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error",
+     *         @OA\JsonContent(
+     *             @OA\Property(property="message", type="string", example="The name field format is invalid."),
+     *             @OA\Property(property="error", type="object",
+     *                 @OA\Property(property="name", type="array", collectionFormat="multi",
+     *                     @OA\Items(
+     *                         type="string",
+     *                         example="The name field format is invalid."
+     *                     )
+     *                 )
+     *             )
+     *         )
+     *     )
+     * )
      */
     public function update(Request $request, City $city): Response|City
     {
@@ -67,7 +216,24 @@ class CityController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove city by ID
+     *
+     * @OA\Delete (
+     *     path="/api/cities/{cityId}",
+     *     tags={"City"},
+     *     security={{"sanctum":{}}},
+     *     @OA\Parameter (
+     *         required=true,
+     *         name="cityId",
+     *         in="path",
+     *         description="ID of city",
+     *         @OA\Schema(type="integer")
+     *     ),
+     *     @OA\Response(response=200, description="Successful operation"),
+     *     @OA\Response(response=401, description="Unauthorized"),
+     *     @OA\Response(response=403, description="Forbidden"),
+     *     @OA\Response(response=404, description="Resource not found")
+     * )
      */
     public function destroy(City $city): Response
     {
