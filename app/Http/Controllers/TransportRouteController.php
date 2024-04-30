@@ -12,7 +12,7 @@ class TransportRouteController extends Controller
 {
     public function index(City $city): View
     {
-        return view('transport_routes.index', [
+        return view('transport-routes.index', [
             'city' => $city,
             'transportRoutes' => $city->transportRoutes()->orderBy('transport_type')->orderBy('route_number')->get()
         ]);
@@ -20,14 +20,14 @@ class TransportRouteController extends Controller
 
     public function create(City $city): View
     {
-        return view('transport_routes.create', ['city' => $city]);
+        return view('transport-routes.create', ['city' => $city]);
     }
 
     public function store(Request $request, City $city): RedirectResponse
     {
         $request->validate([
-            'route_number' => ['required', 'numeric'],
-            'transport_type' => 'required',
+            'route_number' => 'required|numeric',
+            'transport_type' => 'required|in:Автобус,Тролейбус',
             'route_endpoint_1' => 'required',
             'route_endpoint_2' => 'required',
         ]);
@@ -46,7 +46,10 @@ class TransportRouteController extends Controller
 
     public function edit(City $city, TransportRoute $transport): View
     {
-        return view('transport_routes.edit', [
+        if ($transport->city != $city) {
+            return view('transport-routes.missed-id-error', ['city' => $city]);
+        }
+        return view('transport-routes.edit', [
             'city' => $city,
             'transportRoute' => $transport
         ]);
@@ -55,8 +58,8 @@ class TransportRouteController extends Controller
     public function update(Request $request, City $city, TransportRoute $transport): RedirectResponse
     {
         $formData = $request->validate([
-            'route_number' => ['required', 'numeric'],
-            'transport_type' => 'required',
+            'route_number' => 'required|numeric',
+            'transport_type' => 'required|in:Автобус,Тролейбус',
             'route_endpoint_1' => 'required',
             'route_endpoint_2' => 'required',
         ]);

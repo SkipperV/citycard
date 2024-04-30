@@ -26,9 +26,9 @@ class TicketController extends Controller
     public function store(Request $request, City $city): RedirectResponse
     {
         $request->validate([
-            'transport_type' => 'required',
-            'ticket_type' => 'required',
-            'price' => ['required', 'numeric']
+            'transport_type' => 'required|in:Автобус,Тролейбус',
+            'ticket_type' => 'required|in:Стандартний,Дитячий,Студентський,Пільговий,Спеціальний',
+            'price' => 'required|numeric'
         ]);
 
         $ticket = new Ticket();
@@ -44,6 +44,9 @@ class TicketController extends Controller
 
     public function edit(City $city, Ticket $ticket): View
     {
+        if ($ticket->city != $city) {
+            return view('tickets.missed-id-error', ['city' => $city]);
+        }
         return view('tickets.edit', [
             'city' => $city,
             'ticket' => $ticket
@@ -53,9 +56,9 @@ class TicketController extends Controller
     public function update(Request $request, City $city, Ticket $ticket): RedirectResponse
     {
         $formData = $request->validate([
-            'transport_type' => 'required',
-            'ticket_type' => 'required',
-            'price' => ['required', 'numeric']
+            'transport_type' => 'required|in:Автобус,Тролейбус',
+            'ticket_type' => 'required|in:Стандартний,Дитячий,Студентський,Пільговий,Спеціальний',
+            'price' => 'required|numeric'
         ]);
 
         $ticket->update($formData);

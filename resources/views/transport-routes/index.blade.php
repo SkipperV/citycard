@@ -1,7 +1,7 @@
 <x-layout>
     <div class="m-auto max-w-screen-xl">
         <p class="mb-6">
-            <a class="text-accent hover:text-neutral" href='{{ route('cities.index') }}'>
+            <a class="text-accent hover:text-neutral" href="{{ route('cities.index') }}">
                 Список міст
             </a>
         </p>
