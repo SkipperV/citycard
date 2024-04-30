@@ -1,6 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\CardController;
+use App\Http\Controllers\Api\CityController;
+use App\Http\Controllers\Api\TicketController;
+use App\Http\Controllers\Api\TransactionController;
+use App\Http\Controllers\Api\TransportRouteController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +18,58 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+Route::name('api.')->group(function () {
+    Route::post('/register', [UserController::class, 'store'])->name('user.register');
+    Route::post('/login', [UserController::class, 'login'])->name('user.login');
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+    Route::group(['middleware' => ['auth:sanctum']], function () {
+        Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
+
+        Route::group(['middleware' => ['user.default.api']], function () {
+            Route::get('/cards', [CardController::class, 'index'])->name('user.cards.index');
+            Route::get('/cards/{card}', [CardController::class, 'show'])->name('user.cards.show');
+            Route::get('/cards/{card}/transactions', [TransactionController::class, 'index'])
+                ->name('user.cards.transactions');
+            Route::get('/cards/{card}/transactions/incomes', [TransactionController::class, 'incomes'])
+                ->name('user.cards.transactions.incomes');
+            Route::get('/cards/{card}/transactions/outcomes', [TransactionController::class, 'outcomes'])
+                ->name('user.cards.transactions.outcomes');
+        });
+
+        Route::group(['middleware' => ['user.admin.api']], function () {
+            Route::get('/cities', [CityController::class, 'index'])->name('cities.index');
+            Route::get('/cities/search/{searchString}', [CityController::class, 'search'])->name('cities.search');
+            Route::post('/cities', [CityController::class, 'store'])->name('cities.store');
+            Route::get('/cities/{city}', [CityController::class, 'show'])->name('cities.show');
+            Route::put('/cities/{city}', [CityController::class, 'update'])->name('cities.update');
+            Route::delete('/cities/{city}', [CityController::class, 'destroy'])->name('cities.destroy');
+
+            Route::get('/cities/{city}/transport', [TransportRouteController::class, 'index'])
+                ->name('transport.index');
+            Route::post('/cities/{city}/transport', [TransportRouteController::class, 'store'])
+                ->name('transport.store');
+            Route::get('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'show'])
+                ->name('transport.edit');
+            Route::put('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'update'])
+                ->name('transport.update');
+            Route::delete('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'destroy'])
+                ->name('transport.destroy');
+
+            Route::get('/cities/{city}/tickets', [TicketController::class, 'index'])
+                ->name('tickets.index');
+            Route::post('/cities/{city}/tickets', [TicketController::class, 'store'])
+                ->name('tickets.store');
+            Route::get('/cities/{city}/tickets/{ticket}', [TicketController::class, 'show'])
+                ->name('tickets.edit');
+            Route::put('/cities/{city}/tickets/{ticket}', [TicketController::class, 'update'])
+                ->name('tickets.update');
+            Route::delete('/cities/{city}/tickets/{ticket}', [TicketController::class, 'destroy'])
+                ->name('tickets.destroy');
+        });
+    });
+
+// Not supported requests
+    Route::fallback(function () {
+        abort(404);
+    });
 });

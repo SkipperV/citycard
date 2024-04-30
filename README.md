@@ -34,6 +34,10 @@ docker exec citycard-app php artisan migrate --seed
 
 [localhost:8080](http://localhost:8080/)
 
+## Link to access Swagger API documentation
+
+[localhost:8080](http://localhost:8080/api/documentation)
+
 ## Author
 
 * [SkipperV](https://github.com/SkipperV)
