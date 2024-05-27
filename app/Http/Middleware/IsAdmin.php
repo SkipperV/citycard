@@ -19,6 +19,6 @@ class IsAdmin
         if(Auth::user()->is_admin) {
             return $next($request);
         }
-        return redirect()->route('user.profile.index');
+        return to_route('user.home.index');
     }
 }
