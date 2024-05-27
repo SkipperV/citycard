@@ -47,4 +47,14 @@ class TransactionRepository
             $card->cardTransactions()->where('transaction_type', false)->latest()
         );
     }
+
+    public function getAllIncomeCardTransactionsList(Card $card)
+    {
+        return $card->cardTransactions()->where('transaction_type', true)->latest()->get();
+    }
+
+    public function getAllOutcomeCardTransactionsList(Card $card)
+    {
+        return $card->cardTransactions()->where('transaction_type', false)->latest()->get();
+    }
 }

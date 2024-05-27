@@ -6,21 +6,22 @@ use App\Models\City;
 use App\Models\TransportRoute;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class TransportRouteController extends Controller
 {
-    public function index(City $city): View
+    public function index(City $city): Response
     {
-        return view('transport-routes.index', [
+        return Inertia::render('Transport/Index', [
             'city' => $city,
-            'transportRoutes' => $city->transportRoutes()->orderBy('transport_type')->orderBy('route_number')->get()
+            'transports' => $city->transportRoutes()->orderBy('transport_type')->orderBy('route_number')->get()
         ]);
     }
 
-    public function create(City $city): View
+    public function create(City $city): Response
     {
-        return view('transport-routes.create', ['city' => $city]);
+        return Inertia::render('Transport/Create', ['city' => $city]);
     }
 
     public function store(Request $request, City $city): RedirectResponse
@@ -41,17 +42,17 @@ class TransportRouteController extends Controller
 
         $transport->save();
 
-        return redirect()->route('transport.index', ['city' => $city]);
+        return to_route('transport.index', ['city' => $city]);
     }
 
-    public function edit(City $city, TransportRoute $transport): View
+    public function edit(City $city, TransportRoute $transport): Response
     {
         if ($transport->city != $city) {
-            return view('transport-routes.missed-id-error', ['city' => $city]);
+            return abort(404);
         }
-        return view('transport-routes.edit', [
+        return Inertia::render('Transport/Edit', [
             'city' => $city,
-            'transportRoute' => $transport
+            'transport' => $transport
         ]);
     }
 
@@ -66,13 +67,13 @@ class TransportRouteController extends Controller
 
         $transport->update($formData);
 
-        return redirect()->route('transport.index', ['city' => $city]);
+        return to_route('transport.index', ['city' => $city]);
     }
 
     public function destroy(City $city, TransportRoute $transport): RedirectResponse
     {
         $transport->delete();
 
-        return redirect()->route('transport.index', ['city' => $city]);
+        return to_route('transport.index', ['city' => $city]);
     }
 }
