@@ -1,28 +1,34 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\Models\Card;
 use App\Models\User;
+use App\Providers\RouteServiceProvider;
 use App\Rules\CardToUserConnectionValidationRule;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 
-class UserController extends Controller
+class RegisteredUserController extends Controller
 {
-    public function index(Request $request): View
+    /**
+     * Display the registration view.
+     */
+    public function create(): Response
     {
-        return view('users.profile', [
-            'cards' => Card::where('user_id', $request->user()->id)->get()
-        ]);
+        return Inertia::render('Auth/Register');
     }
 
-    public function create(): View
-    {
-        return view('users.register');
-    }
-
+    /**
+     * Handle an incoming registration request.
+     *
+     * @throws \Illuminate\Validation\ValidationException
+     */
     public function store(Request $request): RedirectResponse
     {
         $formFields = $request->validate([
@@ -46,41 +52,10 @@ class UserController extends Controller
             Card::where('number', $request->card_number)->update(['user_id' => $user->id]);
         }
 
-        auth()->login($user);
+        event(new Registered($user));
 
-        return redirect()->route('user.profile.index');
-    }
+        Auth::login($user);
 
-    public function logout(Request $request): RedirectResponse
-    {
-        auth()->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect()->route('user.login');
-    }
-
-    public function login(): View
-    {
-        return view('users.login');
-    }
-
-    public function authenticate(Request $request): RedirectResponse
-    {
-        $formFields = $request->validate([
-            'login' => ['required'],
-            'password' => ['required']
-        ], [
-            'login.required' => 'Обов\'язкове поле.',
-            'password.required' => 'Обов\'язкове поле.',
-        ]);
-
-        if (auth()->attempt($formFields)) {
-            $request->session()->regenerate();
-            return redirect()->intended();
-        }
-
-        return back()->withErrors(['login' => 'Дані не співпадають'])->onlyInput('login');
+        return redirect(RouteServiceProvider::HOME);
     }
 }
