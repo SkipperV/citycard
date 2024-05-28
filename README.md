@@ -6,7 +6,7 @@ Website to track user`s citycard expenses, managing citycard system (managing ci
 
 ### Dependencies
 
-* Windows/macOS/Linux with preinstalled Git (to use git clone) and Docker Engine
+* Windows/macOS/Linux with preinstalled Git (to use git clone), Docker Engine and Node with npm.
 
 ### Installing
 
@@ -28,6 +28,10 @@ docker exec citycard-app composer install
 * Run migrations and seed database
 ```
 docker exec citycard-app php artisan migrate --seed
+```
+* Run npm build to build frontend components
+```
+npm run build
 ```
 
 ## Link to access running application
