@@ -16,7 +16,7 @@ export default function Index({auth, cards}) {
             <div className="py-12">
                 <div className="flex flex-col max-w-7xl mx-auto sm:px-6 lg:px-8">
                     {cards.map((card) =>
-                        <Card card={card}></Card>
+                        <Card card={card} key={card.id}></Card>
                     )}
                 </div>
             </div>
