@@ -10,7 +10,7 @@
                 "tags": [
                     "Card"
                 ],
-                "summary": "Get all user's cards",
+                "summary": "Get all authenticated user's cards",
                 "operationId": "e35184e8a68a0379ee92df6444996c8a",
                 "responses": {
                     "200": {
@@ -50,9 +50,6 @@
                             }
                         }
                     },
-                    "204": {
-                        "description": "No Content"
-                    },
                     "401": {
                         "description": "Unauthorized"
                     },
@@ -72,7 +69,7 @@
                 "tags": [
                     "Card"
                 ],
-                "summary": "Get user's card by ID",
+                "summary": "Get user's card by cardId",
                 "operationId": "288b740244f2846c13fcfede9c08e0cb",
                 "parameters": [
                     {
@@ -140,7 +137,7 @@
                 "tags": [
                     "City"
                 ],
-                "summary": "Get all city instances",
+                "summary": "Get all cities instances",
                 "operationId": "185d0aefb5fd6e9d4e5f1263e2734df4",
                 "responses": {
                     "200": {
@@ -149,7 +146,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "": {
+                                        "data": {
                                             "properties": {
                                                 "id": {
                                                     "type": "number",
@@ -171,9 +168,6 @@
                                 }
                             }
                         }
-                    },
-                    "204": {
-                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized"
@@ -503,7 +497,7 @@
                 "tags": [
                     "Ticket"
                 ],
-                "summary": "Get all city's tickets",
+                "summary": "Get all tickets of city by cityId",
                 "operationId": "2383e84e0021c8b18a988e0982f6e79d",
                 "parameters": [
                     {
@@ -523,7 +517,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "": {
+                                        "data": {
                                             "properties": {
                                                 "id": {
                                                     "type": "number",
@@ -554,9 +548,6 @@
                             }
                         }
                     },
-                    "204": {
-                        "description": "No Content"
-                    },
                     "401": {
                         "description": "Unauthorized"
                     },
@@ -577,7 +568,7 @@
                 "tags": [
                     "Ticket"
                 ],
-                "summary": "Create a new city's ticket",
+                "summary": "Create a new ticket for city by cityId",
                 "operationId": "a4e33cba6062cab44483925ba715450a",
                 "parameters": [
                     {
@@ -701,7 +692,7 @@
                 "tags": [
                     "Ticket"
                 ],
-                "summary": "Find city's ticket by ID",
+                "summary": "Get city's ticket by cityId and ticketId",
                 "operationId": "c5a5397cf5d5a8926705a89ffa0b40be",
                 "parameters": [
                     {
@@ -776,7 +767,7 @@
                 "tags": [
                     "Ticket"
                 ],
-                "summary": "Update an existing city's ticket by ID",
+                "summary": "Update an existing city's ticket by cityId and ticketId",
                 "operationId": "042a2601d81189ba1425717a9581bb92",
                 "parameters": [
                     {
@@ -1312,7 +1303,7 @@
                 "tags": [
                     "Transport"
                 ],
-                "summary": "Get all city's transport",
+                "summary": "Get all city's transport by cityId",
                 "operationId": "e232e90c2e4752ecedfe2bba86b1f8bc",
                 "parameters": [
                     {
@@ -1332,7 +1323,7 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "": {
+                                        "data": {
                                             "properties": {
                                                 "id": {
                                                     "type": "number",
@@ -1367,9 +1358,6 @@
                             }
                         }
                     },
-                    "204": {
-                        "description": "No Content"
-                    },
                     "401": {
                         "description": "Unauthorized"
                     },
@@ -1390,7 +1378,7 @@
                 "tags": [
                     "Transport"
                 ],
-                "summary": "Create a new city's transport route",
+                "summary": "Create a new city's transport route by cityId",
                 "operationId": "71090e962a9b645fa9d5e52acaa936a5",
                 "parameters": [
                     {
@@ -1521,7 +1509,7 @@
                 "tags": [
                     "Transport"
                 ],
-                "summary": "Find city's transport by ID",
+                "summary": "Find city's transport by cityId and transportId",
                 "operationId": "254289bfcdd3760421c0dd81143c4d0b",
                 "parameters": [
                     {
@@ -1600,7 +1588,7 @@
                 "tags": [
                     "Transport"
                 ],
-                "summary": "Update an existing city's transport by ID",
+                "summary": "Update an existing city's transport by cityId and transportId",
                 "operationId": "5532c1904755ed8912bca241eefea201",
                 "parameters": [
                     {
@@ -1741,7 +1729,7 @@
                 "tags": [
                     "Transport"
                 ],
-                "summary": "Remove transport by ID",
+                "summary": "Remove transport by cityId and transportId",
                 "operationId": "ef1b5e380e1f514bf37d0c2314f08301",
                 "parameters": [
                     {
