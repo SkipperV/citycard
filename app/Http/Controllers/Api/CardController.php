@@ -4,13 +4,20 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Card;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Http\Response;
+use App\Repositories\Interfaces\CardRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 
 class CardController extends Controller
 {
+    private CardRepositoryInterface $cardRepository;
+
+    public function __construct(CardRepositoryInterface $cardRepository)
+    {
+        $this->cardRepository = $cardRepository;
+    }
+
     /**
-     * Get all user's cards
+     * Get all authenticated user's cards
      *
      * @OA\Get (
      *     path="/api/cards",
@@ -29,19 +36,17 @@ class CardController extends Controller
      *             )
      *         )
      *     ),
-     *     @OA\Response(response=204, description="No Content"),
      *     @OA\Response(response=401, description="Unauthorized"),
      *     @OA\Response(response=403, description="Forbidden")
      * )
      */
-    public function index(): Collection|Response
+    public function index(): JsonResponse
     {
-        $cards = auth()->user()->cards;
-        return $cards->isNotEmpty() ? $cards : response([], 204);
+        return response()->json($this->cardRepository->getAllCardsByAuthUser());
     }
 
     /**
-     * Get user's card by ID
+     * Get user's card by cardId
      *
      * @OA\Get (
      *     path="/api/cards/{cardId}",
@@ -70,11 +75,8 @@ class CardController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function show(Card $card): Card
+    public function show(Card $card): JsonResponse
     {
-        if (!auth()->user()->cards()->find($card->id)) {
-            return abort(404);
-        }
-        return $card;
+        return response()->json($card);
     }
 }

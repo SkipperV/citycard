@@ -5,14 +5,22 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\TransportRoute;
-use Illuminate\Database\Eloquent\Collection;
+use App\Repositories\Interfaces\TransportRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class TransportRouteController extends Controller
 {
+    private TransportRepositoryInterface $transportRepository;
+
+    public function __construct(TransportRepositoryInterface $transportRepository)
+    {
+        $this->transportRepository = $transportRepository;
+    }
+
     /**
-     * Get all city's transport
+     * Get all city's transport by cityId
      *
      * @OA\Get (
      *     path="/api/cities/{cityId}/transport",
@@ -29,7 +37,7 @@ class TransportRouteController extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(type="object",
+     *             @OA\Property(property="data", type="object",
      *                 @OA\Property(property="id", type="number", example="1"),
      *                 @OA\Property(property="city_id", type="number", example="1"),
      *                 @OA\Property(property="route_number", type="number", example="1"),
@@ -39,20 +47,20 @@ class TransportRouteController extends Controller
      *             )
      *         )
      *     ),
-     *     @OA\Response(response=204, description="No Content"),
      *     @OA\Response(response=401, description="Unauthorized"),
      *     @OA\Response(response=403, description="Forbidden"),
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function index(City $city): Response|Collection
+    public function index(City $city): JsonResponse
     {
-        $transport = $city->transportRoutes()->get();
-        return $transport->isNotEmpty() ? $transport : response([], 204);
+        $transport = $this->transportRepository->getTransportByCity($city);
+
+        return response()->json(['data' => $transport]);
     }
 
     /**
-     * Create a new city's transport route
+     * Create a new city's transport route by cityId
      *
      * @OA\Post (
      *     path="/api/cities/{cityId}/transport",
@@ -116,7 +124,7 @@ class TransportRouteController extends Controller
      *     )
      * )
      */
-    public function store(Request $request, City $city): Response
+    public function store(Request $request, City $city): JsonResponse
     {
         $fields = $request->validate([
             'route_number' => 'numeric',
@@ -125,15 +133,14 @@ class TransportRouteController extends Controller
             'route_endpoint_2' => 'max:255',
         ]);
 
-        $transport = TransportRoute::make($fields);
-        $transport->city_id = $city->id;
-        $transport->save();
-
-        return response($transport, 201);
+        return response()->json(
+            $this->transportRepository->createTransport($city, array_merge(['city_id' => $city->id], $fields)),
+            Response::HTTP_CREATED
+        );
     }
 
     /**
-     * Find city's transport by ID
+     * Find city's transport by cityId and transportId
      *
      * @OA\Get (
      *     path="/api/cities/{cityId}/transport/{transportId}",
@@ -170,17 +177,17 @@ class TransportRouteController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function show(City $city, TransportRoute $transport): TransportRoute|Response
+    public function show(City $city, TransportRoute $transport): JsonResponse
     {
         if ($transport->city_id != $city->id) {
-            return response(['message' => 'Resource not found'], 404);
+            return response()->json(['message' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return $transport;
+        return response()->json($transport);
     }
 
     /**
-     * Update an existing city's transport by ID
+     * Update an existing city's transport by cityId and transportId
      *
      * @OA\Put (
      *     path="/api/cities/{cityId}/transport/{transportId}",
@@ -252,7 +259,7 @@ class TransportRouteController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, City $city, TransportRoute $transport): Response|TransportRoute
+    public function update(Request $request, City $city, TransportRoute $transport): JsonResponse
     {
         $fields = $request->validate([
             'route_number' => 'numeric',
@@ -262,15 +269,14 @@ class TransportRouteController extends Controller
         ]);
 
         if ($transport->city_id != $city->id) {
-            return response(['message' => 'Resource not found'], 404);
+            return response()->json(['message' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
-        $transport->update($fields);
 
-        return $transport;
+        return response()->json($this->transportRepository->updateTransport($transport, $fields));
     }
 
     /**
-     * Remove transport by ID
+     * Remove transport by cityId and transportId
      *
      * @OA\Delete (
      *     path="/api/cities/{cityId}/transport/{transportId}",
@@ -296,13 +302,13 @@ class TransportRouteController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function destroy(City $city, TransportRoute $transport): Response
+    public function destroy(City $city, TransportRoute $transport): JsonResponse
     {
         if ($transport->city_id != $city->id) {
-            return response(['error' => 'Resource not found'], 404);
+            return response()->json(['error' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
+        $this->transportRepository->deleteTransport($transport);
 
-        $transport->delete();
-        return response(['message' => 'Successful operation']);
+        return response()->json(['message' => 'Successful operation']);
     }
 }

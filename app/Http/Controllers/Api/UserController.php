@@ -3,15 +3,28 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Card;
-use App\Models\User;
+use App\Repositories\Interfaces\CardRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Rules\CardToUserConnectionValidationRule;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    private UserRepositoryInterface $userRepository;
+    private CardRepositoryInterface $cardRepository;
+
+    public function __construct(
+        UserRepositoryInterface $userRepository,
+        CardRepositoryInterface $cardRepository
+    )
+    {
+        $this->userRepository = $userRepository;
+        $this->cardRepository = $cardRepository;
+    }
+
     /**
      * Register
      *
@@ -61,7 +74,7 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function store(Request $request): Response
+    public function store(Request $request): JsonResponse
     {
         $fields = $request->validate([
             'login' => ['required', 'regex:/^\+380\d{9}$/', 'unique:users,login'],
@@ -70,17 +83,19 @@ class UserController extends Controller
         ]);
         $fields['password'] = bcrypt($fields['password']);
 
-        $user = User::create($fields);
+        $user = $this->userRepository->createUser($fields);
+
         if ($request->card_number) {
-            Card::where('number', $request->card_number)->update(['user_id' => $user->id]);
+            $this->cardRepository->connectCardToUser($user, $fields['card_number']);
         }
+
         $token = $user->createToken('usertoken')->plainTextToken;
         $response = [
             'user' => $user,
             'token' => $token
         ];
 
-        return response($response, 201);
+        return response()->json($response, Response::HTTP_CREATED);
     }
 
     /**
@@ -126,30 +141,26 @@ class UserController extends Controller
      *     )
      * )
      */
-    public function login(Request $request): Response
+    public function login(Request $request): JsonResponse
     {
         $fields = $request->validate([
             'login' => ['required'],
             'password' => ['required']
         ]);
 
-        $user = User::where('login', $fields['login'])->first();
+        $user = $this->userRepository->getUserByLogin($fields['login']);
         if (!$user || !Hash::check($fields['password'], $user->password)) {
-            return response(['message' => 'Incorrect login credentials'], 401);
+            return response()->json(['message' => 'Incorrect login credentials'], Response::HTTP_UNAUTHORIZED);
         }
 
         $token = $user->createToken('usertoken')->plainTextToken;
         $response = [
             'user' => $user,
-            'token' => $token
+            'token' => $token,
+            'role' => $user->is_admin ? 'admin' : 'user'
         ];
-        if ($user->is_admin) {
-            $response['role'] = 'admin';
-        } else {
-            $response['role'] = 'user';
-        }
 
-        return response($response, 200);
+        return response()->json($response);
     }
 
     /**
@@ -169,10 +180,10 @@ class UserController extends Controller
      *     @OA\Response(response=401, description="Unauthorized")
      * )
      */
-    public function logout(): Response
+    public function logout(): JsonResponse
     {
         auth()->user()->tokens()->delete();
 
-        return response(['message' => 'Logged out']);
+        return response()->json(['message' => 'Logged out']);
     }
 }

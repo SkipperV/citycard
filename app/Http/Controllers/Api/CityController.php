@@ -4,14 +4,22 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\City;
-use Illuminate\Database\Eloquent\Collection;
+use App\Repositories\Interfaces\CityRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CityController extends Controller
 {
+    private CityRepositoryInterface $cityRepository;
+
+    public function __construct(CityRepositoryInterface $cityRepository)
+    {
+        $this->cityRepository = $cityRepository;
+    }
+
     /**
-     * Get all city instances
+     * Get all cities instances
      *
      * @OA\Get (
      *     path="/api/cities",
@@ -21,32 +29,34 @@ class CityController extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(type="object",
+     *             @OA\Property(property="data", type="object",
      *                 @OA\Property(property="id", type="number", example="1"),
      *                 @OA\Property(property="name", type="string", example="Луцьк"),
      *                 @OA\Property(property="region", type="string", example="Волинська")
      *             )
      *         )
      *     ),
-     *     @OA\Response(response=204, description="No Content"),
      *     @OA\Response(response=401, description="Unauthorized"),
      *     @OA\Response(response=403, description="Forbidden")
      * )
      */
-    public function index(): Collection|Response
+    public function index(): JsonResponse
     {
-        $cities = City::all();
-        return $cities->isNotEmpty() ? $cities : response([], 204);
+        $cities = $this->cityRepository->getAllCities();
+
+        return response()->json([
+            'data' => $cities
+        ]);
     }
 
     /**
      * Perform search in a listing of the resource.
      */
-    public function search(string $searchString): Collection
+    public function search(string $searchString): JsonResponse
     {
-        return City::where('name', 'LIKE', '%' . $searchString . '%')
-            ->orWhere('region', 'LIKE', '%' . $searchString . '%')
-            ->get();
+        return response()->json([
+            'data' => $this->cityRepository->searchInCities($searchString)
+        ]);
     }
 
     /**
@@ -60,8 +70,7 @@ class CityController extends Controller
      *         @OA\MediaType(
      *             mediaType="application/json",
      *             @OA\Schema(
-     *                 @OA\Property(
-     *                      type="object",
+     *                 @OA\Property(type="object",
      *                      @OA\Property(property="name", type="string"),
      *                      @OA\Property(property="region", type="string")
      *                 ),
@@ -100,16 +109,14 @@ class CityController extends Controller
      *     )
      * )
      */
-    public function store(Request $request): Response
+    public function store(Request $request): JsonResponse
     {
         $fields = $request->validate([
             'region' => 'required|alpha|max:30',
             'name' => 'required|alpha|max:30'
         ]);
 
-        $city = City::create($fields);
-
-        return response($city, 201);
+        return response()->json($this->cityRepository->createCity($fields), Response::HTTP_CREATED);
     }
 
     /**
@@ -140,9 +147,9 @@ class CityController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function show(City $city): City|Response
+    public function show(City $city): JsonResponse
     {
-        return $city;
+        return response()->json($city);
     }
 
     /**
@@ -204,15 +211,14 @@ class CityController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, City $city): Response|City
+    public function update(Request $request, City $city): JsonResponse
     {
         $fields = $request->validate([
             'region' => 'alpha|max:30',
             'name' => 'alpha|max:30'
         ]);
-        $city->update($fields);
 
-        return $city;
+        return response()->json($this->cityRepository->updateCity($city, $fields));
     }
 
     /**
@@ -235,9 +241,12 @@ class CityController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function destroy(City $city): Response
+    public function destroy(City $city): JsonResponse
     {
-        $city->delete();
-        return response(['message' => 'Successful operation']);
+        $this->cityRepository->deleteCity($city);
+
+        return response()->json([
+            'message' => 'Successful operation'
+        ]);
     }
 }

@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Card;
-use App\Repositories\TransactionRepository;
+use App\Repositories\Interfaces\TransactionRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class TransactionController extends Controller
 {
-    private $transactionRepository;
+    private TransactionRepositoryInterface $transactionRepository;
 
-    public function __construct(TransactionRepository $transactionRepository)
+    public function __construct(TransactionRepositoryInterface $transactionRepository)
     {
         $this->transactionRepository = $transactionRepository;
     }

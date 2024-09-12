@@ -5,14 +5,22 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\City;
 use App\Models\Ticket;
-use Illuminate\Database\Eloquent\Collection;
+use App\Repositories\Interfaces\TicketRepositoryInterface;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class TicketController extends Controller
 {
+    private TicketRepositoryInterface $ticketRepository;
+
+    public function __construct(TicketRepositoryInterface $ticketRepository)
+    {
+        $this->ticketRepository = $ticketRepository;
+    }
+
     /**
-     * Get all city's tickets
+     * Get all tickets of city by cityId
      *
      * @OA\Get (
      *     path="/api/cities/{cityId}/tickets",
@@ -29,7 +37,7 @@ class TicketController extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(type="object",
+     *             @OA\Property(property="data", type="object",
      *                 @OA\Property(property="id", type="number", example="1"),
      *                 @OA\Property(property="city_id", type="number", example="1"),
      *                 @OA\Property(property="transport_type", type="string", example="Автобус"),
@@ -38,20 +46,20 @@ class TicketController extends Controller
      *             )
      *         )
      *     ),
-     *     @OA\Response(response=204, description="No Content"),
      *     @OA\Response(response=401, description="Unauthorized"),
      *     @OA\Response(response=403, description="Forbidden"),
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function index(City $city): Response|Collection
+    public function index(City $city): JsonResponse
     {
-        $tickets = $city->tickets()->get();
-        return $tickets->isNotEmpty() ? $tickets : response([], 204);
+        $tickets = $this->ticketRepository->getTicketsByCity($city);
+
+        return response()->json(['data' => $tickets]);
     }
 
     /**
-     * Create a new city's ticket
+     * Create a new ticket for city by cityId
      *
      * @OA\Post (
      *     path="/api/cities/{cityId}/tickets",
@@ -112,7 +120,7 @@ class TicketController extends Controller
      *     )
      * )
      */
-    public function store(Request $request, City $city): Response
+    public function store(Request $request, City $city): JsonResponse
     {
         $fields = $request->validate([
             'transport_type' => 'required|in:Автобус,Тролейбус',
@@ -120,15 +128,14 @@ class TicketController extends Controller
             'price' => 'required|numeric'
         ]);
 
-        $ticket = Ticket::make($fields);
-        $ticket->city_id = $city->id;
-        $ticket->save();
-
-        return response($ticket, 201);
+        return response()->json(
+            $this->ticketRepository->createTicket($city, array_merge(['city_id' => $city->id], $fields)),
+            Response::HTTP_CREATED
+        );
     }
 
     /**
-     * Find city's ticket by ID
+     * Get city's ticket by cityId and ticketId
      *
      * @OA\Get (
      *     path="/api/cities/{cityId}/tickets/{ticketId}",
@@ -164,17 +171,17 @@ class TicketController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function show(City $city, Ticket $ticket): Ticket|Response
+    public function show(City $city, Ticket $ticket): JsonResponse
     {
         if ($ticket->city_id != $city->id) {
-            return response(['error' => 'Resource not found'], 404);
+            return response()->json(['error' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return $ticket;
+        return response()->json($ticket);
     }
 
     /**
-     * Update an existing city's ticket by ID
+     * Update an existing city's ticket by cityId and ticketId
      *
      * @OA\Put (
      *     path="/api/cities/{cityId}/tickets/{ticketId}",
@@ -243,7 +250,7 @@ class TicketController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, City $city, Ticket $ticket): Response|Ticket
+    public function update(Request $request, City $city, Ticket $ticket): JsonResponse
     {
         $fields = $request->validate([
             'transport_type' => 'in:Автобус,Тролейбус',
@@ -252,11 +259,10 @@ class TicketController extends Controller
         ]);
 
         if ($ticket->city_id != $city->id) {
-            return response(['error' => 'Resource not found'], 404);
+            return response()->json(['error' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
-        $ticket->update($fields);
 
-        return $ticket;
+        return response()->json($this->ticketRepository->updateTicket($ticket, $fields));
     }
 
     /**
@@ -286,13 +292,13 @@ class TicketController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function destroy(City $city, Ticket $ticket): Response
+    public function destroy(City $city, Ticket $ticket): JsonResponse
     {
         if ($ticket->city_id != $city->id) {
-            return response(['error' => 'Resource not found'], 404);
+            return response()->json(['error' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
+        $this->ticketRepository->deleteTicket($ticket);
 
-        $ticket->delete();
-        return response(['message' => 'Successful operation']);
+        return response()->json(['message' => 'Successful operation']);
     }
 }
