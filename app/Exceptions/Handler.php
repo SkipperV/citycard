@@ -38,10 +38,10 @@ class Handler extends ExceptionHandler
 
     {
         if ($e instanceof ModelNotFoundException) {
-            return response(['message' => 'Resource not found'], 404);
+            return response(['message' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
         if ($e instanceof MethodNotAllowedHttpException) {
-            return response(['message' => 'Not allowed'], 405);
+            return response(['message' => 'Not allowed'], Response::HTTP_METHOD_NOT_ALLOWED);
         }
 
         return parent::render($request, $e);

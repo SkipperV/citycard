@@ -5,9 +5,19 @@
  */
 
 import axios from 'axios';
+
+axios.defaults.withCredentials = true;
+axios.defaults.withXSRFToken = true;
+
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+axios.get('/sanctum/csrf-cookie').then(response => {
+    console.log('CSRF token set');
+}).catch(error => {
+    console.error('Error initializing CSRF protection:', error);
+});
 
 /**
  * Echo exposes an expressive API for subscribing to channels and listening

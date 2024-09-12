@@ -2,9 +2,9 @@
 
 use App\Http\Controllers\CardTransactionController;
 use App\Http\Controllers\CityController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TicketController;
 use App\Http\Controllers\TransportRouteController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -22,34 +22,18 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     if (Auth::check()) {
         if (Auth::user()->is_admin) {
-            return redirect()->route('cities.index');
+            return to_route('cities.index');
         } else {
-            return redirect()->route('user.profile.index');
+            return to_route('user.home.index');
         }
     } else {
-        return redirect()->route('user.login');
+        return to_route('login');
     }
 })->name('home.path.redirect');
 
-Route::group(['middleware' => ['guest']], function () {
-
-    // Register new user
-    Route::get('/register', [UserController::class, 'create'])->name('user.create');
-    Route::post('/users', [UserController::class, 'store'])->name('user.store');
-
-    // Log into existing user
-    Route::get('/login', [UserController::class, 'login'])->name('user.login');
-    Route::post('/users/auth', [UserController::class, 'authenticate'])->name('user.authenticate');
-});
-
-// Accessible routes to authorised users
-Route::group(['middleware' => ['auth']], function () {
-
-    Route::post('/logout', [UserController::class, 'logout'])->name('user.logout');
-
-    // Default users routes
+Route::middleware('auth')->group(function () {
     Route::group(['middleware' => ['user.default']], function () {
-        Route::get('/profile', [UserController::class, 'index'])->name('user.profile.index');
+        Route::get('/home', [ProfileController::class, 'index'])->name('user.home.index');
         Route::get('/cards/{card}/history', [CardTransactionController::class, 'index'])
             ->name('cards.transactions.index');
     });
@@ -106,3 +90,4 @@ Route::group(['middleware' => ['auth']], function () {
 Route::fallback(function () {
     abort(404);
 });
+require __DIR__ . '/auth.php';

@@ -3,12 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\Card;
+use App\Repositories\Interfaces\TransactionRepositoryInterface;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 
-class TransactionRepository
+class TransactionRepository implements TransactionRepositoryInterface
 {
     public function formatCardTransactionsList(Request $request, HasMany $transactions): Collection|Paginator
     {
@@ -46,5 +47,15 @@ class TransactionRepository
             $request,
             $card->cardTransactions()->where('transaction_type', false)->latest()
         );
+    }
+
+    public function getAllIncomeCardTransactionsList(Card $card): Collection
+    {
+        return $card->cardTransactions()->where('transaction_type', true)->latest()->get();
+    }
+
+    public function getAllOutcomeCardTransactionsList(Card $card): Collection
+    {
+        return $card->cardTransactions()->where('transaction_type', false)->latest()->get();
     }
 }

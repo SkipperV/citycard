@@ -5,20 +5,21 @@ namespace App\Http\Controllers;
 use App\Models\City;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CityController extends Controller
 {
-    public function index(): View
+    public function index(): Response
     {
-        return view('cities.index', [
+        return Inertia::render('Cities/Index', [
             'cities' => City::orderBy('name')->filter(request(['search']))->get()
         ]);
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        return view('cities.create');
+        return Inertia::render('Cities/Create');
     }
 
     public function store(Request $request): RedirectResponse
@@ -30,12 +31,12 @@ class CityController extends Controller
 
         City::create($formData);
 
-        return redirect()->route('cities.index');
+        return to_route('cities.index');
     }
 
-    public function edit(City $city): View
+    public function edit(City $city): Response
     {
-        return view('cities.edit', ['city' => $city]);
+        return Inertia::render('Cities/Edit', ['city' => $city]);
     }
 
     public function update(Request $request, City $city): RedirectResponse
@@ -47,13 +48,13 @@ class CityController extends Controller
 
         $city->update($formData);
 
-        return redirect()->route('cities.index');
+        return to_route('cities.index');
     }
 
     public function destroy(City $city): RedirectResponse
     {
         $city->delete();
 
-        return redirect()->route('cities.index');
+        return to_route('cities.index');
     }
 }

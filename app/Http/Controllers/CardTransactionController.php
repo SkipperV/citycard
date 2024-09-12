@@ -6,7 +6,8 @@ use App\Models\Card;
 use App\Repositories\TransactionRepository;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\View\View;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CardTransactionController extends Controller
 {
@@ -17,25 +18,25 @@ class CardTransactionController extends Controller
         $this->transactionRepository = $transactionRepository;
     }
 
-    public function index(Request $request, Card $card): View|RedirectResponse
+    public function index(Request $request, Card $card): Response|RedirectResponse
     {
         $request['page'] = $request->query('page', 1);
         if ($card->user_id == $request->user()->id) {
             if (!($request->query('type')) || $request->query('type') == 'outcome') {
-                return view('cards.transactions.index', [
+                return Inertia::render('TransactionsHistory/Index', [
                     'card' => $card,
-                    'transactions' => $this->transactionRepository->getOutcomeCardTransactions($request, $card),
+                    'transactions' => $this->transactionRepository->getAllOutcomeCardTransactionsList($card),
                     'transactionsType' => false,
                 ]);
             } else {
-                return view('cards.transactions.index', [
+                return Inertia::render('TransactionsHistory/Index', [
                     'card' => $card,
-                    'transactions' => $this->transactionRepository->getIncomeCardTransactions($request, $card),
+                    'transactions' => $this->transactionRepository->getAllIncomeCardTransactionsList($card),
                     'transactionsType' => true,
                 ]);
             }
         }
 
-        return redirect()->route('user.profile.index');
+        return to_route('user.home.index');
     }
 }

@@ -13,6 +13,11 @@ class Card extends Model
 
     public $timestamps = false;
 
+    public function resolveRouteBinding($value, $field = null)
+    {
+        return auth()->user()->cards()->where('id', $value)->firstOrFail();
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
