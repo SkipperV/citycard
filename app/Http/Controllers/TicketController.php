@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTicketRequest;
+use App\Http\Requests\UpdateTicketRequest;
 use App\Models\City;
 use App\Models\Ticket;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -24,21 +25,11 @@ class TicketController extends Controller
         return Inertia::render('Tickets/Create', ['city' => $city]);
     }
 
-    public function store(Request $request, City $city): RedirectResponse
+    public function store(StoreTicketRequest $request, City $city): RedirectResponse
     {
-        $request->validate([
-            'transport_type' => 'required|in:Автобус,Тролейбус',
-            'ticket_type' => 'required|in:Стандартний,Дитячий,Студентський,Пільговий,Спеціальний',
-            'price' => 'required|numeric'
-        ]);
-
-        $ticket = new Ticket();
-        $ticket->city_id = $city->id;
-        $ticket->transport_type = $request->transport_type;
-        $ticket->ticket_type = $request->ticket_type;
-        $ticket->price = $request->price;
-
-        $ticket->save();
+        $formData = $request->validated();
+        $ticket = new Ticket($formData);
+        $city->tickets()->save($ticket);
 
         return to_route('tickets.index', ['city' => $city]);
     }
@@ -46,7 +37,7 @@ class TicketController extends Controller
     public function edit(City $city, Ticket $ticket): Response
     {
         if ($ticket->city != $city) {
-            return abort(404);
+            return response()->abort(404);
         }
         return Inertia::render('Tickets/Edit', [
             'city' => $city,
@@ -54,14 +45,9 @@ class TicketController extends Controller
         ]);
     }
 
-    public function update(Request $request, City $city, Ticket $ticket): RedirectResponse
+    public function update(UpdateTicketRequest $request, City $city, Ticket $ticket): RedirectResponse
     {
-        $formData = $request->validate([
-            'transport_type' => 'required|in:Автобус,Тролейбус',
-            'ticket_type' => 'required|in:Стандартний,Дитячий,Студентський,Пільговий,Спеціальний',
-            'price' => 'required|numeric'
-        ]);
-
+        $formData = $request->validated();
         $ticket->update($formData);
 
         return to_route('tickets.index', ['city' => $city]);

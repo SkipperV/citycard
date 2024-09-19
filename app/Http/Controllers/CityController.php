@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreCityRequest;
+use App\Http\Requests\UpdateCityRequest;
 use App\Models\City;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -22,13 +23,9 @@ class CityController extends Controller
         return Inertia::render('Cities/Create');
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(StoreCityRequest $request): RedirectResponse
     {
-        $formData = $request->validate([
-            'region' => 'required',
-            'name' => 'required'
-        ]);
-
+        $formData = $request->validated();
         City::create($formData);
 
         return to_route('cities.index');
@@ -39,13 +36,9 @@ class CityController extends Controller
         return Inertia::render('Cities/Edit', ['city' => $city]);
     }
 
-    public function update(Request $request, City $city): RedirectResponse
+    public function update(UpdateCityRequest $request, City $city): RedirectResponse
     {
-        $formData = $request->validate([
-            'region' => 'required',
-            'name' => 'required'
-        ]);
-
+        $formData = $request->validated();
         $city->update($formData);
 
         return to_route('cities.index');
