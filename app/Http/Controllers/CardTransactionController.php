@@ -25,13 +25,13 @@ class CardTransactionController extends Controller
             if (!($request->query('type')) || $request->query('type') == 'outcome') {
                 return Inertia::render('TransactionsHistory/Index', [
                     'card' => $card,
-                    'transactions' => $this->transactionRepository->getAllOutcomeCardTransactionsList($card),
+                    'transactions' => $this->transactionRepository->getOutcomeCardTransactions($request, $card),
                     'transactionsType' => false,
                 ]);
             } else {
                 return Inertia::render('TransactionsHistory/Index', [
                     'card' => $card,
-                    'transactions' => $this->transactionRepository->getAllIncomeCardTransactionsList($card),
+                    'transactions' => $this->transactionRepository->getIncomeCardTransactions($request, $card),
                     'transactionsType' => true,
                 ]);
             }

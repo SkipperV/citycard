@@ -14,7 +14,7 @@ class CityController extends Controller
     public function index(): Response
     {
         return Inertia::render('Cities/Index', [
-            'cities' => City::orderBy('name')->filter(request(['search']))->get()
+            'cities' => City::orderBy('name')->paginate(10)
         ]);
     }
 

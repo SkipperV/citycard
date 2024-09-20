@@ -43,11 +43,7 @@ class CityController extends Controller
      */
     public function index(): JsonResponse
     {
-        $cities = $this->cityRepository->getAllCities();
-
-        return response()->json([
-            'data' => $cities
-        ]);
+        return response()->json($this->cityRepository->getAllCities());
     }
 
     /**
@@ -55,9 +51,7 @@ class CityController extends Controller
      */
     public function search(string $searchString): JsonResponse
     {
-        return response()->json([
-            'data' => $this->cityRepository->searchInCities($searchString)
-        ]);
+        return response()->json($this->cityRepository->searchInCities($searchString));
     }
 
     /**

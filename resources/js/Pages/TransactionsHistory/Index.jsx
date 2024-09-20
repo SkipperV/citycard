@@ -3,7 +3,7 @@ import {Head, Link, router} from "@inertiajs/react";
 import TransactionsTable from "@/Pages/TransactionsHistory/Partials/TransactionsTable.jsx";
 
 export default function Index({auth, card, transactionsType, transactions}) {
-    const isTransactionsEmpty = !transactions.length
+    const isTransactionsEmpty = !transactions.data.length
 
     const handleRedirect = () => {
         router.visit(route('user.home.index'));
@@ -61,7 +61,7 @@ export default function Index({auth, card, transactionsType, transactions}) {
             )}
 
             {!isTransactionsEmpty ? (
-                <div className="mt-4 max-w-xl mx-auto">
+                <div className="mt-4 max-w-xl mx-auto pb-24">
                     <TransactionsTable transactions={transactions}/>
                 </div>
             ) : (
