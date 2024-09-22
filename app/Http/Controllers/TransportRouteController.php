@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreTransportRequest;
+use App\Http\Requests\UpdateTransportRequest;
 use App\Models\City;
 use App\Models\TransportRoute;
 use Illuminate\Http\RedirectResponse;
@@ -44,7 +45,7 @@ class TransportRouteController extends Controller
         ]);
     }
 
-    public function update(StoreTransportRequest $request, City $city, TransportRoute $transport): RedirectResponse
+    public function update(UpdateTransportRequest $request, City $city, TransportRoute $transport): RedirectResponse
     {
         $formData = $request->validated();
         $transport->update($formData);
