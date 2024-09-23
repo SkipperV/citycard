@@ -22,8 +22,8 @@ class UpdateCityRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'region' => 'required|string|max:30',
-            'name' => 'required|string|max:30',
+            'region' => ['required', 'string', 'max:30'],
+            'name' => ['required', 'string', 'max:30'],
         ];
     }
 }

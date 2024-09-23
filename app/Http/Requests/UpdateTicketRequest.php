@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TicketType;
+use App\Enums\TransportType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateTicketRequest extends FormRequest
 {
@@ -22,8 +25,8 @@ class UpdateTicketRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'transport_type' => 'required|in:Автобус,Тролейбус',
-            'ticket_type' => 'required|in:Стандартний,Дитячий,Студентський,Пільговий,Спеціальний',
+            'transport_type' => ['required', Rule::enum(TransportType::class)],
+            'ticket_type' => ['required', Rule::enum(TicketType::class)],
             'price' => 'required|numeric'
         ];
     }

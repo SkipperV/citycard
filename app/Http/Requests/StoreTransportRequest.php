@@ -2,7 +2,9 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\TransportType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreTransportRequest extends FormRequest
 {
@@ -23,7 +25,7 @@ class StoreTransportRequest extends FormRequest
     {
         return [
             'route_number' => 'required|numeric',
-            'transport_type' => 'required|in:Автобус,Тролейбус',
+            'transport_type' => ['required', Rule::enum(TransportType::class)],
             'route_endpoint_1' => 'required|string',
             'route_endpoint_2' => 'required|string',
         ];
