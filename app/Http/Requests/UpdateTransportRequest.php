@@ -26,7 +26,6 @@ class UpdateTransportRequest extends FormRequest
         return [
             'route_number' => 'required|numeric',
             'transport_type' => ['required', Rule::enum(TransportType::class)],
-//            'transport_type' => 'required|in:Автобус,Тролейбус',
             'route_endpoint_1' => 'required|string',
             'route_endpoint_2' => 'required|string',
         ];
