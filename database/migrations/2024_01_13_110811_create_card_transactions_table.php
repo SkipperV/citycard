@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Card;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +14,10 @@ return new class extends Migration
     {
         Schema::create('card_transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("card_id");
+            $table->foreignIdFor(Card::class)->constrained()->cascadeOnDelete();
             $table->tinyInteger("transaction_type");
             $table->float("balance_change");
             $table->timestamps();
-
-            $table->foreign("card_id")->references("id")->on("cards");
         });
     }
 
