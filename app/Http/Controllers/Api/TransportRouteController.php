@@ -55,9 +55,9 @@ class TransportRouteController extends Controller
      */
     public function index(City $city): JsonResponse
     {
-        $transport = $this->transportRepository->getTransportByCity($city);
+        $transportRoute = $this->transportRepository->getTransportByCity($city);
 
-        return response()->json(['data' => $transport]);
+        return response()->json(['data' => $transportRoute]);
     }
 
     /**
@@ -173,13 +173,13 @@ class TransportRouteController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function show(City $city, TransportRoute $transport): JsonResponse
+    public function show(City $city, TransportRoute $transportRoute): JsonResponse
     {
-        if ($transport->city_id != $city->id) {
+        if ($transportRoute->city_id != $city->id) {
             return response()->json(['message' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($transport);
+        return response()->json($transportRoute);
     }
 
     /**
@@ -255,15 +255,15 @@ class TransportRouteController extends Controller
      *     )
      * )
      */
-    public function update(UpdateTransportRequest $request, City $city, TransportRoute $transport): JsonResponse
+    public function update(UpdateTransportRequest $request, City $city, TransportRoute $transportRoute): JsonResponse
     {
         $fields = $request->validated();
 
-        if ($transport->city_id != $city->id) {
+        if ($transportRoute->city_id != $city->id) {
             return response()->json(['message' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($this->transportRepository->updateTransport($transport, $fields));
+        return response()->json($this->transportRepository->updateTransport($transportRoute, $fields));
     }
 
     /**
@@ -293,12 +293,12 @@ class TransportRouteController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function destroy(City $city, TransportRoute $transport): JsonResponse
+    public function destroy(City $city, TransportRoute $transportRoute): JsonResponse
     {
-        if ($transport->city_id != $city->id) {
+        if ($transportRoute->city_id != $city->id) {
             return response()->json(['error' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
-        $this->transportRepository->deleteTransport($transport);
+        $this->transportRepository->deleteTransport($transportRoute);
 
         return response()->json(['message' => 'Successful operation']);
     }

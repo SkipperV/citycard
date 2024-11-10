@@ -28,8 +28,7 @@ class TicketController extends Controller
     public function store(StoreTicketRequest $request, City $city): RedirectResponse
     {
         $formData = $request->validated();
-        $ticket = new Ticket($formData);
-        $city->tickets()->save($ticket);
+        $city->tickets()->create($formData);
 
         return to_route('tickets.index', ['city' => $city]);
     }

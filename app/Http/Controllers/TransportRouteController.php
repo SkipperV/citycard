@@ -28,27 +28,26 @@ class TransportRouteController extends Controller
     public function store(StoreTransportRequest $request, City $city): RedirectResponse
     {
         $formData = $request->validated();
-        $transport = new TransportRoute($formData);
-        $city->transportRoutes()->save($transport);
+        $city->transportRoutes()->create($formData);
 
         return to_route('transport.index', ['city' => $city]);
     }
 
-    public function edit(City $city, TransportRoute $transport): Response
+    public function edit(City $city, TransportRoute $transportRoute): Response
     {
-        if ($transport->city != $city) {
+        if ($transportRoute->city != $city) {
             return response()->abort(404);
         }
         return Inertia::render('Transport/Edit', [
             'city' => $city,
-            'transport' => $transport
+            'transport' => $transportRoute
         ]);
     }
 
-    public function update(UpdateTransportRequest $request, City $city, TransportRoute $transport): RedirectResponse
+    public function update(UpdateTransportRequest $request, City $city, TransportRoute $transportRoute): RedirectResponse
     {
         $formData = $request->validated();
-        $transport->update($formData);
+        $transportRoute->update($formData);
 
         return to_route('transport.index', ['city' => $city]);
     }
