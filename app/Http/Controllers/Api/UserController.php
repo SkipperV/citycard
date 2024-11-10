@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\CardRepositoryInterface;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use App\Rules\CardToUserConnectionValidationRule;
+use App\Rules\CardToUserConnectionRule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -78,7 +78,7 @@ class UserController extends Controller
     {
         $fields = $request->validate([
             'login' => ['required', 'regex:/^\+380\d{9}$/', 'unique:users,login'],
-            'card_number' => [new CardToUserConnectionValidationRule],
+            'card_number' => [new CardToUserConnectionRule],
             'password' => ['required', 'confirmed', 'min:6']
         ]);
         $fields['password'] = bcrypt($fields['password']);
