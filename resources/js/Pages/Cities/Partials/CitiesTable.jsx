@@ -1,4 +1,5 @@
 import {Link, router} from "@inertiajs/react";
+import Pagination from "@/Components/Pagination.jsx";
 
 export default function CitiesTable({cities}) {
     const deleteCity = (id) => {
@@ -18,7 +19,7 @@ export default function CitiesTable({cities}) {
                 </tr>
                 </thead>
                 <tbody>
-                {cities.map((city) =>
+                {cities.data.map((city) =>
                     <tr key={city.id} className="bg-white border-t dark:bg-gray-900 dark:border-gray-700">
                         <td scope="col" className="px-6 py-4">
                             {city.name}, {city.region}
@@ -51,6 +52,7 @@ export default function CitiesTable({cities}) {
                 )}
                 </tbody>
             </table>
+            <Pagination links={cities.links} />
         </div>
     );
 }

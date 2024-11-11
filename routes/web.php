@@ -63,11 +63,11 @@ Route::middleware('auth')->group(function () {
             ->name('transport.create');
         Route::post('/cities/{city}/transport', [TransportRouteController::class, 'store'])
             ->name('transport.store');
-        Route::get('/cities/{city}/transport/{transport}/edit', [TransportRouteController::class, 'edit'])
+        Route::get('/cities/{city}/transport/{transportRoute}/edit', [TransportRouteController::class, 'edit'])
             ->name('transport.edit');
-        Route::put('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'update'])
+        Route::put('/cities/{city}/transport/{transportRoute}', [TransportRouteController::class, 'update'])
             ->name('transport.update');
-        Route::delete('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'destroy'])
+        Route::delete('/cities/{city}/transport/{transportRoute}', [TransportRouteController::class, 'destroy'])
             ->name('transport.destroy');
 
         // Dashboard Tickets Editing routes

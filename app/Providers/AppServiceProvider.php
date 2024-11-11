@@ -9,9 +9,11 @@ use App\Repositories\Interfaces\CityRepositoryInterface;
 use App\Repositories\Interfaces\TicketRepositoryInterface;
 use App\Repositories\Interfaces\TransactionRepositoryInterface;
 use App\Repositories\Interfaces\TransportRepositoryInterface;
+use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\TicketRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\TransportRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -26,6 +28,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TicketRepositoryInterface::class, TicketRepository::class);
         $this->app->bind(TransportRepositoryInterface::class, TransportRepository::class);
         $this->app->bind(CardRepositoryInterface::class, CardRepository::class);
+        $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
     }
 
     /**

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +14,10 @@ return new class extends Migration
     {
         Schema::create('cards', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger("user_id")->nullable();
+            $table->foreignIdFor(User::class)->nullable();
             $table->unsignedBigInteger("number")->unique();
             $table->string("type");
             $table->float("current_balance");
-
-            $table->foreign("user_id")->references("id")->on("users");
         });
     }
 

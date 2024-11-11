@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreTransportRequest;
+use App\Http\Requests\UpdateTransportRequest;
 use App\Models\City;
 use App\Models\TransportRoute;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -24,55 +25,36 @@ class TransportRouteController extends Controller
         return Inertia::render('Transport/Create', ['city' => $city]);
     }
 
-    public function store(Request $request, City $city): RedirectResponse
+    public function store(StoreTransportRequest $request, City $city): RedirectResponse
     {
-        $request->validate([
-            'route_number' => 'required|numeric',
-            'transport_type' => 'required|in:Автобус,Тролейбус',
-            'route_endpoint_1' => 'required',
-            'route_endpoint_2' => 'required',
-        ]);
-
-        $transport = new TransportRoute();
-        $transport->city_id = $city->id;
-        $transport->route_number = $request->route_number;
-        $transport->transport_type = $request->transport_type;
-        $transport->route_endpoint_1 = $request->route_endpoint_1;
-        $transport->route_endpoint_2 = $request->route_endpoint_2;
-
-        $transport->save();
+        $formData = $request->validated();
+        $city->transportRoutes()->create($formData);
 
         return to_route('transport.index', ['city' => $city]);
     }
 
-    public function edit(City $city, TransportRoute $transport): Response
+    public function edit(City $city, TransportRoute $transportRoute): \Illuminate\Http\Response|Response
     {
-        if ($transport->city != $city) {
-            return abort(404);
+        if ($transportRoute->city != $city) {
+            return response([], \Illuminate\Http\Response::HTTP_NOT_FOUND);
         }
         return Inertia::render('Transport/Edit', [
             'city' => $city,
-            'transport' => $transport
+            'transport' => $transportRoute
         ]);
     }
 
-    public function update(Request $request, City $city, TransportRoute $transport): RedirectResponse
+    public function update(UpdateTransportRequest $request, City $city, TransportRoute $transportRoute): RedirectResponse
     {
-        $formData = $request->validate([
-            'route_number' => 'required|numeric',
-            'transport_type' => 'required|in:Автобус,Тролейбус',
-            'route_endpoint_1' => 'required',
-            'route_endpoint_2' => 'required',
-        ]);
-
-        $transport->update($formData);
+        $formData = $request->validated();
+        $transportRoute->update($formData);
 
         return to_route('transport.index', ['city' => $city]);
     }
 
-    public function destroy(City $city, TransportRoute $transport): RedirectResponse
+    public function destroy(City $city, TransportRoute $transportRoute): RedirectResponse
     {
-        $transport->delete();
+        $transportRoute->delete();
 
         return to_route('transport.index', ['city' => $city]);
     }

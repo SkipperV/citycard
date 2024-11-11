@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTransportRequest;
+use App\Http\Requests\UpdateTransportRequest;
 use App\Models\City;
 use App\Models\TransportRoute;
 use App\Repositories\Interfaces\TransportRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class TransportRouteController extends Controller
@@ -54,9 +55,9 @@ class TransportRouteController extends Controller
      */
     public function index(City $city): JsonResponse
     {
-        $transport = $this->transportRepository->getTransportByCity($city);
+        $transportRoute = $this->transportRepository->getTransportByCity($city);
 
-        return response()->json(['data' => $transport]);
+        return response()->json(['data' => $transportRoute]);
     }
 
     /**
@@ -124,14 +125,9 @@ class TransportRouteController extends Controller
      *     )
      * )
      */
-    public function store(Request $request, City $city): JsonResponse
+    public function store(StoreTransportRequest $request, City $city): JsonResponse
     {
-        $fields = $request->validate([
-            'route_number' => 'numeric',
-            'transport_type' => 'in:Автобус,Тролейбус',
-            'route_endpoint_1' => 'max:255',
-            'route_endpoint_2' => 'max:255',
-        ]);
+        $fields = $request->validated();
 
         return response()->json(
             $this->transportRepository->createTransport($city, array_merge(['city_id' => $city->id], $fields)),
@@ -177,13 +173,13 @@ class TransportRouteController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function show(City $city, TransportRoute $transport): JsonResponse
+    public function show(City $city, TransportRoute $transportRoute): JsonResponse
     {
-        if ($transport->city_id != $city->id) {
+        if ($transportRoute->city_id != $city->id) {
             return response()->json(['message' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($transport);
+        return response()->json($transportRoute);
     }
 
     /**
@@ -259,20 +255,15 @@ class TransportRouteController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, City $city, TransportRoute $transport): JsonResponse
+    public function update(UpdateTransportRequest $request, City $city, TransportRoute $transportRoute): JsonResponse
     {
-        $fields = $request->validate([
-            'route_number' => 'numeric',
-            'transport_type' => 'in:Автобус,Тролейбус',
-            'route_endpoint_1' => 'max:255',
-            'route_endpoint_2' => 'max:255',
-        ]);
+        $fields = $request->validated();
 
-        if ($transport->city_id != $city->id) {
+        if ($transportRoute->city_id != $city->id) {
             return response()->json(['message' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
 
-        return response()->json($this->transportRepository->updateTransport($transport, $fields));
+        return response()->json($this->transportRepository->updateTransport($transportRoute, $fields));
     }
 
     /**
@@ -302,12 +293,12 @@ class TransportRouteController extends Controller
      *     @OA\Response(response=404, description="Resource not found")
      * )
      */
-    public function destroy(City $city, TransportRoute $transport): JsonResponse
+    public function destroy(City $city, TransportRoute $transportRoute): JsonResponse
     {
-        if ($transport->city_id != $city->id) {
+        if ($transportRoute->city_id != $city->id) {
             return response()->json(['error' => 'Resource not found'], Response::HTTP_NOT_FOUND);
         }
-        $this->transportRepository->deleteTransport($transport);
+        $this->transportRepository->deleteTransport($transportRoute);
 
         return response()->json(['message' => 'Successful operation']);
     }

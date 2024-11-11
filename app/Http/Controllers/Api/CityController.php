@@ -3,10 +3,11 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreCityRequest;
+use App\Http\Requests\UpdateCityRequest;
 use App\Models\City;
 use App\Repositories\Interfaces\CityRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CityController extends Controller
@@ -42,11 +43,7 @@ class CityController extends Controller
      */
     public function index(): JsonResponse
     {
-        $cities = $this->cityRepository->getAllCities();
-
-        return response()->json([
-            'data' => $cities
-        ]);
+        return response()->json($this->cityRepository->getAllCities());
     }
 
     /**
@@ -54,9 +51,7 @@ class CityController extends Controller
      */
     public function search(string $searchString): JsonResponse
     {
-        return response()->json([
-            'data' => $this->cityRepository->searchInCities($searchString)
-        ]);
+        return response()->json($this->cityRepository->searchInCities($searchString));
     }
 
     /**
@@ -109,12 +104,9 @@ class CityController extends Controller
      *     )
      * )
      */
-    public function store(Request $request): JsonResponse
+    public function store(StoreCityRequest $request): JsonResponse
     {
-        $fields = $request->validate([
-            'region' => 'required|alpha|max:30',
-            'name' => 'required|alpha|max:30'
-        ]);
+        $fields = $request->validated();
 
         return response()->json($this->cityRepository->createCity($fields), Response::HTTP_CREATED);
     }
@@ -211,12 +203,9 @@ class CityController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, City $city): JsonResponse
+    public function update(UpdateCityRequest $request, City $city): JsonResponse
     {
-        $fields = $request->validate([
-            'region' => 'alpha|max:30',
-            'name' => 'alpha|max:30'
-        ]);
+        $fields = $request->validated();
 
         return response()->json($this->cityRepository->updateCity($city, $fields));
     }

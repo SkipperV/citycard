@@ -6,7 +6,7 @@ use App\Models\Card;
 use Closure;
 use Illuminate\Contracts\Validation\ValidationRule;
 
-class CardToUserConnectionValidationRule implements ValidationRule
+class CardToUserConnectionRule implements ValidationRule
 {
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {

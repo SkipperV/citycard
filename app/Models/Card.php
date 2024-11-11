@@ -15,7 +15,7 @@ class Card extends Model
 
     public function resolveRouteBinding($value, $field = null)
     {
-        return auth()->user()->cards()->where('id', $value)->firstOrFail();
+        return auth()->user()->cards()->findOrFail($value);
     }
 
     public function user(): BelongsTo

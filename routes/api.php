@@ -48,11 +48,11 @@ Route::name('api.')->group(function () {
                 ->name('transport.index');
             Route::post('/cities/{city}/transport', [TransportRouteController::class, 'store'])
                 ->name('transport.store');
-            Route::get('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'show'])
+            Route::get('/cities/{city}/transport/{transportRoute}', [TransportRouteController::class, 'show'])
                 ->name('transport.edit');
-            Route::put('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'update'])
+            Route::put('/cities/{city}/transport/{transportRoute}', [TransportRouteController::class, 'update'])
                 ->name('transport.update');
-            Route::delete('/cities/{city}/transport/{transport}', [TransportRouteController::class, 'destroy'])
+            Route::delete('/cities/{city}/transport/{transportRoute}', [TransportRouteController::class, 'destroy'])
                 ->name('transport.destroy');
 
             Route::get('/cities/{city}/tickets', [TicketController::class, 'index'])

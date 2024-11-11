@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreTicketRequest;
+use App\Http\Requests\UpdateTicketRequest;
 use App\Models\City;
 use App\Models\Ticket;
 use App\Repositories\Interfaces\TicketRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class TicketController extends Controller
@@ -120,13 +121,9 @@ class TicketController extends Controller
      *     )
      * )
      */
-    public function store(Request $request, City $city): JsonResponse
+    public function store(StoreTicketRequest $request, City $city): JsonResponse
     {
-        $fields = $request->validate([
-            'transport_type' => 'required|in:Автобус,Тролейбус',
-            'ticket_type' => 'required|in:Стандартний,Дитячий,Студентський,Пільговий,Спеціальний',
-            'price' => 'required|numeric'
-        ]);
+        $fields = $request->validated();
 
         return response()->json(
             $this->ticketRepository->createTicket($city, array_merge(['city_id' => $city->id], $fields)),
@@ -250,13 +247,9 @@ class TicketController extends Controller
      *     )
      * )
      */
-    public function update(Request $request, City $city, Ticket $ticket): JsonResponse
+    public function update(UpdateTicketRequest $request, City $city, Ticket $ticket): JsonResponse
     {
-        $fields = $request->validate([
-            'transport_type' => 'in:Автобус,Тролейбус',
-            'ticket_type' => 'in:Стандартний,Дитячий,Студентський,Пільговий,Спеціальний',
-            'price' => 'numeric'
-        ]);
+        $fields = $request->validated();
 
         if ($ticket->city_id != $city->id) {
             return response()->json(['error' => 'Resource not found'], Response::HTTP_NOT_FOUND);
