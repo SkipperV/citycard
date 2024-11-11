@@ -52,9 +52,9 @@ class TransportRouteController extends Controller
         return to_route('transport.index', ['city' => $city]);
     }
 
-    public function destroy(City $city, TransportRoute $transport): RedirectResponse
+    public function destroy(City $city, TransportRoute $transportRoute): RedirectResponse
     {
-        $transport->delete();
+        $transportRoute->delete();
 
         return to_route('transport.index', ['city' => $city]);
     }
