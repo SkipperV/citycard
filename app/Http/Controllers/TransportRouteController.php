@@ -33,10 +33,10 @@ class TransportRouteController extends Controller
         return to_route('transport.index', ['city' => $city]);
     }
 
-    public function edit(City $city, TransportRoute $transportRoute): Response
+    public function edit(City $city, TransportRoute $transportRoute): \Illuminate\Http\Response|Response
     {
         if ($transportRoute->city != $city) {
-            return response()->abort(404);
+            return response([], \Illuminate\Http\Response::HTTP_NOT_FOUND);
         }
         return Inertia::render('Transport/Edit', [
             'city' => $city,

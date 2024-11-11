@@ -33,10 +33,10 @@ class TicketController extends Controller
         return to_route('tickets.index', ['city' => $city]);
     }
 
-    public function edit(City $city, Ticket $ticket): Response
+    public function edit(City $city, Ticket $ticket): \Illuminate\Http\Response|Response
     {
         if ($ticket->city != $city) {
-            return response()->abort(404);
+            return response([], \Illuminate\Http\Response::HTTP_NOT_FOUND);
         }
         return Inertia::render('Tickets/Edit', [
             'city' => $city,
