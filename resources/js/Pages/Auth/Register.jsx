@@ -54,13 +54,11 @@ export default function Register() {
 
                     <TextInput
                         id="card_number"
-                        // type="email"
                         name="card_number"
                         value={data.email}
                         className="mt-1 block w-full"
                         autoComplete="card_number"
                         onChange={(e) => setData('card_number', e.target.value)}
-                        required
                     />
 
                     <InputError message={errors.card_number} className="mt-2"/>
