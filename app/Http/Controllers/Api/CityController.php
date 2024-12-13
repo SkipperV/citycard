@@ -5,8 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreCityRequest;
 use App\Http\Requests\UpdateCityRequest;
+use App\Interfaces\CityRepositoryInterface;
 use App\Models\City;
-use App\Repositories\Interfaces\CityRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Repositories\Interfaces;
+namespace App\Interfaces;
 
 use App\Models\Card;
 use Illuminate\Database\Eloquent\Relations\HasMany;

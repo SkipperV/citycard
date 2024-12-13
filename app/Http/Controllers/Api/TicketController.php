@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTicketRequest;
 use App\Http\Requests\UpdateTicketRequest;
+use App\Interfaces\TicketRepositoryInterface;
 use App\Models\City;
 use App\Models\Ticket;
-use App\Repositories\Interfaces\TicketRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 

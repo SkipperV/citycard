@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\CityRepositoryInterface;
 use App\Models\City;
-use App\Repositories\Interfaces\CityRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;

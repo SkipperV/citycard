@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\TicketRepositoryInterface;
 use App\Models\City;
 use App\Models\Ticket;
-use App\Repositories\Interfaces\TicketRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class TicketRepository implements TicketRepositoryInterface

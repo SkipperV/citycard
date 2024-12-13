@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\CardRepositoryInterface;
 use App\Models\Card;
-use App\Repositories\Interfaces\CardRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
 class CardController extends Controller

@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\CardRepositoryInterface;
 use App\Models\Card;
 use App\Models\User;
-use App\Repositories\Interfaces\CardRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class CardRepository implements CardRepositoryInterface

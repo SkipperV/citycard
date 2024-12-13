@@ -2,14 +2,14 @@
 
 namespace App\Providers;
 
+use App\Interfaces\CardRepositoryInterface;
+use App\Interfaces\CityRepositoryInterface;
+use App\Interfaces\TicketRepositoryInterface;
+use App\Interfaces\TransactionRepositoryInterface;
+use App\Interfaces\TransportRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\CardRepository;
 use App\Repositories\CityRepository;
-use App\Repositories\Interfaces\CardRepositoryInterface;
-use App\Repositories\Interfaces\CityRepositoryInterface;
-use App\Repositories\Interfaces\TicketRepositoryInterface;
-use App\Repositories\Interfaces\TransactionRepositoryInterface;
-use App\Repositories\Interfaces\TransportRepositoryInterface;
-use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\TicketRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\TransportRepository;

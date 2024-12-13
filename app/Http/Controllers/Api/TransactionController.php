@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Interfaces\TransactionRepositoryInterface;
 use App\Models\Card;
-use App\Repositories\Interfaces\TransactionRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
