@@ -30,32 +30,32 @@ class DatabaseSeeder extends Seeder
             'password' => 'password',
         ]);
 
-        City::factory()->insert([
+        City::factory()->create([
             'name' => 'Луцьк',
             'region' => 'Волинська'
         ]);
 
-        Ticket::factory()->insert([
+        Ticket::factory()->create([
             'city_id' => 1,
             'transport_type' => "Автобус",
             'ticket_type' => "Стандартний",
             'price' => 14
         ]);
-        Ticket::factory()->insert([
+        Ticket::factory()->create([
             'city_id' => 1,
             'transport_type' => "Тролейбус",
             'ticket_type' => "Студентський",
             'price' => 4
         ]);
 
-        TransportRoute::factory()->insert([
+        TransportRoute::factory()->create([
             'city_id' => 1,
             'route_number' => 32,
             'transport_type' => "Автобус",
             'route_endpoint_1' => "с. Липини",
             'route_endpoint_2' => "сел. Вересневе",
         ]);
-        TransportRoute::factory()->insert([
+        TransportRoute::factory()->create([
             'city_id' => 1,
             'route_number' => 12,
             'transport_type' => "Тролейбус",
