@@ -50,8 +50,24 @@ services:
             - dbdata:/var/lib/mysql
             - ./config/mysql/:/docker-entrypoint-initdb.d/
 
+    elasticsearch:
+        image: elasticsearch:8.16.1
+        container_name: ${APP_NAME}-elasticsearch
+        networks:
+            - citycard_network
+        restart: unless-stopped
+        environment:
+            - xpack.security.enabled=false
+        ports:
+            - "9200:9200"
+        volumes:
+            - ./config/elasticsearch/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+            - es_data:/usr/share/elasticsearch/data
+
 volumes:
     dbdata:
+        driver: local
+    es_data:
         driver: local
 
 networks:

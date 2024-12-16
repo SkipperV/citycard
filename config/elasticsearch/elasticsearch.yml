@@ -1,0 +1,8 @@
+http.port: 9200
+network.host: 0.0.0.0
+
+# As only one container will be used
+discovery.type: single-node
+
+# Added only for dev environment
+xpack.security.enabled: false
