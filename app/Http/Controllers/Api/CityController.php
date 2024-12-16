@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCityRequest;
 use App\Interfaces\CityRepositoryInterface;
 use App\Models\City;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class CityController extends Controller
@@ -49,9 +50,9 @@ class CityController extends Controller
     /**
      * Perform search in a listing of the resource.
      */
-    public function search(string $searchString): JsonResponse
+    public function search(Request $request): JsonResponse
     {
-        return response()->json($this->cityRepository->searchInCities($searchString));
+        return response()->json($this->cityRepository->search($request));
     }
 
     /**
