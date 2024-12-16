@@ -47,6 +47,13 @@ docker exec citycard-app php artisan migrate --seed
 npm run build
 ```
 
+### Additional commands for testing application
+
+* Seed database with random cities data
+```
+docker exec citycard-app php artisan db:seed CitySeeder
+```
+
 ## Link to access running application
 
 [localhost:8080](http://localhost:8080/)
