@@ -25,6 +25,19 @@ docker-compose up --build -d
 ```
 docker exec citycard-app composer install
 ```
+Elasticsearch container may take some time to fully initialize after startup, even though it appears to be in the 
+"running" state. During this period, Elasticsearch may be under heavy load as it performs operations like index creation
+and shard allocation.
+
+Please follow these steps before proceeding with further commands:
+
+1. Wait for the container to finish initializing.
+2. Monitor the CPU usage of the Elasticsearch container using command ```docker stats``` or similar tools.
+3. Ensure the CPU usage is low and stable before running commands that interact with Elasticsearch and database.
+* Create Elasticsearch cities index
+```
+docker exec citycard-app search:create-cities-index
+```
 * Run migrations and seed database
 ```
 docker exec citycard-app php artisan migrate --seed
