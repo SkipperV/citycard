@@ -26,11 +26,4 @@ class City extends Model
     {
         return $this->hasMany(TransportRoute::class);
     }
-
-    public function scopeFilter(Builder $query, array $filters): void
-    {
-        if ($filters['search'] ?? false) {
-            $query->where('name', 'like', '%' . request('search') . '%');
-        }
-    }
 }
