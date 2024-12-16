@@ -49,6 +49,35 @@ class CityController extends Controller
 
     /**
      * Perform search in a listing of the resource.
+     *
+     * @OA\Get (
+     *      path="/api/cities/search",
+     *      tags={"City"},
+     *      security={{"sanctum":{}}},
+     *      @OA\Parameter(
+     *          name="search",
+     *          in="query",
+     *          description="Search term for cities",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="Луцьк"
+     *          )
+     *      ),
+     *      @OA\Response(
+     *          response=200,
+     *          description="Successful operation",
+     *          @OA\JsonContent(
+     *              @OA\Property(property="data", type="object",
+     *                  @OA\Property(property="id", type="number", example="1"),
+     *                  @OA\Property(property="name", type="string", example="Луцьк"),
+     *                  @OA\Property(property="region", type="string", example="Волинська")
+     *              )
+     *          )
+     *      ),
+     *      @OA\Response(response=401, description="Unauthorized"),
+     *      @OA\Response(response=403, description="Forbidden")
+     *  )
      */
     public function search(Request $request): JsonResponse
     {

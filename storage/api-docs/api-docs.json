@@ -282,6 +282,69 @@
                 ]
             }
         },
+        "/api/cities/search": {
+            "get": {
+                "tags": [
+                    "City"
+                ],
+                "summary": "Perform search in a listing of the resource.",
+                "operationId": "b7d1d2575004e2b35bd1bbc77f01f555",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search term for cities",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Луцьк"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "number",
+                                                    "example": "1"
+                                                },
+                                                "name": {
+                                                    "type": "string",
+                                                    "example": "Луцьк"
+                                                },
+                                                "region": {
+                                                    "type": "string",
+                                                    "example": "Волинська"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/api/cities/{cityId}": {
             "get": {
                 "tags": [
@@ -2004,5 +2067,27 @@
                 "in": "header"
             }
         }
-    }
+    },
+    "tags": [
+        {
+            "name": "Card",
+            "description": "Card"
+        },
+        {
+            "name": "City",
+            "description": "City"
+        },
+        {
+            "name": "Ticket",
+            "description": "Ticket"
+        },
+        {
+            "name": "Transport",
+            "description": "Transport"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        }
+    ]
 }
