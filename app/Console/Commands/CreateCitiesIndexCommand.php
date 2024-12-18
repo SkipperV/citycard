@@ -12,7 +12,7 @@ class CreateCitiesIndexCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'search:create-cities-index';
+    protected $signature = 'search:create:cities';
 
     /**
      * The console command description.

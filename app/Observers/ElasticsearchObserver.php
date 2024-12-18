@@ -21,7 +21,7 @@ class ElasticsearchObserver
             'body' => $model->toSearchArray(),
         ]);
     }
-    
+
     public function deleted($model)
     {
         $this->elasticsearch->delete([
