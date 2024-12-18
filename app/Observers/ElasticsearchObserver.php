@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use Elastic\Elasticsearch\Client;
+use Illuminate\Support\Facades\Log;
 
 class ElasticsearchObserver
 {
@@ -15,18 +16,46 @@ class ElasticsearchObserver
 
     public function saved($model)
     {
-        $this->elasticsearch->index([
-            'index' => $model->getSearchIndex(),
-            'id' => $model->getKey(),
-            'body' => $model->toSearchArray(),
-        ]);
+        try {
+            $response = $this->elasticsearch->index([
+                'index' => $model->getSearchIndex(),
+                'id' => $model->getKey(),
+                'body' => $model->toSearchArray(),
+            ]);
+
+            if (isset($response['error'])) {
+                Log::channel('elasticsearch')->error('Error during Elasticsearch document indexing.', [
+                    'error' => $response['error'],
+                    'model' => $model,
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::channel('elasticsearch')->error('Exception occurred during Elasticsearch document indexing.', [
+                'error' => $e->getMessage(),
+                'model' => $model,
+            ]);
+        }
     }
 
     public function deleted($model)
     {
-        $this->elasticsearch->delete([
-            'index' => $model->getSearchIndex(),
-            'id' => $model->getKey(),
-        ]);
+        try {
+            $response = $this->elasticsearch->delete([
+                'index' => $model->getSearchIndex(),
+                'id' => $model->getKey(),
+            ]);
+
+            if (isset($response['error'])) {
+                Log::channel('elasticsearch')->error('Error during Elasticsearch document deletion.', [
+                    'error' => $response['error'],
+                    'model' => $model,
+                ]);
+            }
+        } catch (\Exception $e) {
+            Log::channel('elasticsearch')->error('Exception occurred during Elasticsearch document deletion.', [
+                'error' => $e->getMessage(),
+                'model' => $model,
+            ]);
+        }
     }
 }
