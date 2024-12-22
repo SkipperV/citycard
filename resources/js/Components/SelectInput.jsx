@@ -1,6 +1,9 @@
 import {forwardRef, useEffect, useRef} from 'react';
+import {useTranslation} from "react-i18next";
 
-export default forwardRef(function SelectInput({className = '', isFocused = false, options = [], ...props}, ref) {
+export default forwardRef(function SelectInput({className = '', isFocused = false, options = [], object = '', value = '', ...props}, ref) {
+    const {t} = useTranslation()
+
     const input = ref ? ref : useRef();
 
     useEffect(() => {
@@ -17,10 +20,11 @@ export default forwardRef(function SelectInput({className = '', isFocused = fals
                 className
             }
             ref={input}
+            value={value}
         >
             <option key="" disabled hidden></option>
             {options.map((option) =>
-                <option key={option}>{option}</option>
+                <option key={option} value={option}>{t(`${object}.type.${option}`)}</option>
             )}
         </select>
     );

@@ -1,6 +1,9 @@
 import {Link} from "@inertiajs/react";
+import {useTranslation} from "react-i18next";
 
 export default function Pagination({links}) {
+    const {t} = useTranslation()
+
     return (
         <nav className="text-center mt-4">
             {links.map((link, index) => {
@@ -20,8 +23,8 @@ export default function Pagination({links}) {
                             (!link.url ? "!text-gray-500 " : "hover:bg-gray-950")
                         }
                     >
-                        {isPrev && <>&laquo; Назад</>}
-                        {isNext && <>Вперед &raquo;</>}
+                        {isPrev && <>&laquo; {t(`pagination.previous`)}</>}
+                        {isNext && <>{t(`pagination.next`)} &raquo;</>}
                         {!isPrev && !isNext && link.label}
                     </Link>
                 );

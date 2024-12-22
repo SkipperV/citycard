@@ -5,8 +5,11 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import {Head, router, useForm} from '@inertiajs/react';
 import SelectInput from "@/Components/SelectInput.jsx";
+import {useTranslation} from "react-i18next";
 
 export default function Edit({auth, status, city, ticket}) {
+    const {t} = useTranslation()
+
     const handleRedirect = () => {
         router.visit(route('tickets.index', city.id));
     }
@@ -18,16 +21,16 @@ export default function Edit({auth, status, city, ticket}) {
     });
 
     const transportTypeOptions = [
-        'Автобус',
-        'Тролейбус',
+        'bus',
+        'electric',
     ];
 
     const ticketTypeOptions = [
-        'Стандартний',
-        'Дитячий',
-        'Студентський',
-        'Пільговий',
-        'Спеціальний',
+        'regular',
+        'child',
+        'student',
+        'preferential',
+        'special',
     ];
 
     const submit = (e) => {
@@ -69,6 +72,7 @@ export default function Edit({auth, status, city, ticket}) {
                                 id="transport_type"
                                 className="mt-1 block w-full"
                                 options={transportTypeOptions}
+                                object="transport"
                                 value={data.transport_type}
                                 onChange={(e) => setData('transport_type', e.target.value)}
                             />
@@ -83,6 +87,7 @@ export default function Edit({auth, status, city, ticket}) {
                                 id="ticket_type"
                                 className="mt-1 block w-full"
                                 options={ticketTypeOptions}
+                                object="tickets"
                                 value={data.ticket_type}
                                 onChange={(e) => setData('ticket_type', e.target.value)}
                             />
@@ -107,7 +112,7 @@ export default function Edit({auth, status, city, ticket}) {
 
                         <div className="mt-4 flex">
                             <PrimaryButton className="mx-auto" disabled={processing}>
-                                Змінити
+                                {t(`operations.save`)}
                             </PrimaryButton>
                         </div>
                     </form>

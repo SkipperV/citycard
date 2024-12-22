@@ -1,8 +1,11 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, Link, router} from '@inertiajs/react';
 import TicketsTable from "@/Pages/Tickets/Partials/TicketsTable.jsx";
+import {useTranslation} from "react-i18next";
 
 export default function Index({auth, city, tickets}) {
+    const {t} = useTranslation()
+
     const handleRedirect = () => {
         router.visit(route('cities.index'));
     }
@@ -22,11 +25,11 @@ export default function Index({auth, city, tickets}) {
                               d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
                     </svg>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        Список квитків у місті {city.name}
+                        {t("tickets.title.list")} {city.name}
                     </h2>
                 </div>
             }>
-            <Head title="Міста"/>
+            <Head title={`${t("tickets.title.list")} ${city.name}`}/>
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -35,7 +38,7 @@ export default function Index({auth, city, tickets}) {
                     <div className="px-4 py-3">
                         <Link href={route('tickets.create', city.id)}
                               className="inline-flex items-center px-4 py-2 bg-white border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow hover:bg-gray-200 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
-                            Створити новий тип квитка
+                            {t("tickets.create_new_ticket")}
                         </Link>
                     </div>
                 </div>

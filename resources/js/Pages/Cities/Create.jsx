@@ -4,8 +4,11 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import {Head, router, useForm} from '@inertiajs/react';
+import {useTranslation} from "react-i18next";
 
 export default function Create({auth, status}) {
+    const {t} = useTranslation()
+
     const handleRedirect = () => {
         router.visit(route('cities.index'));
     }
@@ -36,11 +39,11 @@ export default function Create({auth, status}) {
                               d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
                     </svg>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        Створення нового міста
+                        {t(`cities.title.create`)}
                     </h2>
                 </div>
             }>
-            <Head title="Створити місто"/>
+            <Head title={t(`cities.title.create`)}/>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
@@ -48,7 +51,7 @@ export default function Create({auth, status}) {
                 <div className="w-96 mx-auto">
                     <form onSubmit={submit}>
                         <div className="mt-4">
-                            <InputLabel htmlFor="region" className="dark:text-gray-300" value="Область"/>
+                            <InputLabel htmlFor="region" className="dark:text-gray-300" value={t(`cities.field.region`)}/>
 
                             <TextInput
                                 id="region"
@@ -63,7 +66,7 @@ export default function Create({auth, status}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="name" className="dark:text-gray-300" value="Назва міста"/>
+                            <InputLabel htmlFor="name" className="dark:text-gray-300" value={t(`cities.field.name`)}/>
 
                             <TextInput
                                 id="name"
@@ -79,7 +82,7 @@ export default function Create({auth, status}) {
 
                         <div className="mt-4 flex">
                             <PrimaryButton className="mx-auto" disabled={processing}>
-                                Створити
+                                {t(`operations.create`)}
                             </PrimaryButton>
                         </div>
                     </form>

@@ -20,7 +20,7 @@ class CardFactory extends Factory
             'user_id' => 2,
             'number' => $this->faker->unique()->numerify('###########'),
             'type' => $this->faker
-                ->randomElement(['Стандартний', 'Дитячий', 'Студентський', 'Пільговий', 'Спеціальний']),
+                ->randomElement(['regular', 'child', 'student', 'preferential', 'special']),
             'current_balance' => $this->faker->randomFloat(2, 0, 100)
         ];
     }
