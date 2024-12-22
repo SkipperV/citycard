@@ -19,7 +19,7 @@ class TransportRouteFactory extends Factory
         return [
             'city_id' => 1,
             'route_number' => 1,
-            'transport_type' => "Автобус",
+            'transport_type' => "bus",
             'route_endpoint_1' => "Кінцева",
             'route_endpoint_2' => "Кінцева"
         ];

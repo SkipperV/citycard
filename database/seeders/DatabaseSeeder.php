@@ -37,28 +37,28 @@ class DatabaseSeeder extends Seeder
 
         Ticket::factory()->create([
             'city_id' => 1,
-            'transport_type' => "Автобус",
-            'ticket_type' => "Стандартний",
+            'transport_type' => "bus",
+            'ticket_type' => "regular",
             'price' => 14
         ]);
         Ticket::factory()->create([
             'city_id' => 1,
-            'transport_type' => "Тролейбус",
-            'ticket_type' => "Студентський",
+            'transport_type' => "electric",
+            'ticket_type' => "student",
             'price' => 4
         ]);
 
         TransportRoute::factory()->create([
             'city_id' => 1,
             'route_number' => 32,
-            'transport_type' => "Автобус",
+            'transport_type' => "electric",
             'route_endpoint_1' => "с. Липини",
             'route_endpoint_2' => "сел. Вересневе",
         ]);
         TransportRoute::factory()->create([
             'city_id' => 1,
             'route_number' => 12,
-            'transport_type' => "Тролейбус",
+            'transport_type' => "electric",
             'route_endpoint_1' => "вул. Володимирська",
             'route_endpoint_2' => "КРЗ",
         ]);
@@ -66,7 +66,7 @@ class DatabaseSeeder extends Seeder
         Card::factory(2)->create();
         DB::table('cards')->insert([
             'number' => 11111111111,
-            'type' => "Спеціальний",
+            'type' => "special",
             'current_balance' => 250
         ]);
 

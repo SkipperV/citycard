@@ -4,6 +4,6 @@ namespace App\Enums;
 
 enum TransportType: string
 {
-    case Bus = 'Автобус';
-    case Trolleybus = 'Тролейбус';
+    case Bus = 'bus';
+    case Electric = 'electric';
 }
