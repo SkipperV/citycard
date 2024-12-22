@@ -3,10 +3,13 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import {Head, useForm} from '@inertiajs/react';
+import {Head, router, useForm} from '@inertiajs/react';
 import SelectInput from "@/Components/SelectInput.jsx";
+import {useTranslation} from "react-i18next";
 
 export default function Create({auth, status, city}) {
+    const {t} = useTranslation()
+
     const handleRedirect = () => {
         router.visit(route('tickets.index', city.id));
     }
@@ -18,16 +21,16 @@ export default function Create({auth, status, city}) {
     });
 
     const transportTypeOptions = [
-        'Автобус',
-        'Тролейбус',
+        'bus',
+        'electric',
     ];
 
     const ticketTypeOptions = [
-        'Стандартний',
-        'Дитячий',
-        'Студентський',
-        'Пільговий',
-        'Спеціальний',
+        'regular',
+        'child',
+        'student',
+        'preferential',
+        'special',
     ];
 
     const submit = (e) => {
@@ -51,11 +54,11 @@ export default function Create({auth, status, city}) {
                               d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
                     </svg>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        Створення нового типу квитка ({city.name})
+                        {t("tickets.title.create")} {city.name}
                     </h2>
                 </div>
             }>
-            <Head title="Створити квиток"/>
+            <Head title={`${t("tickets.title.create")} ${city.name}`}/>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
@@ -63,12 +66,13 @@ export default function Create({auth, status, city}) {
                 <div className="w-96 mx-auto">
                     <form onSubmit={submit}>
                         <div className="mt-4">
-                            <InputLabel htmlFor="transport_type" className="dark:text-gray-300" value="Тип транспорту"/>
+                            <InputLabel htmlFor="transport_type" className="dark:text-gray-300" value={t("tickets.field.transport_type")}/>
 
                             <SelectInput
                                 id="transport_type"
                                 className="mt-1 block w-full"
                                 options={transportTypeOptions}
+                                object="transport"
                                 value={data.transport_type}
                                 onChange={(e) => setData('transport_type', e.target.value)}
                             />
@@ -77,12 +81,13 @@ export default function Create({auth, status, city}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="ticket_type" className="dark:text-gray-300" value="Тип квитка"/>
+                            <InputLabel htmlFor="ticket_type" className="dark:text-gray-300" value={t("tickets.field.ticket_type")}/>
 
                             <SelectInput
                                 id="ticket_type"
                                 className="mt-1 block w-full"
                                 options={ticketTypeOptions}
+                                object="tickets"
                                 value={data.ticket_type}
                                 onChange={(e) => setData('ticket_type', e.target.value)}
                             />
@@ -91,7 +96,7 @@ export default function Create({auth, status, city}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="price" className="dark:text-gray-300" value="Ціна"/>
+                            <InputLabel htmlFor="price" className="dark:text-gray-300" value={t("tickets.field.price")}/>
 
                             <TextInput
                                 id="price"
@@ -107,7 +112,7 @@ export default function Create({auth, status, city}) {
 
                         <div className="mt-4 flex">
                             <PrimaryButton className="mx-auto" disabled={processing}>
-                                Створити
+                                {t("operations.create")}
                             </PrimaryButton>
                         </div>
                     </form>

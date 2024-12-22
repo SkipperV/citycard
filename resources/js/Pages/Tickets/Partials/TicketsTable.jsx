@@ -1,6 +1,9 @@
 import {Link, router} from "@inertiajs/react";
+import {useTranslation} from "react-i18next";
 
 export default function TicketsTable({tickets, cityId}) {
+    const {t} = useTranslation()
+
     const deleteTicket = (id) => {
         router.delete(route('tickets.destroy', [cityId, id]));
     }
@@ -10,21 +13,21 @@ export default function TicketsTable({tickets, cityId}) {
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
-                    <th scope="col" className="px-6 py-3">Тип транспорту</th>
-                    <th scope="col" className="px-6 py-3">Тип квитка</th>
-                    <th scope="col" className="px-6 py-3">Ціна</th>
-                    <th scope="col" className="px-6 py-3">Редагувати</th>
-                    <th scope="col" className="px-6 py-3">Видалити</th>
+                    <th scope="col" className="px-6 py-3">{t("tickets.table.transport_type")}</th>
+                    <th scope="col" className="px-6 py-3">{t("tickets.table.ticket_type")}</th>
+                    <th scope="col" className="px-6 py-3">{t("tickets.table.price")}</th>
+                    <th scope="col" className="px-6 py-3">{t("operations.edit")}</th>
+                    <th scope="col" className="px-6 py-3">{t("operations.delete")}</th>
                 </tr>
                 </thead>
                 <tbody>
                 {tickets.map((ticket) =>
                     <tr key={ticket.id} className="bg-white border-t dark:bg-gray-900 dark:border-gray-700">
                         <td scope="col" className="px-6 py-4">
-                            {ticket.transport_type}
+                            {t(`transport.type.${ticket.transport_type}`)}
                         </td>
                         <td scope="col" className="px-6 py-4">
-                            {ticket.ticket_type}
+                            {t(`tickets.type.${ticket.ticket_type}`)}
                         </td>
                         <td scope="col" className="px-6 py-4">
                             {ticket.price}
@@ -32,12 +35,13 @@ export default function TicketsTable({tickets, cityId}) {
                         <td className="px-6 py-4">
                             <Link href={route('tickets.edit', [cityId, ticket.id])}
                                   className="font-xmedium text-green-700 dark:text-green-600 hover:underline">
-                                Редагувати
+                                {t(`operations.edit`)}
+
                             </Link>
                         </td>
                         <td scope="col" className="px-6 py-4">
                             <button onClick={() => deleteTicket(ticket.id)} className="text-red-600 font-medium">
-                                Видалити
+                                {t(`operations.delete`)}
                             </button>
                         </td>
                     </tr>

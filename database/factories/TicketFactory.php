@@ -18,8 +18,8 @@ class TicketFactory extends Factory
     {
         return [
             'city_id' => 1,
-            'transport_type' => "Автобус",
-            'ticket_type' => "Стандартний",
+            'transport_type' => "bus",
+            'ticket_type' => "regular",
             'price' => 1
         ];
     }
