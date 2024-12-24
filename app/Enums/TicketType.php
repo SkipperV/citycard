@@ -4,9 +4,9 @@ namespace App\Enums;
 
 enum TicketType: string
 {
-    case Regular = 'Стандартний';
-    case Children = 'Дитячий';
-    case Student = 'Студентський';
-    case Preferential = 'Пільговий';
-    case Special = 'Спеціальний';
+    case Regular = 'regular';
+    case Child = 'child';
+    case Student = 'student';
+    case Preferential = 'preferential';
+    case Special = 'special';
 }

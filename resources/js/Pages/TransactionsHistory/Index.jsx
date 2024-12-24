@@ -1,8 +1,11 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {Head, Link, router} from "@inertiajs/react";
 import TransactionsTable from "@/Pages/TransactionsHistory/Partials/TransactionsTable.jsx";
+import {useTranslation} from "react-i18next";
 
 export default function Index({auth, card, transactionsType, transactions}) {
+    const {t} = useTranslation()
+
     const isTransactionsEmpty = !transactions.data.length
 
     const handleRedirect = () => {
@@ -24,23 +27,23 @@ export default function Index({auth, card, transactionsType, transactions}) {
                               d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
                     </svg>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        Історія транзакцій
+                        {t("transactions_history.title")}
                     </h2>
                 </div>
             }>
-            <Head title="Історія транзакцій"/>
+            <Head title={t("transactions_history.title")}/>
 
             {transactionsType ? (
                 <div className="mx-auto max-w-7xl grid grid-cols-2 my-4 px-4 h-12">
                     <Link
                         className="flex w-3/4 justify-center items-center ml-auto rounded-l bg-gray-100 border hover:bg-white shadow-md text-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:border-gray-600"
                         href={route('cards.transactions.index', {'card': card.id, 'type': 'outcome'})}>
-                        Переглянути історію використання картки (історію поїздок)
+                        {t("transactions_history.type.payments")}
                     </Link>
                     <div
                         className="flex w-3/4 rounded-r bg-white border shadow-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">
                         <p className="m-auto">
-                            Історія поповнення картки
+                            {t("transactions_history.type.top_ups")}
                         </p>
                     </div>
                 </div>
@@ -49,13 +52,13 @@ export default function Index({auth, card, transactionsType, transactions}) {
                     <div
                         className="flex ml-auto w-3/4 rounded-l bg-white border shadow-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">
                         <p className="m-auto">
-                            Історія використання картки (історія поїздок)
+                            {t("transactions_history.type.payments")}
                         </p>
                     </div>
                     <Link
                         className="flex w-3/4 justify-center items-center rounded-r bg-gray-100 border hover:bg-white shadow-md text-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:border-gray-600"
                         href={route('cards.transactions.index', {'card': card.id, 'type': 'income'})}>
-                        Переглянути сторію поповнення картки
+                        {t("transactions_history.type.top_ups")}
                     </Link>
                 </div>
             )}
@@ -68,7 +71,7 @@ export default function Index({auth, card, transactionsType, transactions}) {
                 <div
                     className="flex mx-auto max-w-xl text-center h-16 rounded-l bg-white border shadow-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300">
                     <p className="m-auto text-xl">
-                        Немає записів недавніх транзакцій
+                        {t("transactions_history.no_transactions")}
                     </p>
                 </div>
             )}
