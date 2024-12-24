@@ -126,6 +126,11 @@ return [
         'emergency' => [
             'path' => storage_path('logs/laravel.log'),
         ],
+
+        'elasticsearch' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/elasticsearch.log'),
+        ]
     ],
 
 ];

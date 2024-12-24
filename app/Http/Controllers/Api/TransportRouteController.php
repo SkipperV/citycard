@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreTransportRequest;
 use App\Http\Requests\UpdateTransportRequest;
+use App\Interfaces\TransportRepositoryInterface;
 use App\Models\City;
 use App\Models\TransportRoute;
-use App\Repositories\Interfaces\TransportRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 

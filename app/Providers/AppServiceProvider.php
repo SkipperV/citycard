@@ -2,18 +2,20 @@
 
 namespace App\Providers;
 
+use App\Interfaces\CardRepositoryInterface;
+use App\Interfaces\CityRepositoryInterface;
+use App\Interfaces\TicketRepositoryInterface;
+use App\Interfaces\TransactionRepositoryInterface;
+use App\Interfaces\TransportRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Repositories\CardRepository;
 use App\Repositories\CityRepository;
-use App\Repositories\Interfaces\CardRepositoryInterface;
-use App\Repositories\Interfaces\CityRepositoryInterface;
-use App\Repositories\Interfaces\TicketRepositoryInterface;
-use App\Repositories\Interfaces\TransactionRepositoryInterface;
-use App\Repositories\Interfaces\TransportRepositoryInterface;
-use App\Repositories\Interfaces\UserRepositoryInterface;
 use App\Repositories\TicketRepository;
 use App\Repositories\TransactionRepository;
 use App\Repositories\TransportRepository;
 use App\Repositories\UserRepository;
+use Elastic\Elasticsearch\Client;
+use Elastic\Elasticsearch\ClientBuilder;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -29,6 +31,18 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(TransportRepositoryInterface::class, TransportRepository::class);
         $this->app->bind(CardRepositoryInterface::class, CardRepository::class);
         $this->app->bind(UserRepositoryInterface::class, UserRepository::class);
+
+        // Elasticsearch client binding
+        $this->bindSearchClient();
+    }
+
+    private function bindSearchClient()
+    {
+        $this->app->singleton(Client::class, function ($app) {
+            return ClientBuilder::create()
+                ->setHosts($app['config']->get('services.search.hosts'))
+                ->build();
+        });
     }
 
     /**

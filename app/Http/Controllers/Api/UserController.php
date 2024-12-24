@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Repositories\Interfaces\CardRepositoryInterface;
-use App\Repositories\Interfaces\UserRepositoryInterface;
+use App\Interfaces\CardRepositoryInterface;
+use App\Interfaces\UserRepositoryInterface;
 use App\Rules\CardToUserConnectionRule;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

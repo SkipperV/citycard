@@ -2,9 +2,9 @@
 
 namespace App\Repositories;
 
+use App\Interfaces\TransportRepositoryInterface;
 use App\Models\City;
 use App\Models\TransportRoute;
-use App\Repositories\Interfaces\TransportRepositoryInterface;
 use Illuminate\Database\Eloquent\Collection;
 
 class TransportRepository implements TransportRepositoryInterface
