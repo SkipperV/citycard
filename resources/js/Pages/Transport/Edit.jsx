@@ -3,7 +3,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import {Head, useForm} from '@inertiajs/react';
+import {Head, router, useForm} from '@inertiajs/react';
 import SelectInput from "@/Components/SelectInput.jsx";
 import {useTranslation} from "react-i18next";
 
@@ -47,11 +47,11 @@ export default function Edit({auth, status, city, transport}) {
                               d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
                     </svg>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        Редагування маршруту №{transport.route_number} ({city.name})
+                        {t("transport.title.update")} №{transport.route_number} ({city.name})
                     </h2>
                 </div>
             }>
-            <Head title={'Редагування маршруту'}/>
+            <Head title={t("transport.title.update")}/>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
@@ -89,7 +89,7 @@ export default function Edit({auth, status, city, transport}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="route_endpoint_1" className="dark:text-gray-300" value={t("transport.field.ednpoint_1")}/>
+                            <InputLabel htmlFor="route_endpoint_1" className="dark:text-gray-300" value={t("transport.field.endpoint_1")}/>
 
                             <TextInput
                                 id="route_endpoint_1"
@@ -104,7 +104,7 @@ export default function Edit({auth, status, city, transport}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="route_endpoint_2" className="dark:text-gray-300" value={t("transport.field.ednpoint_2")}/>
+                            <InputLabel htmlFor="route_endpoint_2" className="dark:text-gray-300" value={t("transport.field.endpoint_2")}/>
 
                             <TextInput
                                 id="route_endpoint_2"

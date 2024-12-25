@@ -54,11 +54,11 @@ export default function Edit({auth, status, city, ticket}) {
                               d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
                     </svg>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        Редагування квитка ({city.name})
+                        {t("tickets.title.update")}
                     </h2>
                 </div>
             }>
-            <Head title={'Редагування квитка'}/>
+            <Head title={t("tickets.title.update")}/>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
@@ -66,7 +66,7 @@ export default function Edit({auth, status, city, ticket}) {
                 <div className="w-96 mx-auto">
                     <form onSubmit={submit}>
                         <div className="mt-4">
-                            <InputLabel htmlFor="transport_type" className="dark:text-gray-300" value="Тип транспорту"/>
+                            <InputLabel htmlFor="transport_type" className="dark:text-gray-300" value={t("tickets.field.transport_type")}/>
 
                             <SelectInput
                                 id="transport_type"
@@ -81,7 +81,7 @@ export default function Edit({auth, status, city, ticket}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="ticket_type" className="dark:text-gray-300" value="Тип квитка"/>
+                            <InputLabel htmlFor="ticket_type" className="dark:text-gray-300" value={t("tickets.field.ticket_type")}/>
 
                             <SelectInput
                                 id="ticket_type"
@@ -96,7 +96,7 @@ export default function Edit({auth, status, city, ticket}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="price" className="dark:text-gray-300" value="Ціна"/>
+                            <InputLabel htmlFor="price" className="dark:text-gray-300" value={t("tickets.field.price")}/>
 
                             <TextInput
                                 id="price"
