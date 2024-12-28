@@ -36,7 +36,7 @@ Please follow these steps before proceeding with further commands:
 3. Ensure the CPU usage is low and stable before running commands that interact with Elasticsearch and database.
 * Create Elasticsearch cities index
 ```
-docker exec citycard-app search:create:cities
+docker exec citycard-app php artisan search:create:cities
 ```
 * Run migrations and seed database
 ```
