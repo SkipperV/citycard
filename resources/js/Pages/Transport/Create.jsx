@@ -3,49 +3,64 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import {Head, router, useForm} from '@inertiajs/react';
+import {Head, Link, router, useForm} from '@inertiajs/react';
 import SelectInput from "@/Components/SelectInput.jsx";
 import {useTranslation} from "react-i18next";
+import {useState} from "react";
+import {useMutation} from "@tanstack/react-query";
 
 export default function Create({auth, status, city}) {
-    const {t} = useTranslation()
+    const {t} = useTranslation();
 
-    const handleRedirect = () => {
-        router.visit(route('transport.index', city.id));
-    }
+    const [routeNumber, setRouteNumber] = useState("");
+    const [transportType, setTransportType] = useState("");
+    const [endpoint_1, setEndpoint_1] = useState("");
+    const [endpoint_2, setEndpoint_2] = useState("");
+    const [errors, setErrors] = useState({});
 
-    const {data, setData, post, processing, errors} = useForm({
-        route_number: '',
-        transport_type: '',
-        route_endpoint_1: '',
-        route_endpoint_2: '',
+    const mutation = useMutation({
+        mutationFn: async ({routeNumber, transportType, endpoint_1, endpoint_2}) => {
+            return await axios.post(route('api.transport.store', {city: city.id}), {
+                route_number: routeNumber,
+                transport_type: transportType,
+                route_endpoint_1: endpoint_1,
+                route_endpoint_2: endpoint_2
+            });
+        },
+        onSuccess: () => {
+            setErrors({});
+            router.visit(route('transport.index', {city: city.id}));
+        },
+        onError: (error) => {
+            setErrors(error.response.data.errors);
+        }
     });
+
+    const submit = (e) => {
+        e.preventDefault();
+        mutation.mutate({routeNumber, transportType, endpoint_1, endpoint_2});
+    };
 
     const transportTypeOptions = [
         'bus',
         'electric'
     ];
 
-    const submit = (e) => {
-        e.preventDefault();
-
-        post(route('transport.store', city.id));
-    };
-
     return (
         <AuthenticatedLayout
             user={auth.user}
             header={
                 <div className="relative w-full h-6">
-                    <svg onClick={handleRedirect}
-                         className="absolute left-3 top-1 h-4 text-gray-800 hover:cursor-pointer dark:text-white"
-                         aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg"
-                         fill="none"
-                         viewBox="0 0 8 14">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                              d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
-                    </svg>
+                    <Link href={route('transport.index', {city: city.id})}>
+                        <svg className="absolute left-3 top-1 h-4 text-gray-800 hover:cursor-pointer dark:text-white"
+                             aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 8 14">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                  d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
+                        </svg>
+                    </Link>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
                         {t("transport.title.create")} {city.name}
                     </h2>
@@ -66,12 +81,15 @@ export default function Create({auth, status, city}) {
                                 id="route_number"
                                 type="text"
                                 name="route_number"
-                                value={data.route_number}
+                                value={routeNumber}
                                 className="mt-1 block w-full"
-                                onChange={(e) => setData('route_number', e.target.value)}
+                                onChange={(e) => setRouteNumber(e.target.value)}
                             />
-
-                            <InputError message={errors.route_number} className="mt-2"/>
+                            {
+                                errors.route_number && errors.route_number.map((err, index) => (
+                                    <InputError key={index} message={err} className="mt-2"/>
+                                ))
+                            }
                         </div>
 
                         <div className="mt-4">
@@ -83,11 +101,14 @@ export default function Create({auth, status, city}) {
                                 className="mt-1 block w-full"
                                 options={transportTypeOptions}
                                 object="transport"
-                                value={data.transport_type}
-                                onChange={(e) => setData('transport_type', e.target.value)}
+                                value={transportType}
+                                onChange={(e) => setTransportType(e.target.value)}
                             />
-
-                            <InputError message={errors.transport_type} className="mt-2"/>
+                            {
+                                errors.transport_type && errors.transport_type.map((err, index) => (
+                                    <InputError key={index} message={err} className="mt-2"/>
+                                ))
+                            }
                         </div>
 
                         <div className="mt-4">
@@ -98,12 +119,15 @@ export default function Create({auth, status, city}) {
                                 id="route_endpoint_1"
                                 type="text"
                                 name="route_endpoint_1"
-                                value={data.route_endpoint_1}
+                                value={endpoint_1}
                                 className="mt-1 block w-full"
-                                onChange={(e) => setData('route_endpoint_1', e.target.value)}
+                                onChange={(e) => setEndpoint_1(e.target.value)}
                             />
-
-                            <InputError message={errors.route_endpoint_1} className="mt-2"/>
+                            {
+                                errors.route_endpoint_1 && errors.route_endpoint_1.map((err, index) => (
+                                    <InputError key={index} message={err} className="mt-2"/>
+                                ))
+                            }
                         </div>
 
                         <div className="mt-4">
@@ -114,16 +138,19 @@ export default function Create({auth, status, city}) {
                                 id="route_endpoint_2"
                                 type="text"
                                 name="route_endpoint_2"
-                                value={data.route_endpoint_2}
+                                value={endpoint_2}
                                 className="mt-1 block w-full"
-                                onChange={(e) => setData('route_endpoint_2', e.target.value)}
+                                onChange={(e) => setEndpoint_2(e.target.value)}
                             />
-
-                            <InputError message={errors.route_endpoint_2} className="mt-2"/>
+                            {
+                                errors.route_endpoint_2 && errors.route_endpoint_2.map((err, index) => (
+                                    <InputError key={index} message={err} className="mt-2"/>
+                                ))
+                            }
                         </div>
 
                         <div className="mt-4 flex">
-                            <PrimaryButton className="mx-auto" disabled={processing}>
+                            <PrimaryButton className="mx-auto" disabled={mutation.isPending}>
                                 {t("operations.create")}
                             </PrimaryButton>
                         </div>

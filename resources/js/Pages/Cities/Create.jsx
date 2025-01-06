@@ -3,25 +3,34 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import {Head, router, useForm} from '@inertiajs/react';
+import {Head, Link, router} from '@inertiajs/react';
 import {useTranslation} from "react-i18next";
+import {useState} from "react";
+import {useMutation} from "@tanstack/react-query";
 
 export default function Create({auth, status}) {
-    const {t} = useTranslation()
+    const {t} = useTranslation();
 
-    const handleRedirect = () => {
-        router.visit(route('cities.index'));
-    }
+    const [region, setRegion] = useState('');
+    const [name, setName] = useState('');
+    const [errors, setErrors] = useState({});
 
-    const {data, setData, post, processing, errors} = useForm({
-        region: '',
-        name: '',
+    const mutation = useMutation({
+        mutationFn: async ({name, region}) => {
+            return await axios.post(route('api.cities.store'), {name: name, region: region});
+        },
+        onSuccess: () => {
+            setErrors({});
+            router.visit(route('cities.index'));
+        },
+        onError: (error) => {
+            setErrors(error.response.data.errors);
+        }
     });
 
     const submit = (e) => {
         e.preventDefault();
-
-        post(route('cities.store'));
+        mutation.mutate({name, region});
     };
 
     return (
@@ -29,15 +38,16 @@ export default function Create({auth, status}) {
             user={auth.user}
             header={
                 <div className="relative w-full h-6">
-                    <svg onClick={handleRedirect}
-                         className="absolute left-3 top-1 h-4 text-gray-800 hover:cursor-pointer dark:text-white"
-                         aria-hidden="true"
-                         xmlns="http://www.w3.org/2000/svg"
-                         fill="none"
-                         viewBox="0 0 8 14">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
-                              d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
-                    </svg>
+                    <Link href={route('cities.index')}>
+                        <svg className="absolute left-3 top-1 h-4 text-gray-800 hover:cursor-pointer dark:text-white"
+                             aria-hidden="true"
+                             xmlns="http://www.w3.org/2000/svg"
+                             fill="none"
+                             viewBox="0 0 8 14">
+                            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2"
+                                  d="M7 1 1.3 6.326a.91.91 0 0 0 0 1.348L7 13"/>
+                        </svg>
+                    </Link>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
                         {t(`cities.title.create`)}
                     </h2>
@@ -57,12 +67,15 @@ export default function Create({auth, status}) {
                                 id="region"
                                 type="text"
                                 name="region"
-                                value={data.region}
+                                value={region}
                                 className="mt-1 block w-full"
-                                onChange={(e) => setData('region', e.target.value)}
+                                onChange={(e) => setRegion(e.target.value)}
                             />
-
-                            <InputError message={errors.region} className="mt-2"/>
+                            {
+                                errors.region && errors.region.map((err, index) => (
+                                    <InputError key={index} message={err} className="mt-2"/>
+                                ))
+                            }
                         </div>
 
                         <div className="mt-4">
@@ -72,16 +85,19 @@ export default function Create({auth, status}) {
                                 id="name"
                                 type="text"
                                 name="name"
-                                value={data.name}
+                                value={name}
                                 className="mt-1 block w-full"
-                                onChange={(e) => setData('name', e.target.value)}
+                                onChange={(e) => setName(e.target.value)}
                             />
-
-                            <InputError message={errors.name} className="mt-2"/>
+                            {
+                                errors.name && errors.name.map((err, index) => (
+                                    <InputError key={index} message={err} className="mt-2"/>
+                                ))
+                            }
                         </div>
 
                         <div className="mt-4 flex">
-                            <PrimaryButton className="mx-auto" disabled={processing}>
+                            <PrimaryButton className="mx-auto" disabled={mutation.isPending}>
                                 {t(`operations.create`)}
                             </PrimaryButton>
                         </div>
