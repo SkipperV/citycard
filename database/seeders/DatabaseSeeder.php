@@ -11,7 +11,6 @@ use App\Models\TransportRoute;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -64,25 +63,29 @@ class DatabaseSeeder extends Seeder
         ]);
 
         Card::factory(2)->create();
-        DB::table('cards')->insert([
+        Card::factory()->create([
             'number' => 11111111111,
             'type' => "special",
             'current_balance' => 250
         ]);
 
-        CardTransaction::factory(20)->create();
+        CardTransaction::factory(20)->create([
+            'transaction_type' => 'outcome'
+        ]);
+
         for ($i = 1; $i < 4; $i++) {
             CardTransaction::factory()->create([
                 'card_id' => $i,
-                'transaction_type' => 1,
+                'transaction_type' => 'income',
                 'balance_change' => fake()->randomElement([100, 150, 200])
             ]);
         }
 
         for ($i = 1; $i < 100; $i++) {
             CardTransaction::factory()->create([
-                'card_id' => 1,
-                'created_at' => date("Y-m-d h:m:s", rand(Carbon::create(2024, 3)->unix(), Carbon::now()->unix()))
+                'card_id' => rand(1, 3),
+                'created_at' => date("Y-m-d h:m:s", rand(Carbon::create(2024, 3)->unix(), Carbon::now()->unix())),
+                'transaction_type' => 'outcome'
             ]);
         }
     }

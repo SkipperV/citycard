@@ -17,9 +17,9 @@ class CardTransactionFactory extends Factory
     public function definition(): array
     {
         return [
-            'card_id'=>$this->faker->randomElement(range(1,3)),
-            'transaction_type'=>0,
-            'balance_change'=>$this->faker->randomElement([8, 14])
+            'card_id' => $this->faker->randomElement(range(1, 3)),
+            'transaction_type' => $this->faker->randomElement(['income', 'outcome']),
+            'balance_change' => $this->faker->randomElement([8, 14])
         ];
     }
 }
