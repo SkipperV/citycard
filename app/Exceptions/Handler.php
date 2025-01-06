@@ -35,13 +35,14 @@ class Handler extends ExceptionHandler
     }
 
     public function render($request, Throwable $e): JsonResponse|RedirectResponse|Response|HttpFoundationResponse
-
     {
-        if ($e instanceof ModelNotFoundException) {
-            return response(['message' => 'Resource not found'], Response::HTTP_NOT_FOUND);
-        }
-        if ($e instanceof MethodNotAllowedHttpException) {
-            return response(['message' => 'Not allowed'], Response::HTTP_METHOD_NOT_ALLOWED);
+        if ($request->expectsJson()) {
+            if ($e instanceof ModelNotFoundException) {
+                return response(['message' => 'Resource not found'], Response::HTTP_NOT_FOUND);
+            }
+            if ($e instanceof MethodNotAllowedHttpException) {
+                return response(['message' => 'Not allowed'], Response::HTTP_METHOD_NOT_ALLOWED);
+            }
         }
 
         return parent::render($request, $e);

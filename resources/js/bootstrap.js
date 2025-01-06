@@ -5,13 +5,28 @@
  */
 
 import axios from 'axios';
+import {router} from "@inertiajs/react";
 
 axios.defaults.withCredentials = true;
 axios.defaults.withXSRFToken = true;
+axios.interceptors.response.use(
+    (response) => response,
+    (error) => {
+        if (error.response?.status === 401) {
+            router.visit('/login');
+        }
+        if (error.response?.status === 403) {
+            router.visit('/403');
+        }
+
+        return Promise.reject(error);
+    }
+);
 
 window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.headers.common['Accept'] = 'Application/Json';
 
 axios.get('/sanctum/csrf-cookie').then(response => {
     console.log('CSRF token set');
