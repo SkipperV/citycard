@@ -15,9 +15,11 @@ return new class extends Migration
         Schema::create('card_transactions', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Card::class)->constrained()->cascadeOnDelete();
-            $table->tinyInteger("transaction_type");
+            $table->string("transaction_type");
             $table->float("balance_change");
             $table->timestamps();
+
+            $table->index("transaction_type");
         });
     }
 

@@ -28,8 +28,6 @@ Route::name('api.')->group(function () {
         Route::group(['middleware' => ['user.default.api']], function () {
             Route::get('/cards', [CardController::class, 'index'])->name('user.cards.index');
             Route::get('/cards/{card}', [CardController::class, 'show'])->name('user.cards.show');
-            Route::get('/cards/{card}/transactions', [TransactionController::class, 'index'])
-                ->name('user.cards.transactions');
             Route::get('/cards/{card}/transactions/incomes', [TransactionController::class, 'incomes'])
                 ->name('user.cards.transactions.incomes');
             Route::get('/cards/{card}/transactions/outcomes', [TransactionController::class, 'outcomes'])

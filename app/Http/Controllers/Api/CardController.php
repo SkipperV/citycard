@@ -42,7 +42,7 @@ class CardController extends Controller
      */
     public function index(): JsonResponse
     {
-        return response()->json($this->cardRepository->getAllCardsByAuthUser());
+        return response()->json(['data' => $this->cardRepository->getAllCardsByAuthUser()]);
     }
 
     /**
