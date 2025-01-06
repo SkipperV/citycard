@@ -40,7 +40,7 @@ class TransportRouteController extends Controller
         }
         return Inertia::render('Transport/Edit', [
             'city' => $city,
-            'transport' => $transportRoute
+            'transportRoute' => $transportRoute
         ]);
     }
 

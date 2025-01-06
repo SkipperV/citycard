@@ -16,7 +16,6 @@ class TicketController extends Controller
     {
         return Inertia::render('Tickets/Index', [
             'city' => $city,
-            'tickets' => $city->tickets()->orderBy('transport_type')->orderBy('ticket_type')->get()
         ]);
     }
 
