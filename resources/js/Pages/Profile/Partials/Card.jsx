@@ -20,12 +20,12 @@ export default function Card({card}) {
 
             <div className="flex justify-between">
                 <Link className="font-medium text-blue-600 dark:text-blue-500 hover:underline pr-12"
-                   href={route('cards.transactions.index', {'card': card.id, 'type': 'outcome'})}>
+                   href={route('cards.transactions.index', {'card': card.id, 'type': 'outcomes'})}>
                     {t("home.cards.payments_history")}
                 </Link>
 
                 <Link className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                   href={route('cards.transactions.index', {'card': card.id, 'type': 'income'})}>
+                   href={route('cards.transactions.index', {'card': card.id, 'type': 'incomes'})}>
                     {t("home.cards.top_ups_history")}
                 </Link>
             </div>
