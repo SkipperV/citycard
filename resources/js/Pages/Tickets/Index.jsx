@@ -1,8 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, Link} from '@inertiajs/react';
-import TicketsTable from "@/Pages/Tickets/Partials/TicketsTable.jsx";
 import {useTranslation} from "react-i18next";
 import {useQuery} from "@tanstack/react-query";
+import {useState} from "react";
+import TicketElement from "@/Pages/Tickets/Partials/TicketElement.jsx";
 
 const retrieveTickets = async (cityId) => {
     const response = await axios.get(route('api.tickets.index', {city: cityId}));
@@ -12,6 +13,8 @@ const retrieveTickets = async (cityId) => {
 
 export default function Index({auth, city}) {
     const {t} = useTranslation();
+    const [deleteButtonsDisabled, setDeleteButtonsDisabled] = useState(false);
+    const updateDeleteButtonsDisabled = (newState) => setDeleteButtonsDisabled(newState);
 
     const {data: tickets, error, isLoading} = useQuery({
         queryKey: ['ticketsData', city.id],
@@ -42,7 +45,36 @@ export default function Index({auth, city}) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    {!isLoading && !error && <TicketsTable tickets={tickets} cityId={city.id}/>}
+                    {!isLoading && !error && <div
+                        className="relative overflow-x-auto shadow-md sm:rounded-lg rounded dark:border dark:border-gray-600">
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead
+                                className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col"
+                                    className="px-6 py-3 whitespace-nowrap">{t("tickets.table.transport_type")}</th>
+                                <th scope="col"
+                                    className="px-6 py-3 whitespace-nowrap text-center">{t("tickets.table.ticket_type")}</th>
+                                <th scope="col"
+                                    className="px-6 py-3 whitespace-nowrap w-32 text-center">{t("tickets.table.price")}</th>
+                                <th scope="col"
+                                    className="px-6 py-3 whitespace-nowrap w-32 text-center">{t("operations.edit")}</th>
+                                <th scope="col"
+                                    className="px-6 py-3 whitespace-nowrap w-32 text-center">{t("operations.delete")}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {tickets.data.map((ticket) =>
+                                <TicketElement key={ticket.id}
+                                               cityId={city.id}
+                                               ticket={ticket}
+                                               deleteButtonsDisabled={deleteButtonsDisabled}
+                                               updateDeleteButtonsDisabled={updateDeleteButtonsDisabled}/>
+                            )}
+                            </tbody>
+                        </table>
+                    </div>
+                    }
 
                     <div className="px-4 py-3">
                         <Link href={route('tickets.create', {city: city.id})}

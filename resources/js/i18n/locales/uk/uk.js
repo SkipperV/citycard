@@ -17,7 +17,8 @@ export const uk = {
         "create": "Додати",
         "edit": "Редагувати",
         "save": "Зберегти",
-        "delete": "Видалити"
+        "delete": "Видалити",
+        "deleting": "Видалення..."
     },
     "pagination": {
         "previous": "Назад",

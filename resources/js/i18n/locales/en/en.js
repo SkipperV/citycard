@@ -17,7 +17,8 @@ export const en = {
         "create": "Add",
         "edit": "Edit",
         "save": "Save",
-        "delete": "Delete"
+        "delete": "Delete",
+        "deleting": "Deleting..."
     },
     "pagination": {
         "previous": "Previous",
