@@ -37,11 +37,11 @@ export default function Index({auth, city}) {
                         </svg>
                     </Link>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        {t("tickets.title.list")} {city.name}
+                        {t('tickets.title.list')} {city.name}
                     </h2>
                 </div>
             }>
-            <Head title={`${t("tickets.title.list")} ${city.name}`}/>
+            <Head title={`${t('tickets.title.list')} ${city.name}`}/>
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -52,15 +52,15 @@ export default function Index({auth, city}) {
                                 className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                             <tr>
                                 <th scope="col"
-                                    className="px-6 py-3 whitespace-nowrap">{t("tickets.table.transport_type")}</th>
+                                    className="px-6 py-3 whitespace-nowrap">{t('tickets.table.transport_type')}</th>
                                 <th scope="col"
-                                    className="px-6 py-3 whitespace-nowrap text-center">{t("tickets.table.ticket_type")}</th>
+                                    className="px-6 py-3 whitespace-nowrap text-center">{t('tickets.table.ticket_type')}</th>
                                 <th scope="col"
-                                    className="px-6 py-3 whitespace-nowrap w-32 text-center">{t("tickets.table.price")}</th>
+                                    className="px-6 py-3 whitespace-nowrap w-32 text-center">{t('tickets.table.price')}</th>
                                 <th scope="col"
-                                    className="px-6 py-3 whitespace-nowrap w-32 text-center">{t("operations.edit")}</th>
+                                    className="px-6 py-3 whitespace-nowrap w-32 text-center">{t('operations.edit')}</th>
                                 <th scope="col"
-                                    className="px-6 py-3 whitespace-nowrap w-32 text-center">{t("operations.delete")}</th>
+                                    className="px-6 py-3 whitespace-nowrap w-32 text-center">{t('operations.delete')}</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -79,7 +79,7 @@ export default function Index({auth, city}) {
                     <div className="px-4 py-3">
                         <Link href={route('tickets.create', {city: city.id})}
                               className="inline-flex items-center px-4 py-2 bg-white border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow hover:bg-gray-200 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
-                            {t("tickets.create_new_ticket")}
+                            {t('tickets.create_new_ticket')}
                         </Link>
                     </div>
                 </div>

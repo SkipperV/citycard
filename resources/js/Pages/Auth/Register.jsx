@@ -8,13 +8,13 @@ import {Head, Link, useForm} from '@inertiajs/react';
 import {useTranslation} from "react-i18next";
 
 export default function Register() {
-    const {t} = useTranslation()
+    const {t} = useTranslation();
 
     const {data, setData, post, processing, errors, reset} = useForm({
         login: '',
         card_number: '',
         password: '',
-        password_confirmation: '',
+        password_confirmation: ''
     });
 
     useEffect(() => {
@@ -31,11 +31,11 @@ export default function Register() {
 
     return (
         <GuestLayout>
-            <Head title={t(`auth.register_title`)}/>
+            <Head title={t('auth.register_title')}/>
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="login" className="dark:text-gray-300" value={t(`auth.phone_number`)}/>
+                    <InputLabel htmlFor="login" className="dark:text-gray-300" value={t('auth.phone_number')}/>
 
                     <TextInput
                         id="login"
@@ -53,7 +53,7 @@ export default function Register() {
 
                 <div className="mt-4">
                     <InputLabel htmlFor="card_number" className="dark:text-gray-300"
-                                value={t(`auth.card_number`)}/>
+                                value={t('auth.card_number')}/>
 
                     <TextInput
                         id="card_number"
@@ -68,7 +68,7 @@ export default function Register() {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" className="dark:text-gray-300" value={t(`auth.password`)}/>
+                    <InputLabel htmlFor="password" className="dark:text-gray-300" value={t('auth.password')}/>
 
                     <TextInput
                         id="password"
@@ -87,7 +87,7 @@ export default function Register() {
                 <div className="mt-4">
                     <InputLabel htmlFor="password_confirmation"
                                 className="dark:text-gray-300"
-                                value={t(`auth.password_confirmation`)}/>
+                                value={t('auth.password_confirmation')}/>
 
                     <TextInput
                         id="password_confirmation"
@@ -108,11 +108,11 @@ export default function Register() {
                         href={route('login')}
                         className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:text-gray-400 dark:hover:text-gray-200"
                     >
-                        {t(`auth.have_account`)}
+                        {t('auth.have_account')}
                     </Link>
 
                     <PrimaryButton className="ms-4 dark:bg-gray-700 dark:hover:bg-gray-600" disabled={processing}>
-                        {t(`auth.sign_up`)}
+                        {t('auth.sign_up')}
                     </PrimaryButton>
                 </div>
             </form>

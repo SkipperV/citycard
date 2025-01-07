@@ -14,9 +14,9 @@ import {ticketTypeOptions} from "@/Constants/ticketTypeOptions.js";
 export default function Create({auth, status, city}) {
     const {t} = useTranslation();
 
-    const [transportType, setTransportType] = useState("");
-    const [ticketType, setTicketType] = useState("");
-    const [price, setPrice] = useState("");
+    const [transportType, setTransportType] = useState('');
+    const [ticketType, setTicketType] = useState('');
+    const [price, setPrice] = useState('');
     const [errors, setErrors] = useState({});
 
     const mutation = useMutation({
@@ -57,11 +57,11 @@ export default function Create({auth, status, city}) {
                         </svg>
                     </Link>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        {t("tickets.title.create")} {city.name}
+                        {t('tickets.title.create')} {city.name}
                     </h2>
                 </div>
             }>
-            <Head title={`${t("tickets.title.create")} ${city.name}`}/>
+            <Head title={`${t('tickets.title.create')} ${city.name}`}/>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
@@ -69,7 +69,8 @@ export default function Create({auth, status, city}) {
                 <div className="w-96 mx-auto">
                     <form onSubmit={submit}>
                         <div className="mt-4">
-                            <InputLabel htmlFor="transport_type" className="dark:text-gray-300" value={t("tickets.field.transport_type")}/>
+                            <InputLabel htmlFor="transport_type" className="dark:text-gray-300"
+                                        value={t('tickets.field.transport_type')}/>
 
                             <SelectInput
                                 id="transport_type"
@@ -87,7 +88,8 @@ export default function Create({auth, status, city}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="ticket_type" className="dark:text-gray-300" value={t("tickets.field.ticket_type")}/>
+                            <InputLabel htmlFor="ticket_type" className="dark:text-gray-300"
+                                        value={t('tickets.field.ticket_type')}/>
 
                             <SelectInput
                                 id="ticket_type"
@@ -105,7 +107,8 @@ export default function Create({auth, status, city}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="price" className="dark:text-gray-300" value={t("tickets.field.price")}/>
+                            <InputLabel htmlFor="price" className="dark:text-gray-300"
+                                        value={t('tickets.field.price')}/>
 
                             <TextInput
                                 id="price"
@@ -124,7 +127,7 @@ export default function Create({auth, status, city}) {
 
                         <div className="mt-4 flex">
                             <PrimaryButton className="mx-auto" disabled={mutation.isPending}>
-                                {t("operations.create")}
+                                {t('operations.create')}
                             </PrimaryButton>
                         </div>
                     </form>

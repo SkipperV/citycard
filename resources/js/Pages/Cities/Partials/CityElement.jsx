@@ -31,31 +31,32 @@ export default function CityElement({city, deleteButtonsDisabled, updateDeleteBu
 
     return (
         <tr className="bg-white border-t dark:bg-gray-900 dark:border-gray-700">
-            <td scope="col" className={"px-6 py-4 " + (mutation.isPending ? "opacity-80" : isDeleted ? "opacity-60 line-through" : "")}>
+            <td scope="col"
+                className={'px-6 py-4 ' + (mutation.isPending ? 'opacity-80' : isDeleted ? 'opacity-60 line-through' : '')}>
                 {city.name}, {city.region}
             </td>
             <td scope="col" className="px-6 py-4 text-center">
-                <Link href={route("transport.index", {city: city.id})}
-                      as={"button"}
+                <Link href={route('transport.index', {city: city.id})}
+                      as="button"
                       disabled={mutation.isPending || isDeleted}
                       className="font-medium text-blue-600 dark:text-blue-500 enabled:hover:underline disabled:opacity-60">
-                    {t(`cities.table.view_transport`)}
+                    {t('cities.table.view_transport')}
                 </Link>
             </td>
             <td scope="col" className="px-6 py-4 text-center">
                 <Link href={route("tickets.index", {city: city.id})}
-                      as={"button"}
+                      as="button"
                       disabled={mutation.isPending || isDeleted}
                       className="font-medium text-blue-600 dark:text-blue-500 enabled:hover:underline disabled:opacity-60">
-                    {t(`cities.table.view_tickets`)}
+                    {t('cities.table.view_tickets')}
                 </Link>
             </td>
             <td scope="col" className="px-6 py-4 text-center">
                 <Link href={route("cities.edit", {city: city.id})}
-                      as={"button"}
+                      as="button"
                       disabled={mutation.isPending || isDeleted}
                       className="font-medium text-green-700 dark:text-green-600 enabled:hover:underline disabled:opacity-60">
-                    {t(`operations.edit`)}
+                    {t('operations.edit')}
                 </Link>
             </td>
             <td scope="col" className="px-6 py-4 text-center max-w-fit">
@@ -64,8 +65,8 @@ export default function CityElement({city, deleteButtonsDisabled, updateDeleteBu
                         disabled={deleteButtonsDisabled || isDeleted}>
                     {
                         mutation.isPending
-                            ? t(`operations.deleting`)
-                            : t(`operations.delete`)
+                            ? t('operations.deleting')
+                            : t('operations.delete')
                     }
                 </button>
             </td>

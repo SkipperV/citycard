@@ -3,7 +3,7 @@ import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
-import {Head, Link, router, useForm} from '@inertiajs/react';
+import {Head, Link, router} from '@inertiajs/react';
 import SelectInput from "@/Components/SelectInput.jsx";
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
@@ -13,10 +13,10 @@ import {transportTypeOptions} from "@/Constants/transportTypeOptions.js";
 export default function Create({auth, status, city}) {
     const {t} = useTranslation();
 
-    const [routeNumber, setRouteNumber] = useState("");
-    const [transportType, setTransportType] = useState("");
-    const [endpoint_1, setEndpoint_1] = useState("");
-    const [endpoint_2, setEndpoint_2] = useState("");
+    const [routeNumber, setRouteNumber] = useState('');
+    const [transportType, setTransportType] = useState('');
+    const [endpoint_1, setEndpoint_1] = useState('');
+    const [endpoint_2, setEndpoint_2] = useState('');
     const [errors, setErrors] = useState({});
 
     const mutation = useMutation({
@@ -58,11 +58,11 @@ export default function Create({auth, status, city}) {
                         </svg>
                     </Link>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        {t("transport.title.create")} {city.name}
+                        {t('transport.title.create')} {city.name}
                     </h2>
                 </div>
             }>
-            <Head title={`${t("transport.title.create")} ${city.name}`}/>
+            <Head title={`${t('transport.title.create')} ${city.name}`}/>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
@@ -71,7 +71,7 @@ export default function Create({auth, status, city}) {
                     <form onSubmit={submit}>
                         <div className="mt-4">
                             <InputLabel htmlFor="route_number" className="dark:text-gray-300"
-                                        value={t("transport.field.route_number")}/>
+                                        value={t('transport.field.route_number')}/>
 
                             <TextInput
                                 id="route_number"
@@ -90,7 +90,7 @@ export default function Create({auth, status, city}) {
 
                         <div className="mt-4">
                             <InputLabel htmlFor="transport_type" className="dark:text-gray-300"
-                                        value={t("transport.field.transport_type")}/>
+                                        value={t('transport.field.transport_type')}/>
 
                             <SelectInput
                                 id="transport_type"
@@ -109,7 +109,7 @@ export default function Create({auth, status, city}) {
 
                         <div className="mt-4">
                             <InputLabel htmlFor="route_endpoint_1" className="dark:text-gray-300"
-                                        value={t("transport.field.endpoint_1")}/>
+                                        value={t('transport.field.endpoint_1')}/>
 
                             <TextInput
                                 id="route_endpoint_1"
@@ -128,7 +128,7 @@ export default function Create({auth, status, city}) {
 
                         <div className="mt-4">
                             <InputLabel htmlFor="route_endpoint_2" className="dark:text-gray-300"
-                                        value={t("transport.field.endpoint_2")}/>
+                                        value={t('transport.field.endpoint_2')}/>
 
                             <TextInput
                                 id="route_endpoint_2"
@@ -147,7 +147,7 @@ export default function Create({auth, status, city}) {
 
                         <div className="mt-4 flex">
                             <PrimaryButton className="mx-auto" disabled={mutation.isPending}>
-                                {t("operations.create")}
+                                {t('operations.create')}
                             </PrimaryButton>
                         </div>
                     </form>

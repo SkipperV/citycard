@@ -28,10 +28,10 @@ export default function Index({auth, page}) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                    {t(`cities.title.list`)}
+                    {t('cities.title.list')}
                 </h2>
             }>
-            <Head title={t(`cities.title.list`)}/>
+            <Head title={t('cities.title.list')}/>
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -43,15 +43,15 @@ export default function Index({auth, page}) {
                                     className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
                                     <th scope="col"
-                                        className="px-6 py-3 whitespace-nowrap w-max">{t(`cities.table.city_and_region`)}</th>
+                                        className="px-6 py-3 whitespace-nowrap w-max">{t('cities.table.city_and_region')}</th>
                                     <th scope="col"
-                                        className="px-6 py-3 text-center whitespace-nowrap w-48">{t(`cities.table.transport`)}</th>
+                                        className="px-6 py-3 text-center whitespace-nowrap w-48">{t('cities.table.transport')}</th>
                                     <th scope="col"
-                                        className="px-6 py-3 text-center whitespace-nowrap w-48">{t(`cities.table.tickets`)}</th>
+                                        className="px-6 py-3 text-center whitespace-nowrap w-48">{t('cities.table.tickets')}</th>
                                     <th scope="col"
-                                        className="px-6 py-3 text-center whitespace-nowrap w-32">{t(`operations.edit`)}</th>
+                                        className="px-6 py-3 text-center whitespace-nowrap w-32">{t('operations.edit')}</th>
                                     <th scope="col"
-                                        className="px-6 py-3 text-center whitespace-nowrap w-32">{t(`operations.delete`)}</th>
+                                        className="px-6 py-3 text-center whitespace-nowrap w-32">{t('operations.delete')}</th>
                                 </tr>
                                 </thead>
                                 <tbody>
@@ -67,9 +67,9 @@ export default function Index({auth, page}) {
                         </div>
                     }
                     <div className="px-4 py-3">
-                        <Link href={route("cities.create")}
+                        <Link href={route('cities.create')}
                               className="inline-flex items-center px-4 py-2 bg-white border border-transparent rounded-md font-semibold text-xs text-gray-700 uppercase tracking-widest shadow hover:bg-gray-200 focus:bg-gray-700 active:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition ease-in-out duration-150 dark:bg-gray-700 dark:text-gray-300 dark:hover:bg-gray-600">
-                            {t(`cities.create_new_city`)}
+                            {t('cities.create_new_city')}
                         </Link>
                     </div>
                 </div>

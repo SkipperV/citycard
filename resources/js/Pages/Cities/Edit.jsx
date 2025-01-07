@@ -49,11 +49,11 @@ export default function Edit({auth, status, city}) {
                         </svg>
                     </Link>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        {t(`cities.title.update`)}
+                        {t('cities.title.update')}
                     </h2>
                 </div>
             }>
-            <Head title={t(`cities.title.update`)}/>
+            <Head title={t('cities.title.update')}/>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
@@ -61,7 +61,8 @@ export default function Edit({auth, status, city}) {
                 <div className="w-96 mx-auto">
                     <form onSubmit={submit}>
                         <div className="mt-4">
-                            <InputLabel htmlFor="region" className="dark:text-gray-300" value={t(`cities.field.region`)}/>
+                            <InputLabel htmlFor="region" className="dark:text-gray-300"
+                                        value={t('cities.field.region')}/>
 
                             <TextInput
                                 id="region"
@@ -79,7 +80,7 @@ export default function Edit({auth, status, city}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="name" className="dark:text-gray-300" value={t(`cities.field.name`)}/>
+                            <InputLabel htmlFor="name" className="dark:text-gray-300" value={t('cities.field.name')}/>
 
                             <TextInput
                                 id="name"
@@ -98,7 +99,7 @@ export default function Edit({auth, status, city}) {
 
                         <div className="mt-4 flex">
                             <PrimaryButton className="mx-auto" disabled={mutation.isPending}>
-                                {t(`operations.save`)}
+                                {t('operations.save')}
                             </PrimaryButton>
                         </div>
                     </form>

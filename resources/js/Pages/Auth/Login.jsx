@@ -9,12 +9,12 @@ import {Head, Link, useForm} from '@inertiajs/react';
 import {useTranslation} from "react-i18next";
 
 export default function Login({status}) {
-    const {t} = useTranslation()
+    const {t} = useTranslation();
 
     const {data, setData, post, processing, errors, reset} = useForm({
         login: '',
         password: '',
-        remember: false,
+        remember: false
     });
 
     useEffect(() => {
@@ -31,13 +31,13 @@ export default function Login({status}) {
 
     return (
         <GuestLayout>
-            <Head title={t(`auth.login_title`)}/>
+            <Head title={t('auth.login_title')}/>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
             <form onSubmit={submit}>
                 <div className="mt-4">
-                    <InputLabel htmlFor="login" className="dark:text-gray-300" value={t(`auth.phone_number`)}/>
+                    <InputLabel htmlFor="login" className="dark:text-gray-300" value={t('auth.phone_number')}/>
 
                     <TextInput
                         id="login"
@@ -54,7 +54,7 @@ export default function Login({status}) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" className="dark:text-gray-300" value={t(`auth.password`)}/>
+                    <InputLabel htmlFor="password" className="dark:text-gray-300" value={t('auth.password')}/>
 
                     <TextInput
                         id="password"
@@ -76,7 +76,7 @@ export default function Login({status}) {
                             checked={data.remember}
                             onChange={(e) => setData('remember', e.target.checked)}
                         />
-                        <span className="ms-2 text-sm text-gray-600 dark:text-gray-300">{t(`auth.remember_me`)}</span>
+                        <span className="ms-2 text-sm text-gray-600 dark:text-gray-300">{t('auth.remember_me')}</span>
                     </label>
                 </div>
 
@@ -85,11 +85,11 @@ export default function Login({status}) {
                         href={route('register')}
                         className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:text-gray-400 dark:hover:text-gray-200"
                     >
-                        {t(`auth.no_account`)}
+                        {t('auth.no_account')}
                     </Link>
 
                     <PrimaryButton className="ms-4 dark:bg-gray-700 dark:hover:bg-gray-600" disabled={processing}>
-                        {t(`auth.log_in`)}
+                        {t('auth.log_in')}
                     </PrimaryButton>
                 </div>
             </form>
