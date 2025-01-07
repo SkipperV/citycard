@@ -1,8 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, Link} from '@inertiajs/react';
-import TransportTable from "@/Pages/Transport/Partials/TransportTable.jsx";
 import {useTranslation} from "react-i18next";
 import {useQuery} from "@tanstack/react-query";
+import {useState} from "react";
+import TransportRouteElement from "@/Pages/Transport/Partials/TransportRouteElement.jsx";
 
 const retrieveTransports = async (cityId) => {
     const response = await axios.get(route('api.transport.index', {city: cityId}));
@@ -12,6 +13,8 @@ const retrieveTransports = async (cityId) => {
 
 export default function Index({auth, city}) {
     const {t} = useTranslation();
+    const [deleteButtonsDisabled, setDeleteButtonsDisabled] = useState(false);
+    const updateDeleteButtonsDisabled = (newState) => setDeleteButtonsDisabled(newState);
 
     const {data: transportRoutes, error, isLoading} = useQuery({
         queryKey: ['transportsData', city.id],
@@ -42,7 +45,35 @@ export default function Index({auth, city}) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    {!isLoading && !error && <TransportTable transportRoutes={transportRoutes} cityId={city.id}/>}
+                    {!isLoading && !error && <div
+                        className="relative overflow-x-auto shadow-md sm:rounded-lg rounded dark:border dark:border-gray-600">
+                        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                            <thead
+                                className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col"
+                                    className="px-6 py-3 text-center whitespace-nowrap w-32">{t("transport.table.route_number")}</th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-center whitespace-nowrap w-64">{t("transport.table.transport_type")}</th>
+                                <th scope="colgroup" colSpan="2"
+                                    className="pl-6 py-3 text-center whitespace-nowrap w-max">{t("transport.table.endpoints")}</th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-center whitespace-nowrap w-32">{t("operations.edit")}</th>
+                                <th scope="col"
+                                    className="px-6 py-3 text-center whitespace-nowrap w-32">{t("operations.delete")}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {transportRoutes.data.map((transportRoute) =>
+                                <TransportRouteElement key={transportRoute.id}
+                                                       cityId={city.id}
+                                                       transportRoute={transportRoute}
+                                                       deleteButtonsDisabled={deleteButtonsDisabled}
+                                                       updateDeleteButtonsDisabled={updateDeleteButtonsDisabled}/>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>}
 
                     <div className="px-4 py-3">
                         <Link href={route('transport.create', {city: city.id})}
