@@ -27,7 +27,7 @@ export default function TransactionsTable({transactions}) {
                 )}
                 </tbody>
             </table>
-            <Pagination links={transactions.links}/>
+            {transactions.last_page !== 1 && <Pagination links={transactions.links}/>}
         </div>
     );
 }
