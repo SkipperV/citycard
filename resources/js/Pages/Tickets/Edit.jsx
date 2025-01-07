@@ -8,6 +8,8 @@ import SelectInput from "@/Components/SelectInput.jsx";
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
 import {useMutation} from "@tanstack/react-query";
+import {transportTypeOptions} from "@/Constants/transportTypeOptions.js";
+import {ticketTypeOptions} from "@/Constants/ticketTypeOptions.js";
 
 export default function Edit({auth, status, city, ticket}) {
     const {t} = useTranslation();
@@ -38,19 +40,6 @@ export default function Edit({auth, status, city, ticket}) {
         e.preventDefault();
         mutation.mutate({transportType, ticketType, price});
     };
-
-    const transportTypeOptions = [
-        'bus',
-        'electric',
-    ];
-
-    const ticketTypeOptions = [
-        'regular',
-        'child',
-        'student',
-        'preferential',
-        'special',
-    ];
 
     return (
         <AuthenticatedLayout

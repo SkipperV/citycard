@@ -8,6 +8,7 @@ import SelectInput from "@/Components/SelectInput.jsx";
 import {useTranslation} from "react-i18next";
 import {useState} from "react";
 import {useMutation} from "@tanstack/react-query";
+import {transportTypeOptions} from "@/Constants/transportTypeOptions.js";
 
 export default function Edit({auth, status, city, transportRoute}) {
     const {t} = useTranslation();
@@ -40,11 +41,6 @@ export default function Edit({auth, status, city, transportRoute}) {
         e.preventDefault();
         mutation.mutate({routeNumber, transportType, endpoint_1, endpoint_2});
     };
-
-    const transportTypeOptions = [
-        'bus',
-        'electric'
-    ];
 
     return (
         <AuthenticatedLayout
