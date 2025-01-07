@@ -2,7 +2,7 @@ import {Link} from "@inertiajs/react";
 import {useTranslation} from "react-i18next";
 
 export default function Pagination({links}) {
-    const {t} = useTranslation()
+    const {t} = useTranslation();
 
     return (
         <nav className="text-center mt-4">
@@ -14,7 +14,6 @@ export default function Pagination({links}) {
                     <Link
                         as="button"
                         disabled={!link.url || link.active}
-                        preserveScroll
                         href={link.url || ""}
                         key={link.label}
                         className={

@@ -23,10 +23,10 @@ export default function Index({auth}) {
             user={auth.user}
             header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                    {t("home.title")}
+                    {t('home.title')}
                 </h2>
             }>
-            <Head title={t("home.title")}/>
+            <Head title={t('home.title')}/>
 
             <div className="py-12">
                 <div className="flex flex-col max-w-7xl mx-auto sm:px-6 lg:px-8">

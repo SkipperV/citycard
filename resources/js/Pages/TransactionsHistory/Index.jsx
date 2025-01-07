@@ -33,23 +33,23 @@ export default function Index({auth, cardId, transactionsType, page}) {
                         </svg>
                     </Link>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        {t("transactions_history.title")}
+                        {t('transactions_history.title')}
                     </h2>
                 </div>
             }>
-            <Head title={t("transactions_history.title")}/>
+            <Head title={t('transactions_history.title')}/>
 
             {transactionsType === 'incomes' ? (
                 <div className="mx-auto max-w-7xl grid grid-cols-2 my-4 px-4 h-12">
                     <Link
                         className="flex w-3/4 justify-center items-center ml-auto rounded-l bg-gray-100 border hover:bg-white shadow-md text-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:border-gray-600"
                         href={route('cards.transactions.index', {'card': cardId, 'type': 'outcomes'})}>
-                        {t("transactions_history.type.payments")}
+                        {t('transactions_history.type.payments')}
                     </Link>
                     <div
                         className="flex w-3/4 rounded-r bg-white border shadow-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">
                         <p className="m-auto">
-                            {t("transactions_history.type.top_ups")}
+                            {t('transactions_history.type.top_ups')}
                         </p>
                     </div>
                 </div>
@@ -58,29 +58,20 @@ export default function Index({auth, cardId, transactionsType, page}) {
                     <div
                         className="flex ml-auto w-3/4 rounded-l bg-white border shadow-md dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300">
                         <p className="m-auto">
-                            {t("transactions_history.type.payments")}
+                            {t('transactions_history.type.payments')}
                         </p>
                     </div>
                     <Link
                         className="flex w-3/4 justify-center items-center rounded-r bg-gray-100 border hover:bg-white shadow-md text-gray-800 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:border-gray-600"
                         href={route('cards.transactions.index', {'card': cardId, 'type': 'incomes'})}>
-                        {t("transactions_history.type.top_ups")}
+                        {t('transactions_history.type.top_ups')}
                     </Link>
                 </div>
             )}
 
-            {/*{!isTransactionsEmpty ? (*/}
             <div className="mt-4 max-w-xl mx-auto pb-24">
                 {!isLoading && !error && <TransactionsTable transactions={transactionsHistory.transactions}/>}
             </div>
-            {/*) : (*/}
-            {/*    <div*/}
-            {/*        className="flex mx-auto max-w-xl text-center h-16 rounded-l bg-white border shadow-md dark:bg-gray-800 dark:border-gray-600 dark:text-gray-300">*/}
-            {/*        <p className="m-auto text-xl">*/}
-            {/*            {t("transactions_history.no_transactions")}*/}
-            {/*        </p>*/}
-            {/*    </div>*/}
-            {/*)}*/}
         </AuthenticatedLayout>
     );
 }

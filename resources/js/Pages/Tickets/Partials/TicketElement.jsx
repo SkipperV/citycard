@@ -45,10 +45,10 @@ export default function TicketElement({cityId, ticket, deleteButtonsDisabled, up
             </td>
             <td scope="col" className="px-6 py-4 text-center">
                 <Link href={route('tickets.edit', {city: cityId, ticket: ticket.id})}
-                      as={"button"}
+                      as="button"
                       disabled={mutation.isPending || isDeleted}
                       className="font-medium text-green-700 dark:text-green-600 enabled:hover:underline disabled:opacity-60">
-                    {t(`operations.edit`)}
+                    {t('operations.edit')}
                 </Link>
             </td>
             <td scope="col" className="px-6 py-4 text-center">
@@ -57,8 +57,8 @@ export default function TicketElement({cityId, ticket, deleteButtonsDisabled, up
                         disabled={deleteButtonsDisabled || isDeleted}>
                     {
                         mutation.isPending
-                            ? t(`operations.deleting`)
-                            : t(`operations.delete`)
+                            ? t('operations.deleting')
+                            : t('operations.delete')
                     }
                 </button>
             </td>

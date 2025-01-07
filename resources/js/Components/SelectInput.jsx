@@ -2,7 +2,7 @@ import {forwardRef, useEffect, useRef} from 'react';
 import {useTranslation} from "react-i18next";
 
 export default forwardRef(function SelectInput({className = '', isFocused = false, options = [], object = '', value = '', ...props}, ref) {
-    const {t} = useTranslation()
+    const {t} = useTranslation();
 
     const input = ref ? ref : useRef();
 

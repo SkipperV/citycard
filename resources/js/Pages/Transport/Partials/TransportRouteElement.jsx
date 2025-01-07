@@ -37,27 +37,27 @@ export default function TransportRouteElement({
     return (
         <tr className="bg-white border-t dark:bg-gray-900 dark:border-gray-700">
             <td scope="col"
-                className={"px-6 py-4 text-center " + (mutation.isPending ? "opacity-80" : isDeleted ? "opacity-60 line-through" : "")}>
+                className={'px-6 py-4 text-center ' + (mutation.isPending ? 'opacity-80' : isDeleted ? 'opacity-60 line-through' : '')}>
                 {transportRoute.route_number}
             </td>
             <td scope="col"
-                className={"px-6 py-4 text-center " + (mutation.isPending ? "opacity-80" : isDeleted ? "opacity-60 line-through" : "")}>
+                className={'px-6 py-4 text-center ' + (mutation.isPending ? 'opacity-80' : isDeleted ? 'opacity-60 line-through' : '')}>
                 {t(`transport.type.${transportRoute.transport_type}`)}
             </td>
             <td scope="col"
-                className={"px-6 py-4 text-center " + (mutation.isPending ? "opacity-80" : isDeleted ? "opacity-60 line-through" : "")}>
+                className={'px-6 py-4 text-center ' + (mutation.isPending ? 'opacity-80' : isDeleted ? 'opacity-60 line-through' : '')}>
                 {transportRoute.route_endpoint_1}
             </td>
             <td scope="col"
-                className={"px-6 py-4 text-center " + (mutation.isPending ? "opacity-80" : isDeleted ? "opacity-60 line-through" : "")}>
+                className={'px-6 py-4 text-center ' + (mutation.isPending ? 'opacity-80' : isDeleted ? 'opacity-60 line-through' : '')}>
                 {transportRoute.route_endpoint_2}
             </td>
             <td className="px-6 py-4 text-center">
                 <Link href={route('transport.edit', {city: cityId, transportRoute: transportRoute.id})}
-                      as={"button"}
+                      as="button"
                       disabled={mutation.isPending || isDeleted}
                       className="font-medium text-green-700 dark:text-green-600 enabled:hover:underline disabled:opacity-60">
-                    {t(`operations.edit`)}
+                    {t('operations.edit')}
                 </Link>
             </td>
             <td scope="col" className="px-6 py-4 text-center">
@@ -66,8 +66,8 @@ export default function TransportRouteElement({
                         disabled={deleteButtonsDisabled || isDeleted}>
                     {
                         mutation.isPending
-                            ? t(`operations.deleting`)
-                            : t(`operations.delete`)
+                            ? t('operations.deleting')
+                            : t('operations.delete')
                     }
                 </button>
             </td>

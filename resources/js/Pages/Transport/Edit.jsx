@@ -58,11 +58,11 @@ export default function Edit({auth, status, city, transportRoute}) {
                         </svg>
                     </Link>
                     <h2 className="absolute left-1/2 transform -translate-x-1/2 top-0 h-full font-semibold text-xl text-gray-800 leading-tight dark:text-gray-300 text-center">
-                        {t("transport.title.update")} №{transportRoute.route_number} ({city.name})
+                        {t('transport.title.update')} №{transportRoute.route_number} ({city.name})
                     </h2>
                 </div>
             }>
-            <Head title={t("transport.title.update")}/>
+            <Head title={t('transport.title.update')}/>
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
@@ -70,7 +70,7 @@ export default function Edit({auth, status, city, transportRoute}) {
                 <div className="w-96 mx-auto">
                     <form onSubmit={submit}>
                         <div className="mt-4">
-                            <InputLabel htmlFor="route_number" className="dark:text-gray-300" value={t("transport.field.route_number")}/>
+                            <InputLabel htmlFor="route_number" className="dark:text-gray-300" value={t('transport.field.route_number')}/>
 
                             <TextInput
                                 id="route_number"
@@ -88,7 +88,7 @@ export default function Edit({auth, status, city, transportRoute}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="transport_type" className="dark:text-gray-300" value={t("transport.field.transport_type")}/>
+                            <InputLabel htmlFor="transport_type" className="dark:text-gray-300" value={t('transport.field.transport_type')}/>
 
                             <SelectInput
                                 id="transport_type"
@@ -106,7 +106,7 @@ export default function Edit({auth, status, city, transportRoute}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="route_endpoint_1" className="dark:text-gray-300" value={t("transport.field.endpoint_1")}/>
+                            <InputLabel htmlFor="route_endpoint_1" className="dark:text-gray-300" value={t('transport.field.endpoint_1')}/>
 
                             <TextInput
                                 id="route_endpoint_1"
@@ -124,7 +124,7 @@ export default function Edit({auth, status, city, transportRoute}) {
                         </div>
 
                         <div className="mt-4">
-                            <InputLabel htmlFor="route_endpoint_2" className="dark:text-gray-300" value={t("transport.field.endpoint_2")}/>
+                            <InputLabel htmlFor="route_endpoint_2" className="dark:text-gray-300" value={t('transport.field.endpoint_2')}/>
 
                             <TextInput
                                 id="route_endpoint_2"
@@ -143,7 +143,7 @@ export default function Edit({auth, status, city, transportRoute}) {
 
                         <div className="mt-4 flex">
                             <PrimaryButton className="mx-auto" disabled={mutation.isPending}>
-                                {t(`operations.save`)}
+                                {t('operations.save')}
                             </PrimaryButton>
                         </div>
                     </form>

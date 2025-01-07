@@ -7,7 +7,7 @@ import i18next from "i18next";
 import {LOCALES} from "@/i18n/constants.js";
 
 export default function Authenticated({user, header, children}) {
-    const {t} = useTranslation()
+    const {t} = useTranslation();
 
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
 
@@ -25,21 +25,21 @@ export default function Authenticated({user, header, children}) {
                         </div>
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
-                                {
-                                    i18next.language === LOCALES.UKR
-                                        ? <button
-                                            className='inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 dark:bg-gray-800 dark:text-gray-300 dark:hover:text-white '
-                                            onClick={() => i18next.changeLanguage(LOCALES.EN)}
-                                        >
-                                            {LOCALES.EN.charAt(0).toUpperCase() + LOCALES.EN.slice(1)}
-                                        </button>
-                                        : <button
-                                            className='inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 dark:bg-gray-800 dark:text-gray-300 dark:hover:text-white '
-                                            onClick={() => i18next.changeLanguage(LOCALES.UKR)}
-                                        >
-                                            {LOCALES.UKR.charAt(0).toUpperCase() + LOCALES.UKR.slice(1)}
-                                        </button>
-                                }
+                            {
+                                i18next.language === LOCALES.UKR
+                                    ? <button
+                                        className='inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 dark:bg-gray-800 dark:text-gray-300 dark:hover:text-white '
+                                        onClick={() => i18next.changeLanguage(LOCALES.EN)}
+                                    >
+                                        {LOCALES.EN.charAt(0).toUpperCase() + LOCALES.EN.slice(1)}
+                                    </button>
+                                    : <button
+                                        className='inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150 dark:bg-gray-800 dark:text-gray-300 dark:hover:text-white '
+                                        onClick={() => i18next.changeLanguage(LOCALES.UKR)}
+                                    >
+                                        {LOCALES.UKR.charAt(0).toUpperCase() + LOCALES.UKR.slice(1)}
+                                    </button>
+                            }
                             <div className="ms-3 relative">
                                 <Dropdown>
                                     <Dropdown.Trigger>
@@ -68,7 +68,7 @@ export default function Authenticated({user, header, children}) {
 
                                     <Dropdown.Content>
                                         <Dropdown.Link href={route('logout')} method="post" as="button">
-                                            {t("auth.log_out")}
+                                            {t('auth.log_out')}
                                         </Dropdown.Link>
                                     </Dropdown.Content>
                                 </Dropdown>
@@ -109,7 +109,7 @@ export default function Authenticated({user, header, children}) {
 
                         <div className="mt-3 space-y-1">
                             <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                {t("auth.log_out")}
+                                {t('auth.log_out')}
                             </ResponsiveNavLink>
                         </div>
                     </div>
