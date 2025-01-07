@@ -74,7 +74,7 @@ export default function CitiesTable({cities}) {
                 )}
                 </tbody>
             </table>
-            <Pagination links={cities.links}/>
+            {cities.last_page !== 1 && <Pagination links={cities.links}/>}
         </div>
     );
 }
