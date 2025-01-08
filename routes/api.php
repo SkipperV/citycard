@@ -36,7 +36,6 @@ Route::name('api.')->group(function () {
 
         Route::group(['middleware' => ['user.admin.api']], function () {
             Route::get('/cities', [CityController::class, 'index'])->name('cities.index');
-            Route::get('/cities/search', [CityController::class, 'search'])->name('cities.search');
             Route::post('/cities', [CityController::class, 'store'])->name('cities.store');
             Route::get('/cities/{city}', [CityController::class, 'show'])->name('cities.show');
             Route::put('/cities/{city}', [CityController::class, 'update'])->name('cities.update');
