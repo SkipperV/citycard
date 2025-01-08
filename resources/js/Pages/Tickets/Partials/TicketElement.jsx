@@ -57,7 +57,7 @@ export default function TicketElement({cityId, ticket, deleteButtonsDisabled, up
                         disabled={deleteButtonsDisabled || isDeleted}>
                     {
                         mutation.isPending
-                            ? t('operations.deleting')
+                            ? t('operations.in_progress_deleting')
                             : t('operations.delete')
                     }
                 </button>

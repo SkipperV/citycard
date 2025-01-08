@@ -1,27 +1,46 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import {Head, Link} from '@inertiajs/react';
 import {useTranslation} from "react-i18next";
-import {useQuery} from "@tanstack/react-query";
+import {useQuery, useQueryClient} from "@tanstack/react-query";
 import Pagination from "@/Components/Pagination.jsx";
 import CityElement from "@/Pages/Cities/Partials/CityElement.jsx";
 import {useState} from "react";
+import TextInput from "@/Components/TextInput.jsx";
+import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
-const retrieveCities = async (page = 1) => {
-    const response = await axios.get(route('api.cities.index', {page: page}));
+const retrieveCities = async (page = 1, searchString) => {
+    const response = await axios.get(route('api.cities.index', {page: page, search: searchString}));
 
     return response.data;
 }
 
 export default function Index({auth, page}) {
     const {t} = useTranslation();
+    const queryClient = useQueryClient();
+    const query = new URLSearchParams(window.location.search);
     const [deleteButtonsDisabled, setDeleteButtonsDisabled] = useState(false);
+    const [searchString, setSearchString] = useState(query.get('search'));
+
     const updateDeleteButtonsDisabled = (newState) => setDeleteButtonsDisabled(newState);
 
     const {data: cities, error, isLoading} = useQuery({
-        queryKey: ['citiesData', page],
-        queryFn: () => retrieveCities(page),
+        queryKey: ['citiesData', [page, query.get('search')]],
+        queryFn: () => retrieveCities(page, query.get('search')),
         keepPreviousData: true
-    })
+    });
+
+    const submitSearch = (e) => {
+        e.preventDefault();
+        if (searchString) {
+            query.set('search', searchString);
+            query.delete('page');
+        } else {
+            query.delete('search');
+        }
+        window.history.replaceState({}, '', `${window.location.pathname}${query.size !== 0 ? '?' : ''}${query.toString()}`);
+
+        queryClient.invalidateQueries('cities');
+    }
 
     return (
         <AuthenticatedLayout
@@ -35,6 +54,18 @@ export default function Index({auth, page}) {
 
             <div className="py-12">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <form onSubmit={submitSearch}
+                          className="mb-4">
+                        <TextInput
+                            placeholder={t('cities.search_placeholder')}
+                            value={searchString}
+                            onChange={(e) => setSearchString(e.target.value)}
+                            className="border p-2 rounded"
+                        />
+                        <PrimaryButton type="submit" className="ml-2 px-4 py-2 bg-blue-500 text-white rounded">
+                            {t('operations.search')}
+                        </PrimaryButton>
+                    </form>
                     {!isLoading && !error &&
                         <div
                             className="relative overflow-x-auto shadow-md sm:rounded-lg rounded dark:border dark:border-gray-600">
