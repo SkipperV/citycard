@@ -63,6 +63,7 @@ class CityRepository implements CityRepositoryInterface
         $page = $request->input('page', 1);
         $perPage = 10;
         $from = ($page - 1) * $perPage;
+        $searchQuery = $request->input('search', '');
 
         $response = $this->elasticsearch->search([
             'index' => $model->getSearchIndex(),
@@ -70,7 +71,7 @@ class CityRepository implements CityRepositoryInterface
                 'query' => [
                     'multi_match' => [
                         'fields' => ['region^2', 'name'],
-                        'query' => $request->query('search', ''),
+                        'query' => $searchQuery,
                     ],
                 ],
                 'sort' => [
@@ -84,10 +85,10 @@ class CityRepository implements CityRepositoryInterface
         $total = $response['hits']['total']['value'];
 
         $ids = Arr::pluck($response['hits']['hits'], '_id');
-        $results = City::findMany($ids)
-            ->sortBy(function ($article) use ($ids) {
-                return array_search($article->getKey(), $ids);
-            });
+        $results = collect(City::findMany($ids))
+            ->sortBy(function ($city) use ($ids) {
+                return array_search($city->getKey(), $ids);
+            })->values()->toArray();
 
         return new LengthAwarePaginator(
             $results,
@@ -95,8 +96,8 @@ class CityRepository implements CityRepositoryInterface
             $perPage,
             $page,
             [
-                'path' => request()->url(),
-                'query' => request()->query(),
+                'path' => $request->url(),
+                'query' => $request->query(),
             ]
         );
     }

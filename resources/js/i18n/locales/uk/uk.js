@@ -18,7 +18,8 @@ export const uk = {
         "edit": "Редагувати",
         "save": "Зберегти",
         "delete": "Видалити",
-        "deleting": "Видалення..."
+        "in_progress_deleting": "Видалення...",
+        "search": "Шукати"
     },
     "pagination": {
         "previous": "Назад",
@@ -30,6 +31,7 @@ export const uk = {
             "create": "Додавання міста",
             "update": "Редагування інформації про місто"
         },
+        "search_placeholder": "Шукати місто...",
         "table": {
             "city_and_region": "Місто, область",
             "transport": "Маршрути",

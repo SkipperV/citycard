@@ -18,7 +18,8 @@ export const en = {
         "edit": "Edit",
         "save": "Save",
         "delete": "Delete",
-        "deleting": "Deleting..."
+        "in_progress_deleting": "Deleting...",
+        "search": "Search"
     },
     "pagination": {
         "previous": "Previous",
@@ -30,6 +31,7 @@ export const en = {
             "create": "Add new city",
             "update": "Edit city"
         },
+        "search_placeholder": "Search cities...",
         "table": {
             "city_and_region": "City, region",
             "transport": "Routes",
