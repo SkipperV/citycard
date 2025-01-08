@@ -1,7 +1,6 @@
-import {Link} from "@inertiajs/react";
 import {useTranslation} from "react-i18next";
 
-export default function Pagination({links}) {
+export default function Pagination({links, handlePageChange}) {
     const {t} = useTranslation();
 
     return (
@@ -11,10 +10,13 @@ export default function Pagination({links}) {
                 const isNext = index === links.length - 1;
 
                 return (
-                    <Link
-                        as="button"
+                    <button
+                        onClick={() => {
+                            const url = new URL(link.url);
+                            handlePageChange(url.searchParams.get('page'));
+                            window.scrollTo(0, 0);
+                        }}
                         disabled={!link.url || link.active}
-                        href={link.url || ""}
                         key={link.label}
                         className={
                             "inline-block py-2 px-3 rounded-lg text-gray-200 " +
@@ -25,7 +27,7 @@ export default function Pagination({links}) {
                         {isPrev && <>&laquo; {t(`pagination.previous`)}</>}
                         {isNext && <>{t(`pagination.next`)} &raquo;</>}
                         {!isPrev && !isNext && link.label}
-                    </Link>
+                    </button>
                 );
             })}
         </nav>

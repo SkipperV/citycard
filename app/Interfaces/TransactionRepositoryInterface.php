@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 interface TransactionRepositoryInterface
 {
-    public function formatCardTransactionsList(Request $request, string $path, HasMany $transactions);
+    public function formatCardTransactionsList(Request $request, HasMany $transactions);
 
     public function getIncomeCardTransactions(Request $request, Card $card);
 

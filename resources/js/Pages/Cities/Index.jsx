@@ -8,24 +8,34 @@ import {useState} from "react";
 import TextInput from "@/Components/TextInput.jsx";
 import PrimaryButton from "@/Components/PrimaryButton.jsx";
 
-const retrieveCities = async (page = 1, searchString) => {
+const retrieveCities = async (page = 1, searchString = '') => {
     const response = await axios.get(route('api.cities.index', {page: page, search: searchString}));
 
     return response.data;
 }
 
-export default function Index({auth, page}) {
+export default function Index({auth}) {
     const {t} = useTranslation();
     const queryClient = useQueryClient();
     const query = new URLSearchParams(window.location.search);
+
     const [deleteButtonsDisabled, setDeleteButtonsDisabled] = useState(false);
-    const [searchString, setSearchString] = useState(query.get('search'));
+    const [searchString, setSearchString] = useState(query.get('search') || '');
+    const [page, setPage] = useState(query.get('page') || '');
 
     const updateDeleteButtonsDisabled = (newState) => setDeleteButtonsDisabled(newState);
+    const handlePageChange = (newPageNumber) => {
+        setPage(newPageNumber);
+        newPageNumber === 1
+            ? query.delete('page')
+            : query.set('page', newPageNumber);
+
+        window.history.replaceState({}, '', `${window.location.pathname}${query.size !== 0 ? '?' : ''}${query.toString()}`);
+    };
 
     const {data: cities, error, isLoading} = useQuery({
-        queryKey: ['citiesData', [page, query.get('search')]],
-        queryFn: () => retrieveCities(page, query.get('search')),
+        queryKey: ['citiesData', page, query.get('search') || ''],
+        queryFn: () => retrieveCities(query.get('page') || 1, query.get('search') || ''),
         keepPreviousData: true
     });
 
@@ -94,7 +104,8 @@ export default function Index({auth, page}) {
                                 )}
                                 </tbody>
                             </table>
-                            {cities.last_page !== 1 && <Pagination links={cities.links}/>}
+                            {cities.last_page !== 1 &&
+                                <Pagination links={cities.links} handlePageChange={handlePageChange}/>}
                         </div>
                     }
                     <div className="px-4 py-3">
