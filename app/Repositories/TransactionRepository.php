@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 
 class TransactionRepository implements TransactionRepositoryInterface
 {
-    public function formatCardTransactionsList(Request $request, string $path, HasMany $transactions): LengthAwarePaginator
+    public function formatCardTransactionsList(Request $request, HasMany $transactions): LengthAwarePaginator
     {
         if ($request->query('dateFrom', null)) {
             $transactions = $transactions->where('created_at', '>', $request->query('dateFrom', null));
@@ -22,25 +22,21 @@ class TransactionRepository implements TransactionRepositoryInterface
         }
         $perPage = $request->query('perPage', 20);
 
-        return $transactions->paginate($perPage)->withPath($path);
+        return $transactions->paginate($perPage);
     }
 
     public function getIncomeCardTransactions(Request $request, Card $card): Paginator
     {
-        $path = route('cards.transactions.index', ['card' => $card, 'type' => 'incomes']);
         return $this->formatCardTransactionsList(
             $request,
-            $path,
             $card->cardTransactions()->where('transaction_type', TransactionType::Income)->latest()
         );
     }
 
     public function getOutcomeCardTransactions(Request $request, Card $card): Paginator
     {
-        $path = route('cards.transactions.index', ['card' => $card, 'type' => 'outcomes']);
         return $this->formatCardTransactionsList(
             $request,
-            $path,
             $card->cardTransactions()->where('transaction_type', TransactionType::Outcome)->latest()
         );
     }

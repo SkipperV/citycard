@@ -5,18 +5,15 @@ namespace App\Http\Controllers;
 use App\Http\Requests\StoreCityRequest;
 use App\Http\Requests\UpdateCityRequest;
 use App\Models\City;
-use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class CityController extends Controller
 {
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        return Inertia::render('Cities/Index', [
-            'page' => $request->query('page', 1),
-        ]);
+        return Inertia::render('Cities/Index');
     }
 
     public function create(): Response

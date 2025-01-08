@@ -1,17 +1,35 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.jsx";
 import {Head, Link} from "@inertiajs/react";
-import TransactionsTable from "@/Pages/TransactionsHistory/Partials/TransactionsTable.jsx";
 import {useTranslation} from "react-i18next";
 import {useQuery} from "@tanstack/react-query";
+import {useState} from "react";
+import Pagination from "@/Components/Pagination.jsx";
 
 const retrieveTransactionsHistory = async (transactionsType, cardId, page) => {
-    const response = await axios.get(route('api.user.cards.transactions.' + transactionsType, {card: cardId, page: page}));
+    const response = await axios.get(route('api.user.cards.transactions.' + transactionsType, {
+        card: cardId,
+        page: page
+    }));
 
     return response.data;
 }
 
-export default function Index({auth, cardId, transactionsType, page}) {
+export default function Index({auth, cardId}) {
     const {t} = useTranslation();
+    const query = new URLSearchParams(window.location.search);
+
+    const [page, setPage] = useState(query.get('page') || 1);
+    const [transactionsType, setTransactionsType] = useState(query.get('type') || 'outcomes');
+
+    const handlePageChange = (newPageNumber) => {
+        setPage(newPageNumber);
+        newPageNumber === 1
+            ? query.delete('page')
+            : query.set('page', newPageNumber);
+
+        window.history.replaceState({}, '', `${window.location.pathname}${query.size !== 0 ? '?' : ''}${query.toString()}`);
+    };
+
     const {data: transactionsHistory, error, isLoading} = useQuery({
         queryKey: ['transactionsHistoryData', cardId, transactionsType, page],
         queryFn: () => retrieveTransactionsHistory(transactionsType, cardId, page),
@@ -70,7 +88,41 @@ export default function Index({auth, cardId, transactionsType, page}) {
             )}
 
             <div className="mt-4 max-w-xl mx-auto pb-24">
-                {!isLoading && !error && <TransactionsTable transactions={transactionsHistory.transactions}/>}
+                {!isLoading && !error &&
+                    <div
+                        className="relative overflow-x-auto shadow-md sm:rounded-lg rounded dark:border dark:border-gray-600">
+                        <table
+                            className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400 border-b border-gray-600">
+                            <thead
+                                className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                            <tr>
+                                <th scope="col"
+                                    className="px-6 py-3 w-1/2">{t('transactions_history.table.timestamp')}</th>
+                                <th scope="col"
+                                    className="px-6 py-3 w-1/2">{t('transactions_history.table.balance_change')}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {
+                                transactionsHistory.transactions.data.map((transaction) =>
+                                    <tr key={transaction.id}
+                                        className="bg-white border-t dark:bg-gray-900 dark:border-gray-700">
+                                        <td scope="col" className="px-6 py-4">
+                                            {transaction.created_at}
+                                        </td>
+                                        <td scope="col" className="px-6 py-4">
+                                            {transaction.transaction_type ? '+' : '-'}{transaction.balance_change}
+                                        </td>
+                                    </tr>
+                                )
+                            }
+                            </tbody>
+                        </table>
+                        {transactionsHistory.transactions.last_page !== 1 &&
+                            <Pagination links={transactionsHistory.transactions.links}
+                                        handlePageChange={handlePageChange}/>}
+                    </div>
+                }
             </div>
         </AuthenticatedLayout>
     );

@@ -22,7 +22,7 @@ class CityRepository implements CityRepositoryInterface
 
     public function getAllCities(): LengthAwarePaginator
     {
-        return City::paginate(10)->withPath(route('cities.index'));
+        return City::paginate(10);
     }
 
     public function search(Request $request): LengthAwarePaginator
