@@ -27,14 +27,44 @@ class CityController extends Controller
      *     path="/api/cities",
      *     tags={"City"},
      *     security={{"sanctum":{}}},
+     *     @OA\Parameter(
+     *         name="search",
+     *         in="query",
+     *         description="Search term for cities",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="string",
+     *             example="Луцьк"
+     *         )
+     *     ),
      *     @OA\Response(
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="number", example="1"),
-     *                 @OA\Property(property="name", type="string", example="Луцьк"),
-     *                 @OA\Property(property="region", type="string", example="Волинська")
+     *             @OA\Property(property="current_page", type="number", example="1"),
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="number", example="1"),
+     *                     @OA\Property(property="name", type="string", example="Луцьк"),
+     *                     @OA\Property(property="region", type="string", example="Волинська")
+     *                 )
+     *             ),
+     *             @OA\Property(property="first_page_url", type="string", example="http://localhost:8080/api/cities?search=%D0%9B%D1%83%D1%86%D1%8C%D0%BA&page=1"),
+     *             @OA\Property(property="from", type="number", example="1"),
+     *             @OA\Property(property="last_page", type="number", example="1"),
+     *             @OA\Property(property="last_page_url", type="string", example="http://localhost:8080/api/cities?search=%D0%9B%D1%83%D1%86%D1%8C%D0%BA&page=1"),
+     *             @OA\Property(property="next_page_url", type="string", example="null"),
+     *             @OA\Property(property="path", type="string", example="http://localhost:8080/api/cities"),
+     *             @OA\Property(property="per_page", type="number", example="10"),
+     *             @OA\Property(property="prev_page_url", type="string", example="null"),
+     *             @OA\Property(property="to", type="number", example="1"),
+     *             @OA\Property(property="total", type="number", example="1"),
+     *             @OA\Property(property="links", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="url", type="string", example="null"),
+     *                     @OA\Property(property="label", type="string", example="&laquo; Previous"),
+     *                     @OA\Property(property="active", type="string", example="false")
+     *                 )
      *             )
      *         )
      *     ),
@@ -90,7 +120,7 @@ class CityController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="The name field format is invalid."),
      *             @OA\Property(property="error", type="object",
-     *                 @OA\Property(property="name", type="array", collectionFormat="multi",
+     *                 @OA\Property(property="name", type="array",
      *                     @OA\Items(
      *                         type="string",
      *                         example="The name field format is invalid."
@@ -189,7 +219,7 @@ class CityController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="The name field format is invalid."),
      *             @OA\Property(property="error", type="object",
-     *                 @OA\Property(property="name", type="array", collectionFormat="multi",
+     *                 @OA\Property(property="name", type="array",
      *                     @OA\Items(
      *                         type="string",
      *                         example="The name field format is invalid."
