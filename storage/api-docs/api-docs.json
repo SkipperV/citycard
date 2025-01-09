@@ -19,30 +19,33 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number",
-                                                    "example": "1"
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "user_id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "number": {
+                                                        "type": "number",
+                                                        "example": "12345678909"
+                                                    },
+                                                    "type": {
+                                                        "type": "string",
+                                                        "example": "preferential"
+                                                    },
+                                                    "current_balance": {
+                                                        "type": "number",
+                                                        "example": "104.5"
+                                                    }
                                                 },
-                                                "user_id": {
-                                                    "type": "number",
-                                                    "example": "1"
-                                                },
-                                                "number": {
-                                                    "type": "number",
-                                                    "example": "12345678909"
-                                                },
-                                                "type": {
-                                                    "type": "string",
-                                                    "example": "Спеціальний"
-                                                },
-                                                "current_balance": {
-                                                    "type": "number",
-                                                    "example": "104.5"
-                                                }
-                                            },
-                                            "type": "object"
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -139,6 +142,18 @@
                 ],
                 "summary": "Get all cities instances",
                 "operationId": "185d0aefb5fd6e9d4e5f1263e2734df4",
+                "parameters": [
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Search term for cities",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "example": "Луцьк"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful operation",
@@ -146,22 +161,89 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "current_page": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
                                         "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number",
-                                                    "example": "1"
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "name": {
+                                                        "type": "string",
+                                                        "example": "Луцьк"
+                                                    },
+                                                    "region": {
+                                                        "type": "string",
+                                                        "example": "Волинська"
+                                                    }
                                                 },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Луцьк"
+                                                "type": "object"
+                                            }
+                                        },
+                                        "first_page_url": {
+                                            "type": "string",
+                                            "example": "http://localhost:8080/api/cities?search=%D0%9B%D1%83%D1%86%D1%8C%D0%BA&page=1"
+                                        },
+                                        "from": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "last_page": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "last_page_url": {
+                                            "type": "string",
+                                            "example": "http://localhost:8080/api/cities?search=%D0%9B%D1%83%D1%86%D1%8C%D0%BA&page=1"
+                                        },
+                                        "next_page_url": {
+                                            "type": "string",
+                                            "example": "null"
+                                        },
+                                        "path": {
+                                            "type": "string",
+                                            "example": "http://localhost:8080/api/cities"
+                                        },
+                                        "per_page": {
+                                            "type": "number",
+                                            "example": "10"
+                                        },
+                                        "prev_page_url": {
+                                            "type": "string",
+                                            "example": "null"
+                                        },
+                                        "to": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "total": {
+                                            "type": "number",
+                                            "example": "1"
+                                        },
+                                        "links": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "url": {
+                                                        "type": "string",
+                                                        "example": "null"
+                                                    },
+                                                    "label": {
+                                                        "type": "string",
+                                                        "example": "&laquo; Previous"
+                                                    },
+                                                    "active": {
+                                                        "type": "string",
+                                                        "example": "false"
+                                                    }
                                                 },
-                                                "region": {
-                                                    "type": "string",
-                                                    "example": "Волинська"
-                                                }
-                                            },
-                                            "type": "object"
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -262,8 +344,7 @@
                                                     "items": {
                                                         "type": "string",
                                                         "example": "The name field format is invalid."
-                                                    },
-                                                    "collectionFormat": "multi"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -273,69 +354,6 @@
                                 }
                             }
                         }
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/cities/search": {
-            "get": {
-                "tags": [
-                    "City"
-                ],
-                "summary": "Perform search in a listing of the resource.",
-                "operationId": "b7d1d2575004e2b35bd1bbc77f01f555",
-                "parameters": [
-                    {
-                        "name": "search",
-                        "in": "query",
-                        "description": "Search term for cities",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "example": "Луцьк"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number",
-                                                    "example": "1"
-                                                },
-                                                "name": {
-                                                    "type": "string",
-                                                    "example": "Луцьк"
-                                                },
-                                                "region": {
-                                                    "type": "string",
-                                                    "example": "Волинська"
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
                     }
                 },
                 "security": [
@@ -498,8 +516,7 @@
                                                     "items": {
                                                         "type": "string",
                                                         "example": "The name field format is invalid."
-                                                    },
-                                                    "collectionFormat": "multi"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -581,29 +598,32 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number",
-                                                    "example": "1"
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "city_id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "transport_type": {
+                                                        "type": "string",
+                                                        "example": "bus"
+                                                    },
+                                                    "ticket_type": {
+                                                        "type": "string",
+                                                        "example": "standart"
+                                                    },
+                                                    "price": {
+                                                        "type": "number",
+                                                        "example": "14"
+                                                    }
                                                 },
-                                                "city_id": {
-                                                    "type": "number",
-                                                    "example": "1"
-                                                },
-                                                "transport_type": {
-                                                    "type": "string",
-                                                    "example": "Автобус"
-                                                },
-                                                "ticket_type": {
-                                                    "type": "string",
-                                                    "example": "Стандартний"
-                                                },
-                                                "price": {
-                                                    "type": "number",
-                                                    "example": "14"
-                                                }
-                                            },
-                                            "type": "object"
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -730,8 +750,7 @@
                                                     "items": {
                                                         "type": "string",
                                                         "example": "The transport_type field format is invalid."
-                                                    },
-                                                    "collectionFormat": "multi"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -941,8 +960,7 @@
                                                     "items": {
                                                         "type": "string",
                                                         "example": "The transport_type field format is invalid."
-                                                    },
-                                                    "collectionFormat": "multi"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -989,124 +1007,6 @@
                 "responses": {
                     "200": {
                         "description": "Successful operation"
-                    },
-                    "401": {
-                        "description": "Unauthorized"
-                    },
-                    "403": {
-                        "description": "Forbidden"
-                    },
-                    "404": {
-                        "description": "Resource not found"
-                    }
-                },
-                "security": [
-                    {
-                        "sanctum": []
-                    }
-                ]
-            }
-        },
-        "/api/cards/{cardId}/transactions": {
-            "get": {
-                "tags": [
-                    "Card"
-                ],
-                "summary": "Get all transaction history of card (by cardId)",
-                "operationId": "d8c309dbcb9a30eb4fc3ddf7f9474674",
-                "parameters": [
-                    {
-                        "name": "cardId",
-                        "in": "path",
-                        "description": "Card's ID",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        }
-                    },
-                    {
-                        "name": "dateFrom",
-                        "in": "query",
-                        "description": "Filter by date of transaction, from",
-                        "schema": {
-                            "type": "date"
-                        }
-                    },
-                    {
-                        "name": "dateTo",
-                        "in": "query",
-                        "description": "Filter by date of transaction, to",
-                        "schema": {
-                            "type": "date"
-                        }
-                    },
-                    {
-                        "name": "perPage",
-                        "in": "query",
-                        "description": "Number of items per page for pagination. By default all items return at once. If 'page' is present - default value is 20",
-                        "schema": {
-                            "type": "number"
-                        }
-                    },
-                    {
-                        "name": "page",
-                        "in": "query",
-                        "description": "Page number for pagination. By default all items return at once. If 'perPage' is present - default value is 1",
-                        "schema": {
-                            "type": "number"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful operation",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "transactions": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "card_id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "transaction_type": {
-                                                        "type": "boolean",
-                                                        "example": "false"
-                                                    },
-                                                    "balance_change": {
-                                                        "type": "number",
-                                                        "example": "14"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "format": "date",
-                                                        "example": "28-04-2024 18:07:31"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "format": "date",
-                                                        "example": "2024-04-28T18:07:31.000000Z"
-                                                    }
-                                                },
-                                                "type": "object"
-                                            },
-                                            "collectionFormat": "multi"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "204": {
-                        "description": "No Content"
                     },
                     "401": {
                         "description": "Unauthorized"
@@ -1183,39 +1083,103 @@
                                 "schema": {
                                     "properties": {
                                         "transactions": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "card_id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "transaction_type": {
-                                                        "type": "boolean",
-                                                        "example": "true"
-                                                    },
-                                                    "balance_change": {
-                                                        "type": "number",
-                                                        "example": "150"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "format": "date",
-                                                        "example": "28-04-2024 18:07:31"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "format": "date",
-                                                        "example": "2024-04-28T18:07:31.000000Z"
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "number",
+                                                                "example": "1"
+                                                            },
+                                                            "card_id": {
+                                                                "type": "number",
+                                                                "example": "1"
+                                                            },
+                                                            "transaction_type": {
+                                                                "type": "string",
+                                                                "example": "income"
+                                                            },
+                                                            "balance_change": {
+                                                                "type": "number",
+                                                                "example": "100"
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "example": "28-04-2024 18:07:31"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "example": "2024-04-28T18:07:31.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 },
-                                                "type": "object"
+                                                "first_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8080/api/cards/1/transactions/incomes?page=1"
+                                                },
+                                                "from": {
+                                                    "type": "number",
+                                                    "example": "1"
+                                                },
+                                                "last_page": {
+                                                    "type": "number",
+                                                    "example": "1"
+                                                },
+                                                "last_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8080/api/cards/1/transactions/incomes?page=1"
+                                                },
+                                                "next_page_url": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8080/api/cards/1/transactions/incomes"
+                                                },
+                                                "per_page": {
+                                                    "type": "number",
+                                                    "example": "20"
+                                                },
+                                                "prev_page_url": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "to": {
+                                                    "type": "number",
+                                                    "example": "1"
+                                                },
+                                                "total": {
+                                                    "type": "number",
+                                                    "example": "1"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": "string",
+                                                                "example": "null"
+                                                            },
+                                                            "label": {
+                                                                "type": "string",
+                                                                "example": "&laquo; Previous"
+                                                            },
+                                                            "active": {
+                                                                "type": "string",
+                                                                "example": "false"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
                                             },
-                                            "collectionFormat": "multi"
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -1301,39 +1265,103 @@
                                 "schema": {
                                     "properties": {
                                         "transactions": {
-                                            "type": "array",
-                                            "items": {
-                                                "properties": {
-                                                    "id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "card_id": {
-                                                        "type": "number",
-                                                        "example": "1"
-                                                    },
-                                                    "transaction_type": {
-                                                        "type": "boolean",
-                                                        "example": "false"
-                                                    },
-                                                    "balance_change": {
-                                                        "type": "number",
-                                                        "example": "14"
-                                                    },
-                                                    "created_at": {
-                                                        "type": "string",
-                                                        "format": "date",
-                                                        "example": "28-04-2024 18:07:31"
-                                                    },
-                                                    "updated_at": {
-                                                        "type": "string",
-                                                        "format": "date",
-                                                        "example": "2024-04-28T18:07:31.000000Z"
+                                            "properties": {
+                                                "data": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "id": {
+                                                                "type": "number",
+                                                                "example": "1"
+                                                            },
+                                                            "card_id": {
+                                                                "type": "number",
+                                                                "example": "1"
+                                                            },
+                                                            "transaction_type": {
+                                                                "type": "string",
+                                                                "example": "outcome"
+                                                            },
+                                                            "balance_change": {
+                                                                "type": "number",
+                                                                "example": "14"
+                                                            },
+                                                            "created_at": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "example": "28-04-2024 18:07:31"
+                                                            },
+                                                            "updated_at": {
+                                                                "type": "string",
+                                                                "format": "date",
+                                                                "example": "2024-04-28T18:07:31.000000Z"
+                                                            }
+                                                        },
+                                                        "type": "object"
                                                     }
                                                 },
-                                                "type": "object"
+                                                "first_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8080/api/cards/1/transactions/outcomes?page=1"
+                                                },
+                                                "from": {
+                                                    "type": "number",
+                                                    "example": "1"
+                                                },
+                                                "last_page": {
+                                                    "type": "number",
+                                                    "example": "1"
+                                                },
+                                                "last_page_url": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8080/api/cards/1/transactions/outcomes?page=1"
+                                                },
+                                                "next_page_url": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "path": {
+                                                    "type": "string",
+                                                    "example": "http://localhost:8080/api/cards/1/transactions/outcomes"
+                                                },
+                                                "per_page": {
+                                                    "type": "number",
+                                                    "example": "20"
+                                                },
+                                                "prev_page_url": {
+                                                    "type": "string",
+                                                    "example": "null"
+                                                },
+                                                "to": {
+                                                    "type": "number",
+                                                    "example": "1"
+                                                },
+                                                "total": {
+                                                    "type": "number",
+                                                    "example": "1"
+                                                },
+                                                "links": {
+                                                    "type": "array",
+                                                    "items": {
+                                                        "properties": {
+                                                            "url": {
+                                                                "type": "string",
+                                                                "example": "null"
+                                                            },
+                                                            "label": {
+                                                                "type": "string",
+                                                                "example": "&laquo; Previous"
+                                                            },
+                                                            "active": {
+                                                                "type": "string",
+                                                                "example": "false"
+                                                            }
+                                                        },
+                                                        "type": "object"
+                                                    }
+                                                }
                                             },
-                                            "collectionFormat": "multi"
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -1387,33 +1415,36 @@
                                 "schema": {
                                     "properties": {
                                         "data": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "number",
-                                                    "example": "1"
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "city_id": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "route_number": {
+                                                        "type": "number",
+                                                        "example": "1"
+                                                    },
+                                                    "transport_type": {
+                                                        "type": "string",
+                                                        "example": "bus"
+                                                    },
+                                                    "route_endpoint_1": {
+                                                        "type": "string",
+                                                        "example": "Північна"
+                                                    },
+                                                    "route_endpoint_2": {
+                                                        "type": "string",
+                                                        "example": "Південна"
+                                                    }
                                                 },
-                                                "city_id": {
-                                                    "type": "number",
-                                                    "example": "1"
-                                                },
-                                                "route_number": {
-                                                    "type": "number",
-                                                    "example": "1"
-                                                },
-                                                "transport_type": {
-                                                    "type": "string",
-                                                    "example": "Автобус"
-                                                },
-                                                "route_endpoint_1": {
-                                                    "type": "string",
-                                                    "example": "Північна"
-                                                },
-                                                "route_endpoint_2": {
-                                                    "type": "string",
-                                                    "example": "Південна"
-                                                }
-                                            },
-                                            "type": "object"
+                                                "type": "object"
+                                            }
                                         }
                                     },
                                     "type": "object"
@@ -1547,8 +1578,7 @@
                                                     "items": {
                                                         "type": "string",
                                                         "example": "The route_number field format is invalid."
-                                                    },
-                                                    "collectionFormat": "multi"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -1769,8 +1799,7 @@
                                                     "items": {
                                                         "type": "string",
                                                         "example": "The route_number field format is invalid."
-                                                    },
-                                                    "collectionFormat": "multi"
+                                                    }
                                                 }
                                             },
                                             "type": "object"
@@ -1920,8 +1949,7 @@
                                                     "items": {
                                                         "type": "string",
                                                         "example": "The login field format is invalid."
-                                                    },
-                                                    "collectionFormat": "multi"
+                                                    }
                                                 }
                                             },
                                             "type": "object"

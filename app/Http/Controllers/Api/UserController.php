@@ -66,7 +66,7 @@ class UserController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="The login field format is invalid."),
      *             @OA\Property(property="error", type="object",
-     *                 @OA\Property(property="login", type="array", collectionFormat="multi",
+     *                 @OA\Property(property="login", type="array",
      *                     @OA\Items(type="string", example="The login field format is invalid.")
      *                 )
      *             )

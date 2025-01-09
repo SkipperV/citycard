@@ -38,12 +38,14 @@ class TicketController extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="number", example="1"),
-     *                 @OA\Property(property="city_id", type="number", example="1"),
-     *                 @OA\Property(property="transport_type", type="string", example="Автобус"),
-     *                 @OA\Property(property="ticket_type", type="string", example="Стандартний"),
-     *                 @OA\Property(property="price", type="number", example="14")
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="number", example="1"),
+     *                     @OA\Property(property="city_id", type="number", example="1"),
+     *                     @OA\Property(property="transport_type", type="string", example="bus"),
+     *                     @OA\Property(property="ticket_type", type="string", example="standart"),
+     *                     @OA\Property(property="price", type="number", example="14")
+     *                 )
      *             )
      *         )
      *     ),
@@ -110,7 +112,7 @@ class TicketController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="The transport_type field format is invalid."),
      *             @OA\Property(property="error", type="object",
-     *                 @OA\Property(property="transport_type", type="array", collectionFormat="multi",
+     *                 @OA\Property(property="transport_type", type="array",
      *                     @OA\Items(
      *                         type="string",
      *                         example="The transport_type field format is invalid."
@@ -236,7 +238,7 @@ class TicketController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="The transport_type field format is invalid."),
      *             @OA\Property(property="error", type="object",
-     *                 @OA\Property(property="transport_type", type="array", collectionFormat="multi",
+     *                 @OA\Property(property="transport_type", type="array",
      *                     @OA\Items(
      *                         type="string",
      *                         example="The transport_type field format is invalid."

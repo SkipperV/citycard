@@ -27,12 +27,14 @@ class CardController extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(type="object",
-     *                 @OA\Property(property="id", type="number", example="1"),
-     *                 @OA\Property(property="user_id", type="number", example="1"),
-     *                 @OA\Property(property="number", type="number", example="12345678909"),
-     *                 @OA\Property(property="type", type="string", example="Спеціальний"),
-     *                 @OA\Property(property="current_balance", type="number", example="104.5")
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="number", example="1"),
+     *                     @OA\Property(property="user_id", type="number", example="1"),
+     *                     @OA\Property(property="number", type="number", example="12345678909"),
+     *                     @OA\Property(property="type", type="string", example="preferential"),
+     *                     @OA\Property(property="current_balance", type="number", example="104.5")
+     *                 )
      *             )
      *         )
      *     ),

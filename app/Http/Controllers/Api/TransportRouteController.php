@@ -38,13 +38,15 @@ class TransportRouteController extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(property="data", type="object",
-     *                 @OA\Property(property="id", type="number", example="1"),
-     *                 @OA\Property(property="city_id", type="number", example="1"),
-     *                 @OA\Property(property="route_number", type="number", example="1"),
-     *                 @OA\Property(property="transport_type", type="string", example="Автобус"),
-     *                 @OA\Property(property="route_endpoint_1", type="string", example="Північна"),
-     *                 @OA\Property(property="route_endpoint_2", type="string", example="Південна")
+     *             @OA\Property(property="data", type="array",
+     *                 @OA\Items(
+     *                     @OA\Property(property="id", type="number", example="1"),
+     *                     @OA\Property(property="city_id", type="number", example="1"),
+     *                     @OA\Property(property="route_number", type="number", example="1"),
+     *                     @OA\Property(property="transport_type", type="string", example="bus"),
+     *                     @OA\Property(property="route_endpoint_1", type="string", example="Північна"),
+     *                     @OA\Property(property="route_endpoint_2", type="string", example="Південна")
+     *                 )
      *             )
      *         )
      *     ),
@@ -114,7 +116,7 @@ class TransportRouteController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="The route_number field format is invalid."),
      *             @OA\Property(property="error", type="object",
-     *                 @OA\Property(property="route_number", type="array", collectionFormat="multi",
+     *                 @OA\Property(property="route_number", type="array",
      *                     @OA\Items(
      *                         type="string",
      *                         example="The route_number field format is invalid."
@@ -244,7 +246,7 @@ class TransportRouteController extends Controller
      *         @OA\JsonContent(
      *             @OA\Property(property="message", type="string", example="The route_number field format is invalid."),
      *             @OA\Property(property="error", type="object",
-     *                 @OA\Property(property="route_number", type="array", collectionFormat="multi",
+     *                 @OA\Property(property="route_number", type="array",
      *                     @OA\Items(
      *                         type="string",
      *                         example="The route_number field format is invalid."

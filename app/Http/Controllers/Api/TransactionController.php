@@ -59,14 +59,33 @@ class TransactionController extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(property="transactions", type="array", collectionFormat="multi",
-     *                 @OA\Items(
-     *                     @OA\Property(property="id", type="number", example="1"),
-     *                     @OA\Property(property="card_id", type="number", example="1"),
-     *                     @OA\Property(property="transaction_type", type="boolean", example="true"),
-     *                     @OA\Property(property="balance_change", type="number", example="150"),
-     *                     @OA\Property(property="created_at", type="date", example="28-04-2024 18:07:31"),
-     *                     @OA\Property(property="updated_at", type="date", example="2024-04-28T18:07:31.000000Z")
+     *             @OA\Property(property="transactions", type="object",
+     *                 @OA\Property(property="data", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="number", example="1"),
+     *                         @OA\Property(property="card_id", type="number", example="1"),
+     *                         @OA\Property(property="transaction_type", type="string", example="income"),
+     *                         @OA\Property(property="balance_change", type="number", example="100"),
+     *                         @OA\Property(property="created_at", type="date", example="28-04-2024 18:07:31"),
+     *                         @OA\Property(property="updated_at", type="date", example="2024-04-28T18:07:31.000000Z")
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="first_page_url", type="string", example="http://localhost:8080/api/cards/1/transactions/incomes?page=1"),
+     *                 @OA\Property(property="from", type="number", example="1"),
+     *                 @OA\Property(property="last_page", type="number", example="1"),
+     *                 @OA\Property(property="last_page_url", type="string", example="http://localhost:8080/api/cards/1/transactions/incomes?page=1"),
+     *                 @OA\Property(property="next_page_url", type="string", example="null"),
+     *                 @OA\Property(property="path", type="string", example="http://localhost:8080/api/cards/1/transactions/incomes"),
+     *                 @OA\Property(property="per_page", type="number", example="20"),
+     *                 @OA\Property(property="prev_page_url", type="string", example="null"),
+     *                 @OA\Property(property="to", type="number", example="1"),
+     *                 @OA\Property(property="total", type="number", example="1"),
+     *                 @OA\Property(property="links", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="url", type="string", example="null"),
+     *                         @OA\Property(property="label", type="string", example="&laquo; Previous"),
+     *                         @OA\Property(property="active", type="string", example="false"),
+     *                     )
      *                 )
      *             )
      *         )
@@ -126,14 +145,33 @@ class TransactionController extends Controller
      *         response=200,
      *         description="Successful operation",
      *         @OA\JsonContent(
-     *             @OA\Property(property="transactions", type="array", collectionFormat="multi",
-     *                 @OA\Items(
-     *                     @OA\Property(property="id", type="number", example="1"),
-     *                     @OA\Property(property="card_id", type="number", example="1"),
-     *                     @OA\Property(property="transaction_type", type="boolean", example="false"),
-     *                     @OA\Property(property="balance_change", type="number", example="14"),
-     *                     @OA\Property(property="created_at", type="date", example="28-04-2024 18:07:31"),
-     *                     @OA\Property(property="updated_at", type="date", example="2024-04-28T18:07:31.000000Z")
+     *             @OA\Property(property="transactions", type="object",
+     *                 @OA\Property(property="data", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="id", type="number", example="1"),
+     *                         @OA\Property(property="card_id", type="number", example="1"),
+     *                         @OA\Property(property="transaction_type", type="string", example="outcome"),
+     *                         @OA\Property(property="balance_change", type="number", example="14"),
+     *                         @OA\Property(property="created_at", type="date", example="28-04-2024 18:07:31"),
+     *                         @OA\Property(property="updated_at", type="date", example="2024-04-28T18:07:31.000000Z")
+     *                     )
+     *                 ),
+     *                 @OA\Property(property="first_page_url", type="string", example="http://localhost:8080/api/cards/1/transactions/outcomes?page=1"),
+     *                 @OA\Property(property="from", type="number", example="1"),
+     *                 @OA\Property(property="last_page", type="number", example="1"),
+     *                 @OA\Property(property="last_page_url", type="string", example="http://localhost:8080/api/cards/1/transactions/outcomes?page=1"),
+     *                 @OA\Property(property="next_page_url", type="string", example="null"),
+     *                 @OA\Property(property="path", type="string", example="http://localhost:8080/api/cards/1/transactions/outcomes"),
+     *                 @OA\Property(property="per_page", type="number", example="20"),
+     *                 @OA\Property(property="prev_page_url", type="string", example="null"),
+     *                 @OA\Property(property="to", type="number", example="1"),
+     *                 @OA\Property(property="total", type="number", example="1"),
+     *                 @OA\Property(property="links", type="array",
+     *                     @OA\Items(
+     *                         @OA\Property(property="url", type="string", example="null"),
+     *                         @OA\Property(property="label", type="string", example="&laquo; Previous"),
+     *                         @OA\Property(property="active", type="string", example="false")
+     *                     )
      *                 )
      *             )
      *         )
